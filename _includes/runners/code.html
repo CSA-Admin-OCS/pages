@@ -61,12 +61,10 @@
 if (typeof CodeMirror !== 'undefined' && !CodeMirror.modes['pseudocode']) {
   CodeMirror.defineMode('pseudocode', function() {
     const KW         = new Set(['IF','ELSE','REPEAT','TIMES','UNTIL','FOR','EACH','IN','PROCEDURE','RETURN','AND','OR','NOT','MOD']);
-    const BI         = new Set(['DISPLAY','INPUT','APPEND','INSERT','REMOVE','LENGTH']);
+    // Robot commands (SPAWN/RENDER/MOVE_FORWARD/...) are ordinary builtins in the grammar
+    const BI         = new Set(['DISPLAY','INPUT','RANDOM','APPEND','INSERT','REMOVE','LENGTH',
+                                 'RENDER','SPAWN','MOVE_FORWARD','ROTATE_LEFT','ROTATE_RIGHT','CAN_MOVE']);
     const BOOL       = new Set(['TRUE','FALSE']);
-    // Robot commands folded into existing token types for colour consistency
-    const BI_EXTRA     = new Set(['MOVE_FORWARD','ROTATE_LEFT','ROTATE_RIGHT','CAN_MOVE','RENDER']);
-    const ROBOT_BLUE   = new Set(['FROM','TILEMAPS','IMPORT','SPAWN']);
-    const ROBOT_YELLOW = new Set(['CHARACTER','GOAL']);
     return {
       token: function(stream) {
         if (stream.eatSpace()) return null;
@@ -87,14 +85,12 @@ if (typeof CodeMirror !== 'undefined' && !CodeMirror.modes['pseudocode']) {
         // Numbers
         if (stream.match(/^-?\d+(\.\d*)?/)) return 'number';
 
-        // Words: robot commands take priority, then pseudocode keywords
+        // Words: pseudocode keywords first, then builtins
         if (stream.match(/^[a-zA-Z_][a-zA-Z0-9_]*/)) {
           const w = stream.current();
-          if (KW.has(w))                     return 'keyword';
-          if (BI.has(w) || BI_EXTRA.has(w)) return 'builtin';
-          if (BOOL.has(w))                  return 'atom';
-          if (ROBOT_BLUE.has(w))            return 'attribute';
-          if (ROBOT_YELLOW.has(w))          return 'property';
+          if (KW.has(w))   return 'keyword';
+          if (BI.has(w))   return 'builtin';
+          if (BOOL.has(w)) return 'atom';
           return 'variable';
         }
 
@@ -137,7 +133,8 @@ import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api
       theme: "darcula",
       indentUnit: 4,
       tabSize: 4,
-      styleSelectedText: true
+      styleSelectedText: true,
+      autoCloseBrackets: true
     }
   });
 
