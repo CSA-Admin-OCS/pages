@@ -76,6 +76,7 @@ show_reading_time: false
 <div id="support-topics-container" style="max-width: 700px; margin: 0 auto; padding: 0 1.5rem;">
     <ul class="support-topic-list">
         <li class="support-topic-item" onclick="openSupportTopic('reset')">Password Reset</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/support/doh-guide'">DNS over HTTPS (DoH) Setup Guide</li>
     </ul>
     <div class="support-back-row">
         <a href="{{site.baseurl}}/login">← Back to Login</a>
