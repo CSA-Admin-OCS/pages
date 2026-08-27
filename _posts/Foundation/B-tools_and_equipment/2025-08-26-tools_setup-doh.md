@@ -204,7 +204,7 @@ breadcrumb: True
         <p>Visit <code>https://1.1.1.1/help</code> in your browser. Look for <strong>"You are connected to Cloudflare"</strong> and <strong>"Using DNS over HTTPS (DoH): Yes"</strong>. If it says "No," double-check the setting matches the steps above for your platform.</p>
       </div>
 
-      <div class="info-box warning">
+      <div class="info-box info">
         <strong>Still stuck?</strong>
         <span>Open a support ticket from the <a href="{{site.baseurl}}/support">Support</a> page and an admin can walk you through it.</span>
       </div>

@@ -86,6 +86,9 @@ show_reading_time: false
         <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
         <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
         <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/about-ocs'">About Open Coding Society</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/flask'">How Flask Works</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/spring'">How Spring Works</li>
     </ul>
     <div class="support-back-row">
         <a href="{{site.baseurl}}/login">← Back to Login</a>
