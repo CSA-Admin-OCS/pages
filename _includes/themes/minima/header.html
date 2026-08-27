@@ -23,13 +23,23 @@
                     {%- for path in site.minima.nav_pages -%}
                     {%- assign my_page = site.pages | where: "path", path | first -%}
                     {%- if my_page.title -%}
-                    <a class="page-link" href="{{ my_page.url | relative_url }}">
-                        {%- if my_page.course -%}
-                            {{ my_page.course | upcase | escape }}
+                        {%- if my_page.title == "Blogs" -%}
+                        <div class="page-link nav-dropdown">
+                            <a class="nav-dropdown-toggle" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+                            <div class="nav-dropdown-menu">
+                                <a href="{{ my_page.url | relative_url }}">Blogs</a>
+                                <a href="{{ '/support' | relative_url }}">Support</a>
+                            </div>
+                        </div>
                         {%- else -%}
-                            {{ my_page.title | escape }}
+                        <a class="page-link" href="{{ my_page.url | relative_url }}">
+                            {%- if my_page.course -%}
+                                {{ my_page.course | upcase | escape }}
+                            {%- else -%}
+                                {{ my_page.title | escape }}
+                            {%- endif -%}
+                        </a>
                         {%- endif -%}
-                    </a>
                     {%- endif -%}
                     {%- endfor -%}
                     <a class="page-link" href="{{ '/capstone/' | relative_url }}">Capstone</a>
