@@ -87,7 +87,7 @@ show_reading_time: false
                 <input type="email" id="signupEmail" placeholder="Personal (not school) Email" required>
             </div>
             <div class="form-group">
-                <input type="password" id="signupPassword" placeholder="Password" required>
+                <input type="password" id="signupPassword" placeholder="Password" minlength="8" required>
             </div>
             <!-- Confirm Password Field -->
             <div class="form-group">
@@ -142,6 +142,23 @@ show_reading_time: false
         }, 1500);
     }
 
+    function getPasswordStrength(password) {
+        const missing = [];
+
+        if (password.length < 8) missing.push('at least 8 characters');
+        if (!/[A-Z]/.test(password)) missing.push('an uppercase letter');
+        if (!/[a-z]/.test(password)) missing.push('a lowercase letter');
+        if (!/[0-9]/.test(password)) missing.push('a number');
+        if (!/[`~!@#$%^&*()]/.test(password)) {
+            missing.push('one of these special characters: `~!@#$%^&*()');
+        }
+
+        return {
+            valid: missing.length === 0,
+            message: missing.length > 0 ? `Password needs ${missing.join(', ')}.` : 'Strong password.'
+        };
+    }
+
     function validateForm() {
         const password = document.getElementById('signupPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
@@ -155,47 +172,37 @@ show_reading_time: false
         // Don't validate if confirm password is empty
         if (confirmPassword === '') {
             messageDiv.textContent = '';
+            confirmField.setCustomValidity('');
             return true;
         }
 
-        if (password.length < 8) {
+        const passwordStrength = getPasswordStrength(password);
+        if (!passwordStrength.valid) {
             confirmField.classList.add('password-length');
             messageDiv.classList.add('error');
-            messageDiv.textContent = '✗ Passwords must be at least 8 characters long';
+            messageDiv.textContent = passwordStrength.message;
+            confirmField.setCustomValidity(passwordStrength.message);
             return false;
         }
 
         if (password === confirmPassword) {
             confirmField.classList.add('password-match');
             messageDiv.classList.add('success');
-            messageDiv.textContent = '✓ Passwords match';
+            messageDiv.textContent = 'Passwords match. Strong password.';
+            confirmField.setCustomValidity('');
             return true;
-        } else {
-            confirmField.classList.add('password-mismatch');
-            messageDiv.classList.add('error');
-            messageDiv.textContent = '✗ Passwords do not match';
-            return false;
         }
+
+        confirmField.classList.add('password-mismatch');
+        messageDiv.classList.add('error');
+        messageDiv.textContent = 'Passwords do not match';
+        confirmField.setCustomValidity('Passwords do not match.');
+        return false;
     }
 
     // Form submission validation
     function validateSignupForm() {
-        const password = document.getElementById('signupPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (password !== confirmPassword) {
-            alert('Passwords do not match. Please try again.');
-            document.getElementById('confirmPassword').focus();
-            return false;
-        }
-
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
-            document.getElementById('signupPassword').focus();
-            return false;
-        }
-
-        return true;
+        return validateForm();
     }
 
     // Backend status management
