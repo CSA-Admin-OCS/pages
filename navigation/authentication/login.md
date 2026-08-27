@@ -202,6 +202,28 @@ show_reading_time: false
 
     // Form submission validation
     function validateSignupForm() {
+        
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            document.getElementById('confirmPassword').focus();
+            return false;
+        }
+
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters long.');
+            document.getElementById('signupPassword').focus();
+            return false;
+        
+        }
+
+        return true;
+
+
+        
+        
         return validateForm();
     }
 
