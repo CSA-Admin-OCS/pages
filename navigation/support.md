@@ -230,10 +230,10 @@ show_reading_time: false
         </div>
         <div id="reset-step-password" class="support-step">
             <div class="form-group">
-                <input type="password" id="resetNewPassword" placeholder="New Password" required>
+                <input type="password" id="resetNewPassword" placeholder="New Password" minlength="8" required>
             </div>
             <div class="form-group">
-                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password" required>
+                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password" minlength="8" required>
             </div>
             <p id="reset-password-validation-message"></p>
             <p>
@@ -389,6 +389,27 @@ show_reading_time: false
         });
     }
 
+    // Complexity rule shared across the whole password-reset pipeline (this
+    // function, spring's Person.checkPassword, and flask's validate_password) --
+    // keep the required special-character set identical across all three so a
+    // password accepted here is never rejected once it reaches the backend.
+    function getPasswordStrength(password) {
+        const missing = [];
+
+        if (password.length < 8) missing.push('at least 8 characters');
+        if (!/[A-Z]/.test(password)) missing.push('an uppercase letter');
+        if (!/[a-z]/.test(password)) missing.push('a lowercase letter');
+        if (!/[0-9]/.test(password)) missing.push('a number');
+        if (!/[`~!@#$%^&*()]/.test(password)) {
+            missing.push('one of these special characters: `~!@#$%^&*()');
+        }
+
+        return {
+            valid: missing.length === 0,
+            message: missing.length > 0 ? `Password needs ${missing.join(', ')}.` : 'Strong password.'
+        };
+    }
+
     function validateResetForm() {
         const password = document.getElementById('resetNewPassword').value;
         const confirmPassword = document.getElementById('resetConfirmPassword').value;
@@ -403,17 +424,18 @@ show_reading_time: false
             return true;
         }
 
-        if (password.length < 8) {
+        const passwordStrength = getPasswordStrength(password);
+        if (!passwordStrength.valid) {
             confirmField.classList.add('password-length');
             messageDiv.classList.add('error');
-            messageDiv.textContent = '✗ Passwords must be at least 8 characters long';
+            messageDiv.textContent = passwordStrength.message;
             return false;
         }
 
         if (password === confirmPassword) {
             confirmField.classList.add('password-match');
             messageDiv.classList.add('success');
-            messageDiv.textContent = '✓ Passwords match';
+            messageDiv.textContent = 'Passwords match. Strong password.';
             return true;
         } else {
             confirmField.classList.add('password-mismatch');
@@ -427,8 +449,9 @@ show_reading_time: false
         const password = document.getElementById('resetNewPassword').value;
         const confirmPassword = document.getElementById('resetConfirmPassword').value;
 
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
+        const passwordStrength = getPasswordStrength(password);
+        if (!passwordStrength.valid) {
+            alert(passwordStrength.message);
             return;
         }
         if (password !== confirmPassword) {
