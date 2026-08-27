@@ -24,13 +24,8 @@
                     {%- assign my_page = site.pages | where: "path", path | first -%}
                     {%- if my_page.title -%}
                         {%- if my_page.title == "Blogs" -%}
-                        <div class="page-link nav-dropdown">
-                            <a class="nav-dropdown-toggle" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-                            <div class="nav-dropdown-menu">
-                                <a href="{{ my_page.url | relative_url }}">Blogs</a>
-                                <a href="{{ '/navigation/support' | relative_url }}">Support</a>
-                            </div>
-                        </div>
+                        <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+                        <a class="page-link" href="{{ '/navigation/support' | relative_url }}">Troubleshooting</a>
                         {%- else -%}
                         <a class="page-link" href="{{ my_page.url | relative_url }}">
                             {%- if my_page.course -%}
