@@ -142,7 +142,7 @@ def example():
 
       <div class="info-box info">
         <strong>Still stuck?</strong>
-        <span>Open a support ticket from the <a href="{{site.baseurl}}/support">Support</a> page and an admin can walk you through it.</span>
+        <span>Open a support ticket from the <a href="{{site.baseurl}}/navigation/support">Support</a> page and an admin can walk you through it.</span>
       </div>
     </section>
 

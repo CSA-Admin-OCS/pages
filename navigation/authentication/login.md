@@ -26,7 +26,7 @@ show_reading_time: false
             </p>
             <p id="message" style="color: red;"></p>
             <p style="text-align: center;">
-                <a href="{{site.baseurl}}/support?topic=reset">Forgot your password?</a>
+                <a href="{{site.baseurl}}/navigation/support?topic=reset">Forgot your password?</a>
             </p>
         </form>
     </div>

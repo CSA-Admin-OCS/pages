@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Support
-permalink: /support
+permalink: /navigation/support
 search_exclude: true
 show_reading_time: false
 ---
@@ -29,6 +29,60 @@ show_reading_time: false
     .support-topic-item:hover {
         background-color: rgba(255, 255, 255, 0.09);
         border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .support-groups {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .support-group {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .support-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.85rem 1.1rem;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+    }
+    .support-group-header:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+    }
+    .support-group-label {
+        font-family: 'Courier New', monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+    }
+    .support-group-arrow {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.65rem;
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+    .support-group.open .support-group-arrow {
+        transform: rotate(90deg);
+    }
+    .support-group-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+    }
+    .support-group.open .support-group-content {
+        max-height: 700px;
+    }
+    .support-group-content .support-topic-list {
+        padding: 0 1.1rem 1.1rem 1.1rem;
+    }
+    .support-group-content .support-topic-item {
+        border-color: rgba(255, 255, 255, 0.1);
     }
 
     .support-back-row {
@@ -74,22 +128,78 @@ show_reading_time: false
 
 <!-- Landing view: list of support topics -->
 <div id="support-topics-container" style="max-width: 700px; margin: 0 auto; padding: 0 1.5rem;">
-    <ul class="support-topic-list">
-        <li class="support-topic-item" onclick="openSupportTopic('reset')">Password Reset</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/doh'">DNS over HTTPS (DoH) Setup Guide</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/trouble'">Troubleshooting Guide</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os'">Operating System and Tools Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/windows'">Windows (WSL) Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/linux'">Linux Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/macos'">MacOS Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/kasm'">KASM Workspace Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/about-ocs'">About Open Coding Society</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/flask'">How Flask Works</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/spring'">How Spring Works</li>
-    </ul>
+    <div class="support-groups">
+
+        <div class="support-group">
+            <div class="support-group-header" onclick="toggleSupportGroup(this)">
+                <span class="support-group-label">Account &amp; Access</span>
+                <span class="support-group-arrow">&#9654;</span>
+            </div>
+            <div class="support-group-content">
+                <ul class="support-topic-list">
+                    <li class="support-topic-item" onclick="openSupportTopic('reset')">Password Reset</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="support-group">
+            <div class="support-group-header" onclick="toggleSupportGroup(this)">
+                <span class="support-group-label">Environment &amp; Tools Setup</span>
+                <span class="support-group-arrow">&#9654;</span>
+            </div>
+            <div class="support-group-content">
+                <ul class="support-topic-list">
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os'">Operating System and Tools Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/windows'">Windows (WSL) Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/linux'">Linux Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/macos'">MacOS Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/kasm'">KASM Workspace Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="support-group">
+            <div class="support-group-header" onclick="toggleSupportGroup(this)">
+                <span class="support-group-label">Network &amp; Security</span>
+                <span class="support-group-arrow">&#9654;</span>
+            </div>
+            <div class="support-group-content">
+                <ul class="support-topic-list">
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/doh'">DNS over HTTPS (DoH) Setup Guide</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="support-group">
+            <div class="support-group-header" onclick="toggleSupportGroup(this)">
+                <span class="support-group-label">Troubleshooting</span>
+                <span class="support-group-arrow">&#9654;</span>
+            </div>
+            <div class="support-group-content">
+                <ul class="support-topic-list">
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/trouble'">Troubleshooting Guide</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="support-group">
+            <div class="support-group-header" onclick="toggleSupportGroup(this)">
+                <span class="support-group-label">About the Project</span>
+                <span class="support-group-arrow">&#9654;</span>
+            </div>
+            <div class="support-group-content">
+                <ul class="support-topic-list">
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/about-ocs'">About Open Coding Society</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/flask'">How Flask Works</li>
+                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/spring'">How Spring Works</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
     <div class="support-back-row">
         <a href="{{site.baseurl}}/login">← Back to Login</a>
     </div>
@@ -141,6 +251,10 @@ show_reading_time: false
     import { javaURI, fetchOptions, GOOGLE_CLIENT_ID } from '{{site.baseurl}}/assets/js/api/config.js';
 
     // ---- Support topic navigation ----
+    window.toggleSupportGroup = function(headerEl) {
+        headerEl.closest('.support-group').classList.toggle('open');
+    }
+
     window.openSupportTopic = function(topic) {
         if (topic !== 'reset') return;
         document.getElementById('support-topics-container').style.display = 'none';

@@ -92,7 +92,7 @@ breadcrumb: True
       <h3 class="green">How it runs</h3>
       <div class="panel border-left green">
         <div class="panel-title green">No separate "student" workflow</div>
-        <p>Work is tracked in GitHub issues, shipped through pull requests, and reviewed before it merges. When something breaks for a user, it shows up as a support ticket in this same app's <a href="{{site.baseurl}}/support">Support</a> page — the same page you likely came here from — and gets picked up by a member, not a generic help desk.</p>
+        <p>Work is tracked in GitHub issues, shipped through pull requests, and reviewed before it merges. When something breaks for a user, it shows up as a support ticket in this same app's <a href="{{site.baseurl}}/navigation/support">Support</a> page — the same page you likely came here from — and gets picked up by a member, not a generic help desk.</p>
       </div>
     </section>
 
@@ -115,7 +115,7 @@ breadcrumb: True
 
       <div class="info-box info">
         <strong>Have questions?</strong>
-        <span>Open a support ticket from the <a href="{{site.baseurl}}/support">Support</a> page and an admin can point you in the right direction.</span>
+        <span>Open a support ticket from the <a href="{{site.baseurl}}/navigation/support">Support</a> page and an admin can point you in the right direction.</span>
       </div>
     </section>
 

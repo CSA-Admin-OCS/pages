@@ -13,7 +13,7 @@ breadcrumb: True
 
   <div class="api-header">
     <h2>How Spring Works</h2>
-    <p>Spring (Boot) is the Java backend behind this app's <code>javaURI</code> — it's what runs login and the password reset flow on the <a href="{{site.baseurl}}/support">Support</a> page. Here's what it is, and what happens between a request leaving your browser and a response coming back.</p>
+    <p>Spring (Boot) is the Java backend behind this app's <code>javaURI</code> — it's what runs login and the password reset flow on the <a href="{{site.baseurl}}/navigation/support">Support</a> page. Here's what it is, and what happens between a request leaving your browser and a response coming back.</p>
   </div>
 
   <div class="api-content">
@@ -121,7 +121,7 @@ public class ExampleController {
       <h3 class="orange">Where it lives here</h3>
       <div class="panel border-left orange">
         <div class="panel-title orange">javaURI</div>
-        <p>This frontend talks to Spring through <code>javaURI</code>, defined in <code>assets/js/api/config.js</code>. Locally that's <code>http://localhost:8585</code>; in production it's <code>https://spring.opencodingsociety.com</code>. It's what the <a href="{{site.baseurl}}/support">Support</a> page's password reset flow calls under the hood — <code>/mvc/person/reset/oauth/verify</code> and <code>/mvc/person/reset/oauth/complete</code> both live here.</p>
+        <p>This frontend talks to Spring through <code>javaURI</code>, defined in <code>assets/js/api/config.js</code>. Locally that's <code>http://localhost:8585</code>; in production it's <code>https://spring.opencodingsociety.com</code>. It's what the <a href="{{site.baseurl}}/navigation/support">Support</a> page's password reset flow calls under the hood — <code>/mvc/person/reset/oauth/verify</code> and <code>/mvc/person/reset/oauth/complete</code> both live here.</p>
       </div>
     </section>
 
@@ -144,7 +144,7 @@ public class ExampleController {
 
       <div class="info-box info">
         <strong>Still stuck?</strong>
-        <span>Open a support ticket from the <a href="{{site.baseurl}}/support">Support</a> page and an admin can walk you through it.</span>
+        <span>Open a support ticket from the <a href="{{site.baseurl}}/navigation/support">Support</a> page and an admin can walk you through it.</span>
       </div>
     </section>
 
