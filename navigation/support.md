@@ -76,7 +76,16 @@ show_reading_time: false
 <div id="support-topics-container" style="max-width: 700px; margin: 0 auto; padding: 0 1.5rem;">
     <ul class="support-topic-list">
         <li class="support-topic-item" onclick="openSupportTopic('reset')">Password Reset</li>
-        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/support/doh-guide'">DNS over HTTPS (DoH) Setup Guide</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/doh'">DNS over HTTPS (DoH) Setup Guide</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/trouble'">Troubleshooting Guide</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os'">Operating System and Tools Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/windows'">Windows (WSL) Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/linux'">Linux Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/macos'">MacOS Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/kasm'">KASM Workspace Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
+        <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
     </ul>
     <div class="support-back-row">
         <a href="{{site.baseurl}}/login">← Back to Login</a>

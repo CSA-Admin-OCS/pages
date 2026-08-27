@@ -1,8 +1,12 @@
 ---
-layout: opencs
-permalink: /support/doh-guide
+toc: True
+layout: post
+data: tools
 title: DNS over HTTPS (DoH) Setup Guide
 description: How to enable encrypted DNS (DNS over HTTPS via Cloudflare 1.1.1.1) in your browser, on Windows, and on Mac.
+categories: ['DevOps']
+permalink: /tools/doh
+breadcrumb: True
 ---
 
 <div class="api-docs migration-runbook">
