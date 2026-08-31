@@ -9,125 +9,8 @@ show_reading_time: false
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<style>
-    .support-topic-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-    }
-    .support-topic-item {
-        padding: 1rem 1.25rem;
-        cursor: pointer;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background-color: rgba(255, 255, 255, 0.04);
-        border-radius: 6px;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-    .support-topic-item:hover {
-        background-color: rgba(255, 255, 255, 0.09);
-        border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .support-groups {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    .support-group {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        overflow: hidden;
-    }
-    .support-group-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        padding: 0.85rem 1.1rem;
-        cursor: pointer;
-        user-select: none;
-        transition: background-color 0.2s ease;
-    }
-    .support-group-header:hover {
-        background-color: rgba(255, 255, 255, 0.04);
-    }
-    .support-group-label {
-        font-family: 'Courier New', monospace;
-        font-size: 0.72rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.6);
-    }
-    .support-group-arrow {
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 0.65rem;
-        transition: transform 0.2s ease;
-        flex-shrink: 0;
-    }
-    .support-group.open .support-group-arrow {
-        transform: rotate(90deg);
-    }
-    .support-group-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.25s ease;
-    }
-    .support-group.open .support-group-content {
-        max-height: 700px;
-    }
-    .support-group-content .support-topic-list {
-        padding: 0 1.1rem 1.1rem 1.1rem;
-    }
-    .support-group-content .support-topic-item {
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .support-back-row {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 2rem;
-    }
-
-    #support-reset-wizard {
-        display: none;
-        width: 100%;
-        min-height: 100vh;
-        box-sizing: border-box;
-        padding: 3rem 1.5rem;
-        justify-content: center;
-    }
-    #support-reset-wizard.active {
-        display: flex;
-        animation: supportFadeIn 0.4s ease;
-    }
-    .support-wizard-inner {
-        width: 100%;
-        max-width: 480px;
-    }
-
-    .support-step { display: none; opacity: 0; }
-    .support-step.active { display: block; animation: supportStepIn 0.4s ease forwards; }
-    .support-step.leaving { display: block; animation: supportStepOut 0.25s ease forwards; }
-
-    @keyframes supportFadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes supportStepIn {
-        from { opacity: 0; transform: translateY(16px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes supportStepOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-16px); }
-    }
-</style>
-
 <!-- Landing view: list of support topics -->
-<div id="support-topics-container" style="max-width: 700px; margin: 0 auto; padding: 0 1.5rem;">
+<div id="support-topics-container" class="support-topics-container">
     <div class="support-groups">
 
         <div class="support-group">
@@ -137,8 +20,8 @@ show_reading_time: false
             </div>
             <div class="support-group-content">
                 <ul class="support-topic-list">
-                    <li class="support-topic-item" onclick="openSupportTopic('reset')">Password Reset</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="openSupportTopic('reset')">Password Reset</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/old/accounts'">Account Creation</li>
                 </ul>
             </div>
         </div>
@@ -150,13 +33,13 @@ show_reading_time: false
             </div>
             <div class="support-group-content">
                 <ul class="support-topic-list">
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os'">Operating System and Tools Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/windows'">Windows (WSL) Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/linux'">Linux Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/macos'">MacOS Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/os/kasm'">KASM Workspace Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/os'">Operating System and Tools Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/os/windows'">Windows (WSL) Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/os/linux'">Linux Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/os/macos'">MacOS Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/os/kasm'">KASM Workspace Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/github'">GitHub Setup</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/vscode'">VSCode Setup</li>
                 </ul>
             </div>
         </div>
@@ -168,7 +51,7 @@ show_reading_time: false
             </div>
             <div class="support-group-content">
                 <ul class="support-topic-list">
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/doh'">DNS over HTTPS (DoH) Setup Guide</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/doh'">DNS over HTTPS (DoH) Setup Guide</li>
                 </ul>
             </div>
         </div>
@@ -180,7 +63,7 @@ show_reading_time: false
             </div>
             <div class="support-group-content">
                 <ul class="support-topic-list">
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/trouble'">Troubleshooting Guide</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/trouble'">Troubleshooting Guide</li>
                 </ul>
             </div>
         </div>
@@ -192,9 +75,9 @@ show_reading_time: false
             </div>
             <div class="support-group-content">
                 <ul class="support-topic-list">
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/about-ocs'">About Open Coding Society</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/flask'">How Flask Works</li>
-                    <li class="support-topic-item" onclick="location.href='{{site.baseurl}}/tools/spring'">How Spring Works</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/about-ocs'">About Open Coding Society</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/flask'">How Flask Works</li>
+                    <li class="support-topic-item" role="button" tabindex="0" onclick="location.href='{{site.baseurl}}/tools/spring'">How Spring Works</li>
                 </ul>
             </div>
         </div>
@@ -212,35 +95,35 @@ show_reading_time: false
         <hr>
         <div id="reset-step-uid" class="support-step active">
             <div class="form-group">
-                <input type="text" id="resetUid" placeholder="GitHub ID" required>
+                <input type="text" id="resetUid" placeholder="GitHub ID" aria-label="GitHub ID" required>
             </div>
             <p>
                 <button type="button" class="large primary submit-button" onclick="startOAuthReset()">Verify with School Account</button>
             </p>
         </div>
-        <div id="reset-step-oauth" class="support-step" style="text-align: center; margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem; color: #d1d5db;">
+        <div id="reset-step-oauth" class="support-step support-step-centered">
+            <p class="support-oauth-hint">
                 Sign in with your <strong>@stu.powayusd.com</strong> school Google account to verify it's you.
             </p>
-            <div id="reset-g_id_signin_container" style="display: flex; justify-content: center; margin-bottom: 1rem;"></div>
-            <div id="reset-oauth-status" style="margin-top: 1rem;"></div>
-            <p id="reset-ticket-row" style="display: none; margin-top: 1rem;">
+            <div id="reset-g_id_signin_container" class="support-g-signin-container"></div>
+            <div id="reset-oauth-status" class="support-oauth-status"></div>
+            <p id="reset-ticket-row" class="support-ticket-row">
                 <button type="button" class="large secondary submit-button" onclick="requestResetTicket(this)">Request a Ticket Instead</button>
             </p>
         </div>
         <div id="reset-step-password" class="support-step">
             <div class="form-group">
-                <input type="password" id="resetNewPassword" placeholder="New Password" minlength="8" required>
+                <input type="password" id="resetNewPassword" placeholder="New Password" aria-label="New Password" minlength="8" required>
             </div>
             <div class="form-group">
-                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password" minlength="8" required>
+                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password" aria-label="Confirm New Password" minlength="8" required>
             </div>
             <p id="reset-password-validation-message"></p>
             <p>
                 <button type="button" class="large primary submit-button" onclick="submitOAuthResetPassword()">Set New Password</button>
             </p>
         </div>
-        <p id="reset-message" style="color: red;"></p>
+        <p id="reset-message" class="support-reset-message"></p>
         <div class="support-back-row">
             <a href="#" onclick="backToSupportTopics(); return false;">← Back</a>
         </div>
@@ -254,6 +137,18 @@ show_reading_time: false
     window.toggleSupportGroup = function(headerEl) {
         headerEl.closest('.support-group').classList.toggle('open');
     }
+
+    // .support-topic-item is a `role="button"` <li> (not a real <button>/<a>, to keep the
+    // existing visual design) -- this is what makes it keyboard-activatable, since a
+    // non-form element's onclick doesn't fire on Enter/Space by default the way a real
+    // button's does.
+    document.addEventListener('keydown', function(event) {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const target = event.target;
+        if (!(target instanceof HTMLElement) || target.getAttribute('role') !== 'button') return;
+        event.preventDefault();
+        target.click();
+    });
 
     window.openSupportTopic = function(topic) {
         if (topic !== 'reset') return;
@@ -303,7 +198,11 @@ show_reading_time: false
 
     function showResetOAuthStatus(message, isError = false) {
         const statusDiv = document.getElementById('reset-oauth-status');
-        statusDiv.innerHTML = `<div class="${isError ? 'oauth-error' : 'oauth-success'}">${message}</div>`;
+        statusDiv.textContent = '';
+        const messageEl = document.createElement('div');
+        messageEl.className = isError ? 'oauth-error' : 'oauth-success';
+        messageEl.textContent = message;
+        statusDiv.appendChild(messageEl);
     }
 
     window.startOAuthReset = function() {
@@ -317,15 +216,25 @@ show_reading_time: false
 
         goToResetStep('reset-step-oauth');
 
+        // Clear before rendering so re-entering this step (e.g. going back and retrying
+        // with a different uid) doesn't stack a second sign-in button in the container.
+        const signinContainer = document.getElementById('reset-g_id_signin_container');
+        signinContainer.textContent = '';
+
         if (window.google && window.google.accounts) {
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleResetSignIn
             });
             window.google.accounts.id.renderButton(
-                document.getElementById('reset-g_id_signin_container'),
+                signinContainer,
                 { type: 'standard', size: 'large', theme: 'filled_blue', text: 'signin_with', shape: 'rectangular' }
             );
+        } else {
+            // The GSI script (loaded via <script src="https://accounts.google.com/gsi/client">)
+            // failed to load or hasn't finished yet -- without this, the user is left staring
+            // at an empty container with no sign-in button and no explanation.
+            showResetOAuthStatus('❌ Could not load Google sign-in. Please check your connection and try again.', true);
         }
     }
 
@@ -448,14 +357,17 @@ show_reading_time: false
     window.submitOAuthResetPassword = function() {
         const password = document.getElementById('resetNewPassword').value;
         const confirmPassword = document.getElementById('resetConfirmPassword').value;
+        const validationMessage = document.getElementById('reset-password-validation-message');
 
         const passwordStrength = getPasswordStrength(password);
         if (!passwordStrength.valid) {
-            alert(passwordStrength.message);
+            validationMessage.classList.add('error');
+            validationMessage.textContent = passwordStrength.message;
             return;
         }
         if (password !== confirmPassword) {
-            alert('Passwords do not match. Please try again.');
+            validationMessage.classList.add('error');
+            validationMessage.textContent = 'Passwords do not match. Please try again.';
             return;
         }
         if (!resetUidValue || !resetTokenValue) {
