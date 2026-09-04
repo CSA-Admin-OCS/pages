@@ -654,7 +654,7 @@ Below are the capstone infographic pages created by student groups. Click an ima
         <p class="text-xs text-gray-500 mt-2">Team: API Pirates (Alice, Brandon, Aryan)</p>
     </div>
 
-</div>
+  </div>
   <!-- SD Auto (CSP) -->
    <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSP">
        <a href="{% post_url 2026-04-15-sd-auto-capstone %}">
@@ -668,7 +668,7 @@ Below are the capstone infographic pages created by student groups. Click an ima
    </div>
 
   <!-- FOPS -->
- <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSP">
+  <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSP">
        <a href="{% post_url 2026-03-09-friends-of-poway-seniors-capstone %}">
            <img src="/images/capstone/fops.png" alt="AutoTriage - Triage project" class="w-28 h-28 object-cover rounded" />
        </a>
@@ -688,6 +688,17 @@ Below are the capstone infographic pages created by student groups. Click an ima
            <h3 class="text-lg font-semibold"><a href="{% post_url 2026-03-08-Flask-and-Furious-capstone %}">Safe Passage Heals - Media Management Tools and Interactive Recovery Simulation</a></h3>
            <p class="text-sm text-gray-700">A system of interactive web tools for Safe Passage Heals — centralizing community events through dynamic media management and an interactive simulation of the domestic violence recovery process.</p>
            <p class="text-xs text-gray-500 mt-2">Team: Ruchika Kench, Akshara Shankar, Avantika Chittari</p>
+       </div>
+   </div>
+
+   <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSA">
+       <a href="{% post_url 2026-09-03-cccs-security %}">
+           <img src="/images/capstone/cccs-security-logo.png" alt="CCCS Security" class="w-28 h-28 object-cover rounded" />
+       </a>
+       <div>
+           <h3 class="text-lg font-semibold"><a href="{% post_url 2026-09-03-cccs-security %}">OCS Security</a></h3>
+           <p class="text-sm text-gray-700">These security fixes ensure that new users must create complex passwords in order to prevent against unauthorized access as well as ensure code runners run in their individual containers to prevent malicious RCEs that could access sensitive information.</p>
+           <p class="text-xs text-gray-500 mt-2">Team: Lucas Masterson, Jacob Chou, Zhengji Li</p>
        </div>
    </div>
 </div>
