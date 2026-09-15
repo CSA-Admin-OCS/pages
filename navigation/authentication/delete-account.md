@@ -93,7 +93,7 @@ show_reading_time: false
                 return;
             }
 
-            const springRes = await fetch(`${javaURI}/mvc/person/delete/self`, {
+            const springRes = await fetch(`${javaURI}/api/person/delete/self`, {
                 ...fetchOptions,
                 method: 'POST',
                 body: JSON.stringify({ confirmUid, currentPassword }),
