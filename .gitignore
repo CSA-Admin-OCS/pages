@@ -88,3 +88,6 @@ _notebooks/**/*_content.md
 
 # Claude Code session artifacts
 .claude/
+CLAUDE.md
+.clauderc
+.clauderc-*
