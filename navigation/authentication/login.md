@@ -55,6 +55,7 @@ show_reading_time: false
     <div class="signup-card">
         <h1 id="signupTitle">Sign Up</h1>
         <hr>
+        <p id="signupRoleHint" style="margin-bottom: 1rem; color: #9ca3af; font-size: 0.85rem;"></p>
         <!-- Google OAuth Section (initially hidden) -->
         <div id="oauth-verification" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h3 style="color: #6366f1; margin-bottom: 1rem;">🎓 School Email Verification</h3>
@@ -136,6 +137,11 @@ show_reading_time: false
 </div>
 
 <script type="module">
+    // config.js points local API calls at "localhost". From 127.0.0.1 those calls are cross-site,
+    // so the browser drops Spring's SameSite=Lax login cookie. Reopen the page on localhost.
+    if (location.hostname === '127.0.0.1') {
+        location.replace(location.href.replace('//127.0.0.1', '//localhost'));
+    }
     import { login, pythonURI, javaURI, fetchOptions, GOOGLE_CLIENT_ID } from '{{site.baseurl}}/assets/js/api/config.js';
     import { setChosenRole, fetchPerson, roleNames } from '{{site.baseurl}}/assets/js/api/role-view.js';
 
@@ -155,7 +161,10 @@ show_reading_time: false
         document.getElementById('signupSid').required = !mentor;
         document.getElementById('signupSchool').required = !mentor;
         document.getElementById('signupEmail').placeholder = mentor ? 'Email' : 'Personal (not school) Email';
-        document.getElementById('signupTitle').textContent = mentor ? 'Mentor Sign Up' : 'Sign Up';
+        document.getElementById('signupTitle').textContent = mentor ? 'Mentor Sign Up' : 'Student Sign Up';
+        document.getElementById('signupRoleHint').textContent = mentor
+            ? 'Mentor accounts need admin approval before mentor tools unlock.'
+            : 'Signing up as a student requires a Poway USD school email. Mentors: choose Mentor above the login form first.';
         // Flask stays visible, dimmed for mentors because their accounts are created in Spring only.
         const flaskEl = document.getElementById('flaskStatus');
         flaskEl.style.opacity = mentor ? '0.4' : '';
@@ -461,9 +470,18 @@ show_reading_time: false
         let pythonPromise = new Promise((resolve) => {
             window.pythonLogin(resolve);
         });
-        Promise.allSettled([javaPromise, pythonPromise]).then(async ([javaOutcome]) => {
+        Promise.allSettled([javaPromise, pythonPromise]).then(async ([javaResult, pythonResult]) => {
             // Only proceed after both have completed (success or fail)
+            const flaskOk = pythonResult.value?.ok === true;
+            const springOk = javaResult.value?.ok === true;
             const chosen = document.querySelector('input[name="loginRole"]:checked')?.value || 'student';
+            if (chosen !== 'mentor' && !flaskOk && !springOk) {
+                return; // Both backends refused: keep the error message pythonLogin already showed.
+            }
+            // Spring-only accounts (mentors) are not in Flask, so its 401 is not an error here.
+            if (springOk) {
+                document.getElementById('message').textContent = '';
+            }
             if (chosen === 'mentor') {
                 const person = await fetchPerson();
                 const roles = roleNames(person);
@@ -471,7 +489,7 @@ show_reading_time: false
                     // Signed in, but not as a mentor: keep them in the student view and say why.
                     setChosenRole('student');
                     document.querySelector('input[name="loginRole"][value="student"]').checked = true;
-                    document.getElementById('message').textContent = await describeMentorLoginFailure(javaOutcome.value, person, roles);
+                    document.getElementById('message').textContent = await describeMentorLoginFailure(javaResult.value, person, roles);
                     return;
                 }
             }
@@ -491,7 +509,7 @@ show_reading_time: false
             return 'Could not reach the Spring server. Make sure it is running, then try again.';
         }
         if (!person) {
-            return 'Spring accepted the login but the session was not kept. Open this site at http://localhost:4500 (not 127.0.0.1) and try again.';
+            return `Spring accepted the login but the session was not kept. Open this site at http://localhost:${location.port} (not 127.0.0.1) and try again.`;
         }
         let pending = false;
         if (roles.includes('ROLE_PENDING')) {
@@ -512,15 +530,12 @@ show_reading_time: false
             URL: `${pythonURI}/api/authenticate`,
             callback: function() {
                 pythonDatabase();
-                if (done) done();
+                if (done) done({ ok: true });
             },
             message: "message",
-            // Mentors exist only in Spring, so a Flask 401 must not block their login.
+            // Spring-only accounts (mentors) fail here, so loginBoth() decides what a Flask failure means.
             onFailure: function() {
-                if (isMentorMode()) {
-                    document.getElementById("message").textContent = "";
-                    if (done) done();
-                }
+                if (done) done({ ok: false });
             },
             method: "POST",
             cache: "no-cache",

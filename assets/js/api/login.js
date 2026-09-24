@@ -1,4 +1,4 @@
-import { baseurl, pythonURI, fetchOptions } from './config.js';
+import { baseurl, pythonURI, javaURI, fetchOptions } from './config.js';
 
 console.log("login.js loaded");
 
@@ -93,20 +93,22 @@ function waitForElement(selector, maxAttempts = 20, interval = 100) {
     });
 }
 
-function getCredentials(baseurl) {
-    const URL = pythonURI + '/api/id';
+// Flask knows students; mentor accounts exist only in Spring. Ask Flask first, then
+// fall back to Spring so a signed-in mentor is not shown the "Login" link.
+async function getCredentials(baseurl) {
+    const flaskUser = await fetchUser(pythonURI + '/api/id');
+    if (flaskUser) return flaskUser;
+    return fetchUser(javaURI + '/api/person/get');
+}
+
+function fetchUser(URL) {
     return fetch(URL, fetchOptions)
         .then(response => {
             if (!response.ok) {
-                console.warn("HTTP status code: " + response.status);
+                console.warn("HTTP status code: " + response.status + " from " + URL);
                 return null;
             }
             return response.json();
-        })
-        .then(data => {
-            if (data === null) return null;
-            console.log("User data:", data);
-            return data;
         })
         .catch(err => {
             console.error("Fetch error: ", err);

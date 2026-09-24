@@ -10,7 +10,7 @@ active_tab: profile
 
 <form id="profileSettingsForm">
     <!-- Personal Information Section -->
-    <div class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
+    <div id="personalInfoCard" class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
         <h2 class="text-xl font-semibold mb-6">Personal Information</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -66,7 +66,7 @@ active_tab: profile
     </div>
 
     <!-- School Section -->
-    <div class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
+    <div id="schoolInfoCard" class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
         <h2 class="text-xl font-semibold mb-6">School Information</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -99,7 +99,7 @@ active_tab: profile
     </div>
 
     <!-- Classes Section -->
-    <div class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
+    <div id="classesCard" class="bg-neutral-800 rounded-lg shadow-md p-6 mb-6 border-neutral-700 border">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Classes</h2>
             <button type="button" id="addClassBtn"
@@ -247,6 +247,11 @@ active_tab: profile
                 if (viewFor(roleNames(personData)) === 'mentor') {
                     document.getElementById('kasmToggleContainer')?.remove();
                     document.getElementById('facialRegistrationCard')?.remove();
+                    // Student-only cards. Hidden rather than removed: the profile form scripts
+                    // below still read these inputs and would throw on a missing element.
+                    ['personalInfoCard', 'schoolInfoCard', 'classesCard'].forEach(id => {
+                        document.getElementById(id).hidden = true;
+                    });
                 }
 
                 if (!currentPersonId || !currentUid) {

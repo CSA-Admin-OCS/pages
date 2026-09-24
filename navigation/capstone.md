@@ -292,6 +292,7 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
   // can never grant this on the deployed site.
   const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   let isMentor = isLocalhost && localStorage.getItem('ocsDevMentorPreview') === 'true';
+  let accountUid = 'dev-preview';
   if (!isMentor) {
     try {
       const res = await fetch(`${javaURI}/api/person/get`, fetchOptions);
@@ -299,6 +300,7 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
         const person = await res.json();
         const roles = Array.isArray(person.roles) ? person.roles.map(r => r.name) : [];
         isMentor = viewFor(roles) === 'mentor';
+        accountUid = person.uid;
       }
     } catch (e) { /* not logged in / offline -- treat as not a mentor */ }
   }
@@ -331,16 +333,19 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
     }
   } catch (e) { console.error('Capstone: could not load project ids', e); }
 
-  // Interested/Skip are tracked per-browser (localStorage) -- there's no backend
-  // endpoint for a mentor's shortlist, only for the apply action itself below.
-  const INTERESTED_KEY = 'ocsMentorInterested';
-  const SKIPPED_KEY = 'ocsMentorSkipped';
+  // Interested/Skip are remembered per signed-in account in this browser (localStorage
+  // key includes the uid). Spring has no endpoint for a mentor's shortlist yet; when it
+  // does it needs POST/DELETE /api/capstones/{id}/interest and GET /api/capstones/interest/mine,
+  // and readSet/writeSet below are the only places to swap over.
+  const INTERESTED_KEY = `ocsMentorInterested:${accountUid}`;
+  const SKIPPED_KEY = `ocsMentorSkipped:${accountUid}`;
   function readSet(key) {
     try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
-    catch (e) { return new Set(); }
+    catch (e) { console.warn('Capstone: could not read', key, e); return new Set(); }
   }
   function writeSet(key, set) {
-    try { localStorage.setItem(key, JSON.stringify([...set])); } catch (e) { /* ignore */ }
+    try { localStorage.setItem(key, JSON.stringify([...set])); }
+    catch (e) { console.warn('Capstone: could not save', key, e); }
   }
   const interested = readSet(INTERESTED_KEY);
   const skipped = readSet(SKIPPED_KEY);
@@ -380,15 +385,21 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
     interestedBtn.setAttribute('aria-label', 'Mark interested');
     interestedBtn.textContent = '✓';
 
-    if (skipped.has(url)) {
-      card.style.opacity = '0.45';
-      applyBtn.disabled = true;
-      skipBtn.disabled = true;
-      interestedBtn.disabled = true;
+    // Reflects the saved state on the card and both buttons. Skip dims the card but never
+    // disables anything, so it can always be undone.
+    function renderState() {
+      const isSkipped = skipped.has(url);
+      const isInterested = interested.has(url);
+      card.style.opacity = isSkipped ? '0.45' : '';
+      skipBtn.textContent = isSkipped ? '↺ Undo skip' : '✕';
+      skipBtn.setAttribute('aria-label', isSkipped ? 'Undo skip' : 'Skip this project');
+      interestedBtn.textContent = isInterested ? '✓ Interested' : '✓';
+      interestedBtn.classList.toggle('fill', isInterested);
+      interestedBtn.setAttribute('aria-pressed', String(isInterested));
+      applyBtn.disabled = isSkipped;
+      interestedBtn.disabled = isSkipped;
     }
-    if (interested.has(url)) {
-      interestedBtn.disabled = true;
-    }
+    renderState();
 
     applyBtn.addEventListener('click', async () => {
       const id = idByUrl[url];
@@ -418,19 +429,23 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
     });
 
     skipBtn.addEventListener('click', () => {
-      skipped.add(url);
+      if (skipped.has(url)) {
+        skipped.delete(url);
+      } else {
+        skipped.add(url);
+        interested.delete(url);
+        writeSet(INTERESTED_KEY, interested);
+      }
       writeSet(SKIPPED_KEY, skipped);
-      card.style.opacity = '0.45';
-      applyBtn.disabled = true;
-      skipBtn.disabled = true;
-      interestedBtn.disabled = true;
+      renderState();
+      updateCounter();
     });
 
     interestedBtn.addEventListener('click', () => {
-      if (interested.has(url)) return;
-      interested.add(url);
+      if (interested.has(url)) interested.delete(url);
+      else interested.add(url);
       writeSet(INTERESTED_KEY, interested);
-      interestedBtn.disabled = true;
+      renderState();
       updateCounter();
     });
 
