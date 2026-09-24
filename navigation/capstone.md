@@ -26,10 +26,7 @@ show_reading_time: false
         <option value="2026-2027" selected>2026/2027</option>
         <option value="2025-2026">2025/2026</option>
       </select>
-      <!-- Approved-mentor-only: how many projects they've marked Interested in.
-           Hidden for everyone else; revealed by the mentor script below.
-           margin-left:auto pushes it to the far right of this flex row. -->
-      <span id="mentor-interested-count" class="ocs__btn small alert-green" style="display:none; margin-left:auto; cursor:default;">Interested: 0</span>
+      <span id="mentor-interested-count" class="ocs__btn small alert-green capstone-mentor-counter" hidden>Interested: 0</span>
     </div>
   </div>
 </div>
@@ -110,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function(){
       frontendUrl: "http://sfifoundation.opencodingsociety.com",
       backendUrl: "https://greppers-be.opencodingsociety.com/"
     },
-    "Communication System": {
+    "OCS Communication Systems": {
       pageUrl: "https://pages.opencodingsociety.com/capstone/communication-system/",
       frontendUrl: "https://github.com/UGRC-CSA/Pages",
       backendUrl: "https://github.com/Open-Coding-Society/spring"
@@ -444,7 +441,7 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
     card.addEventListener('mouseleave', () => { actions.style.display = 'none'; });
   });
 
-  counterEl.style.display = '';
+  counterEl.hidden = false;
   updateCounter();
 })();
 </script>
@@ -461,40 +458,11 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
            <img src="{{ '/images/capstone/sfi-foundation-2026-27.png' | relative_url }}" alt="SFI Foundation 2026–27" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3 class="capstone-item__title"><a href="{{ '/capstone/sfi-foundation/' | relative_url }}">SFI Foundation 2026–27</a></h3>
-           <p class="capstone-item__description">A CSP capstone continuing the SFI Foundation modernization prototype with searchable safety standards, ML-assisted spec matching, browser-based equipment detection, personal gear tracking, and staff management tools.</p>
-           <p class="capstone-item__team">Team: Ruhaan Bansal, Arya Taghavi Zargar, Deyar Raissadat, Ishan Jha, Ishan Khandelwal, Vayun Shekhar</p>
+           <h3><a href="{{ '/capstone/sfi-foundation/' | relative_url }}">SFI Foundation 2026–27</a></h3>
+           <p>A CSP capstone continuing the SFI Foundation modernization prototype with searchable safety standards, ML-assisted spec matching, browser-based equipment detection, personal gear tracking, and staff management tools.</p>
+           <p>Team: Ruhaan Bansal, Arya Taghavi Zargar, Deyar Raissadat, Ishan Jha, Ishan Khandelwal, Vayun Shekhar</p>
        </div>
    </div>
-  
-   <!-- SRFSC Website Redesign Examples (CSP, 2026/2027) -->
-   <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSP" data-year="2026-2027" data-page-url="{{ '/capstone/srfsc/' | relative_url }}">
-       <a href="{{ '/capstone/srfsc/' | relative_url }}">
-           <div class="w-28 h-28 flex items-center justify-center text-white text-xl font-bold rounded" style="background: linear-gradient(135deg, #0f766e, #14532d);">SRFSC</div>
-       </a>
-       <div>
-           <h3 class="text-lg font-semibold"><a href="{{ '/capstone/srfsc/' | relative_url }}">SRFSC Website Redesign Examples</a></h3>
-           <p class="text-sm text-gray-700">Visual mockup examples showing how the Scripps Ranch Fire Safe Council website could be redesigned for clarity, urgency, and action.</p>
-           <p class="text-xs text-gray-500 mt-2">Team: Krish Kelageri, Jasan Boprai, Shourya Patel</p>
-       </div>
-   </div>
-
-   <!-- Friends of the Poway Library 2026–27 (CSP) -->
-   <div class="ocs__grid-cell CSP"
-        data-year="2026-2027"
-        data-page-url="{{ '/capstone/poway-library-2026-27/' | relative_url }}"
-        data-frontend-url="https://github.com/Boolean-Boyz/bb-pages"
-        data-backend-url="https://github.com/Boolean-Boyz/bb-flask">
-       <a href="{{ '/capstone/poway-library-2026-27/' | relative_url }}">
-           <img src="{{ '/images/capstone/poway_library.png' | relative_url }}" alt="Friends of the Poway Library 2026–27" class="ocs__image-frame ocs__image-frame--thumbnail" />
-       </a>
-       <div>
-           <h3><a href="{{ '/capstone/poway-library-2026-27/' | relative_url }}">Friends of the Poway Library 2026–27</a></h3>
-           <p>A CSP capstone continuing the previous Friends of the Poway Library prototype with a searchable bookstore catalog, events and newsletters, volunteer and donation pathways, community history, profiles, and library-themed games.</p>
-           <p>Team: Arjun Ganesh — Scrum Master; Nathan Trieu — Developer 1; Raadin Ansari — Developer 2</p>
-       </div>
-   </div>
-
 
    <!-- Poway Veterans Organization 2026–27 (CSP) -->
    <div class="ocs__grid-cell CSP"
@@ -511,6 +479,35 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
            <p>Team: Pranav, Aadi, Will</p>
        </div>
    </div>
+  
+   <!-- Friends of the Poway Library 2026–27 (CSP) -->
+   <div class="ocs__grid-cell CSP"
+        data-year="2026-2027"
+        data-page-url="{{ '/capstone/poway-library-2026-27/' | relative_url }}"
+        data-frontend-url="https://github.com/Boolean-Boyz/bb-pages"
+        data-backend-url="https://github.com/Boolean-Boyz/bb-flask">
+       <a href="{{ '/capstone/poway-library-2026-27/' | relative_url }}">
+           <img src="{{ '/images/capstone/poway_library.png' | relative_url }}" alt="Friends of the Poway Library 2026–27" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       </a>
+       <div>
+           <h3><a href="{{ '/capstone/poway-library-2026-27/' | relative_url }}">Friends of the Poway Library 2026–27</a></h3>
+           <p>A CSP capstone continuing the previous Friends of the Poway Library prototype with a searchable bookstore catalog, events and newsletters, volunteer and donation pathways, community history, profiles, and library-themed games.</p>
+           <p>Team: Arjun Ganesh — Scrum Master; Nathan Trieu — Developer 1; Raadin Ansari — Developer 2</p>
+       </div>
+   </div>
+  
+     <!-- SRFSC Website Redesign Examples (CSP, 2026/2027) -->
+     <div class="ocs__grid-cell CSP" data-year="2026-2027" data-page-url="{{ '/capstone/srfsc/' | relative_url }}">
+       <a href="{{ '/capstone/srfsc/' | relative_url }}">
+         <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder">SRFSC</div>
+       </a>
+       <div>
+         <h3><a href="{{ '/capstone/srfsc/' | relative_url }}">SRFSC Website Redesign Examples</a></h3>
+         <p>Visual mockup examples showing how the Scripps Ranch Fire Safe Council website could be redesigned for clarity, urgency, and action.</p>
+         <p>Team: Krish Kelageri, Jasan Boprai, Shourya Patel</p>
+       </div>
+   </div>
+
 
    <!-- Submissions Capstone (umbrella issue: AAA, Submission Analytics, AI Grading) -->
    <div class="ocs__grid-cell CSA" data-year="2026-2027">
@@ -518,8 +515,8 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
            <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder" style="background: linear-gradient(135deg, #06b6d4, #0f172a);">SUB</div>
        </a>
        <div>
-           <h3><a href="{% post_url capstone/2026-08-31-submissions-capstone %}">OCS Submissions</a></h3>
-           <p>Umbrella capstone covering three groups' work on the assignment/submission system: assignment creator permissions, submission analytics, and AI grading.</p>
+           <h3><a href="{% post_url capstone/2026-08-31-submissions-capstone %}">OCS Assignments System</a></h3>
+           <p>Students are extending the OCS assignment lifecycle from creation through submission, analytics, and grading. The system supports inserting rubrics directly into assignments, providing immediate AI evaluation, and assigning student-generated lessons for peer review and grading. After initial automated evaluation, live review sessions follow, allowing students and graders to discuss challenges, successes, and the work. A grader assignment view supports this process by giving graders a place to review submissions, record observations, and provide an overall assessment. The work integrates OCS interfaces with the Java/Spring backend, AWS S3, and AWS RDS/SQL, moving assignment data, student activity, scores, and feedback into a shared system rather than separate tools and spreadsheets.</p>
            <p>Groups: Assignment Creator Permissions, Submission Analytics, AI Grading</p>
        </div>
    </div>
@@ -550,15 +547,15 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
    </div>
 
 
-   <!-- RFID + Camera-Correlated Classroom Presence -->
+   <!-- Classroom Presence System (RFID + QR + Camera) -->
    <div class="ocs__grid-cell CSH" data-year="2026-2027">
-     <a href="{% post_url capstone/RFID/2026-09-12-rfid-presence-capstone %}">
-       <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">RFID</div>
+     <a href="{% post_url capstone/Presence/2026-09-12-presence-system-capstone %}">
+       <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">Presence</div>
      </a>
      <div>
-       <h3><a href="{% post_url capstone/RFID/2026-09-12-rfid-presence-capstone %}">RFID + Camera-Correlated Classroom Presence</a></h3>
-       <p>A low-cost Raspberry Pi UHF RFID system that tracks device presence at the doorway and correlates it with an existing face-scanning camera system to determine true student presence, period by period.</p>
-       <p>Team: Ruta Sirdeshmukh, Vibha Mandayam, Kush Shah</p>
+       <h3><a href="{% post_url capstone/Presence/2026-09-12-presence-system-capstone %}">Classroom Presence System</a></h3>
+       <p>A design-based research project asking whether classroom presence can be measured with zero teacher effort. Three low-effort inputs, RFID tap, QR scan, and face scan, are evaluated in parallel against a shared presence engine and the bell schedule to track instructional minutes and show who is missing in real time.</p>
+       <p>Team: Vibha Mandayam (RFID), Ruta Sirdeshmukh (QR), Kush Shah (Camera)</p>
      </div>
    </div>
     <!-- Jarvis Classroom Object Detection -->
@@ -600,31 +597,6 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
      </div>
 
 
-   <!-- Communication System -->
-   <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSA">
-       <a href="{% post_url capstone/2026-08-27-communication-system-capstone %}">
-           <img src="/images/csa-chat/announcement-chat.png" alt="Communication System - Course-Site Chat and Messaging" class="w-28 h-28 object-cover rounded" />
-       </a>
-       <div>
-           <h3 class="text-lg font-semibold"><a href="{% post_url capstone/2026-08-27-communication-system-capstone %}">Communication System</a></h3>
-           <p class="text-sm text-gray-700">Class discussion moved out of Slack and onto the course site, next to the work it is about. Class-wide announcements and per-week chat already ship; per-assignment threads, 1:1 direct messages, and teacher moderation are still to build.</p>
-           <p class="text-xs text-gray-500 mt-2">Team: Akhil, Samarth, Akshaj, Tarun, Perry, Syowns, Leon</p>
-       </div>
-   </div>
-
-
-   <!-- OCS Intelligence LLM -->
-   <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSH" data-year="2026-2027">
-       <a href="{% post_url capstone/2026-08-31-ocs-intelligence-capstone %}">
-           <img src="/images/capstone/ocs-intelligence.png" alt="OCS Intelligence LLM - Shared AI Infrastructure for Students" class="w-28 h-28 object-cover rounded" />
-       </a>
-       <div>
-           <h3 class="text-lg font-semibold"><a href="{% post_url capstone/2026-08-31-ocs-intelligence-capstone %}">OCS Intelligence LLM</a></h3>
-           <p class="text-sm text-gray-700">A generously donated 8× GTX 1070 rack becomes a shared open-weight LLM for OCS: live access from student harnesses, every student in mind, electricity as the only ongoing cost.</p>
-           <p class="text-xs text-gray-500 mt-2">Team: Nikhil Maturi, Adi Katre, Mihir Bapat, Yash Parikh, Anvay Vahia, Yash Patil</p>
-       </div>
-   </div>
-
    <!-- Educators Capstone -->
    <div class="ocs__grid-cell CSA">
        <a href="{% post_url capstone/2026-02-06-educators-capstone %}">
@@ -653,7 +625,7 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
          <img src="{{ '/images/' | append: site.data.toolchain-trail-capstone.Logo | relative_url }}" alt="{{ site.data.toolchain-trail-capstone.Title }} logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-         <h3><a href="{% post_url capstone/2026-08-28-toolchain-trail %}">Toolchain Trail</a></h3>
+         <h3><a href="{% post_url capstone/2026-08-28-toolchain-trail %}">{{ site.data.toolchain-trail-capstone.Title }}</a></h3>
          <p>{{ site.data.toolchain-trail-capstone.Overview }}</p>
        </div>
    </div>
@@ -996,6 +968,35 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
             <p>Team: Nitya, Vivian, Virginia</p>
         </div>
     </div>
+    
+    <!-- Doing Exceptional Deeds Website Redesign (CSP, 2026/2027) -->
+  <div class="ocs__grid-cell CSP"
+      data-year="2026-2027"
+      data-page-url="{{ '/capstone/doingexceptionaldeeds/' | relative_url }}">
+
+      <a href="{{ '/capstone/doingexceptionaldeeds/' | relative_url }}">
+          <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder">
+              D.A.D.
+          </div>
+      </a>
+
+      <div>
+          <h3>
+              <a href="{{ '/capstone/doingexceptionaldeeds/' | relative_url }}">
+                  Doing Exceptional Deeds
+              </a>
+          </h3>
+
+          <p>
+              A website redesign focused on simpler navigation, shorter content,
+              student and teacher accounts, teacher profiles, and an easier
+              events and calendar experience.
+          </p>
+
+          <p>Team: Jake, Noah, Ishaan</p>
+      </div>
+    </div>
+
 
    <!-- FOPS (2026-2027) -->
  <div class="ocs__grid-cell CSP" data-year="2026-2027">
@@ -1081,27 +1082,27 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
        </div>
    </div>
 
-   <!-- OCS Assignment Tracker (CSA) -->
-  <div class="ocs__grid-cell CSA" data-year="2026-2027">
-       <a href="{% post_url capstone/2026-09-03-chuds-capstone %}">
-           <img src="/images/backendboyzgcpiccc.png" alt="Backend Boyz - OCS Assignment Tracker" class="ocs__image-frame ocs__image-frame--thumbnail" />
+   <!-- Shoreline Project Outreach (CSP, 2026/2027) -->
+   <div class="ocs__grid-cell CSP" data-year="2026-2027">
+       <a href="{% post_url 2026-09-11-shoreline-volunteer-capstone %}">
+           <img src="/images/capstone/shoreline.jpeg" alt="Shoreline Community Services logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url capstone/2026-09-03-chuds-capstone %}">Backend Boyz</a></h3>
-           <p>Developing an easy way for mentors to access Open Coding Society, featuring Google OAuth-verified signup, a scoped capstone project dashboard, real-time team chat, and role-based permissions between students and admins.</p>
-           <p>Team: Backend Boyz (Shayan B, Darshan S, Rudra J, Dhyan S, Harrish A, Lucas M, Zhengli L, Jacob C, Arnav P)</p>
+           <h3><a href="{% post_url 2026-09-11-shoreline-volunteer-capstone %}">Shoreline Community Services</a></h3>
+           <p>Extending Shoreline Community Services' outreach through smarter volunteer coordination and easier giving, this capstone project bridges technology and grassroots community care in San Diego.</p>
+           <p>Team: Vanshika Keswani, Nitya Kasse, Hsu-Cheng Lin</p>
        </div>
    </div>
 
-   <!-- OCS Security (CSA) -->
+   <!-- OCS Admin & Security Team (CSA) -->
   <div class="ocs__grid-cell CSA" data-year="2026-2027">
-       <a href="{% post_url capstone/2026-09-03-cccs-security %}">
-           <img src="/images/capstone/cccs-security-logo.png" alt="CCCS Security" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       <a href="{% post_url capstone/2026-09-03-ocs-admin-security-team %}">
+           <img src="/images/capstone/cccs-security-logo.png" alt="OCS Admin & Security Team" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url capstone/2026-09-03-cccs-security %}">OCS Security</a></h3>
-           <p>These security fixes ensure that new users must create complex passwords to prevent unauthorized access, and ensure code runners execute in individual containers to prevent malicious RCEs from accessing sensitive information.</p>
-           <p>Team: Lucas Masterson, Jacob Chou, Zhengji Li</p>
+           <h3><a href="{% post_url capstone/2026-09-03-ocs-admin-security-team %}">OCS Admin & Security Team</a></h3>
+           <p>Opening Open Coding Society to mentors while locking it down: Google OAuth-verified mentor signup, a scoped capstone dashboard with role-based permissions, complex-password enforcement in every layer, and code runners isolated in their own containers to keep malicious code away from sensitive information.</p>
+           <p>Team: Shayan B, Darshan S, Rudra J, Dhyan S, Harrish A, Lucas M, Zhengji L, Jacob C, Arnav P</p>
        </div>
    </div>
 
@@ -1117,30 +1118,17 @@ import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
        </div>
    </div>
 
-   <!-- Communication System (CSA) -->
+   <!-- OCS Communication Systems (CSA) -->
   <div class="ocs__grid-cell CSA" data-year="2026-2027">
        <a href="{% post_url capstone/2026-08-27-communication-system-capstone %}">
-           <img src="/images/csa-chat/announcement-chat.png" alt="Communication System - class announcement chat on the CSA course page" class="ocs__image-frame ocs__image-frame--thumbnail" />
+           <img src="/images/csa-chat/announcement-chat.png" alt="OCS Communication System - class announcement chat on the CSA course page" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url capstone/2026-08-27-communication-system-capstone %}">Communication System</a></h3>
-           <p>Moving class discussion out of Slack and onto the course site — class-wide announcements, per-week chat, and a rich-text composer with emoji already ship, with per-assignment threads, 1:1 direct messages, GIFs, Slack-style emoji reactions, and teacher moderation still to build.</p>
+           <h3><a href="{% post_url capstone/2026-08-27-communication-system-capstone %}">OCS Communication Systems</a></h3>
+           <p>Students are extending the OCS communication system with chat, announcements, assignment discussions, direct messaging, calendar integration, and reusable presentation components. The work includes maintaining the real-time WebSocket service and connecting these features to the existing course site, backend APIs, security, and data model. Students will also develop the OCS SASS grammar—a small, purpose-built styling system for consistent, responsive, reusable components across the OCS GitHub Pages ecosystem.</p>
            <p>Team: Akhil, Syown, Leon, Perry, Skandan, Sathwik, Akshajh, Tarun, Samarth</p>
        </div>
    </div>
-
-    <!-- Poway Scripps Rotary Club (CSP) -->
-    <div class="flex items-start space-x-4 p-4 border rounded-lg capstone-item CSP" data-year="2026-2027"
-        data-page-url="{{ '/capstone/poway-scripps-rotary/' | relative_url }}">
-        <a href="{{ '/capstone/poway-scripps-rotary/' | relative_url }}">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Rotary_International_Logo.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="Poway Scripps Rotary Club" class="w-28 h-28 object-cover rounded" />
-        </a>
-        <div>
-            <h3 class="text-lg font-semibold"><a href="{{ '/capstone/poway-scripps-rotary/' | relative_url }}">Poway Scripps Rotary Club</a></h3>
-            <p class="text-sm text-gray-700">Helping the Poway Scripps Rotary Club Improve Their Website. We plan to add cleaner UI, galaries instead of long sheets of images, and improve navbar and search feachures.</p>
-            <p class="text-xs text-gray-500 mt-2">Team: Samarth H, Rigved G, Rohan S</p>
-        </div>
-    </div>
 </div>
 
 <!-- Edit Capstone Modal -->

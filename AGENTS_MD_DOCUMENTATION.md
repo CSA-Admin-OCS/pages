@@ -72,6 +72,9 @@ Split logic into clear layers:
 
 ### Project Registry & Styling
 
+* **Merging language lessons:** Java/Python/JavaScript/SASS sources live under `_projects/lessons/`. Do not restore obsolete files that upstream renamed or replaced with notebooks; they can publish duplicate permalinks. The shared catalog template lives at `_projects/lessons/_includes/language-reference.html` and is published by `make build-project-includes`.
+* **Project notebook conversion:** Change directories inside a subshell for each iteration in `_projects/_template/Makefile`; otherwise the second notebook looks for the conversion script in the wrong directory. Regression coverage lives in `tests/test_project_notebook_build.py`.
+
 * New projects must follow [_projects/REGISTRATION.md](_projects/REGISTRATION.md); architecture reference in [_projects/ARCHITECTURE.md](_projects/ARCHITECTURE.md).
 * Use SCSS-first styling; theme and styling conventions are in [README.md](README.md).
 

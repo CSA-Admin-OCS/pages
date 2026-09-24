@@ -74,6 +74,9 @@ while preserving all critical instructions. The agent must still communicate wit
 
 ### 项目注册与样式
 
+* **语言课程合并：** Java/Python/JavaScript/SASS 的权威源在 `_projects/lessons/`；上游重命名或用 notebook 替换的旧文件不要恢复，否则会产生重复 permalink。共享目录模板在 `_projects/lessons/_includes/language-reference.html`，通过 `make build-project-includes` 发布。
+* **项目 notebook 转换：** `_projects/_template/Makefile` 的循环必须在子 shell 中切换目录；否则第二个 notebook 会从错误目录查找转换脚本。回归测试见 `tests/test_project_notebook_build.py`。
+
 * 新项目遵循 [_projects/REGISTRATION.md](_projects/REGISTRATION.md) 注册/构建约定；架构示例见 [_projects/ARCHITECTURE.md](_projects/ARCHITECTURE.md)。
 * 样式优先使用 SCSS；主题切换与样式约定见 [README.md](README.md)。
 
