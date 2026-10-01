@@ -65,12 +65,19 @@ while preserving all critical instructions. The agent must still communicate wit
 * 以 [Makefile](Makefile) 为唯一指令来源；常用目标 `make`/`make serve-current`、`make dev`、`make stop`、`make convert`、`make convert-single`（细节见 [README.md](README.md)）。
 * 顺序很关键：stop → build projects → convert notebooks/docx → split courses → jekyll serve（以 [Makefile](Makefile) 为准）。
 * 项目构建后必须运行 [SASS 导入生成器](scripts/generate_sass_imports.py)，以创建 `_sass/projects/_all.scss`；`build-registered-projects` 负责此依赖，避免 Jekyll 的 `projects/all` 导入失败。
+* 若 Jekyll 缺少 `_includes/projects/<name>/` 下的导航片段，先检查被 Git 忽略的自动生成项目 Makefile 是否过时。当前 `_projects/_template/Makefile` 会复制 `navigation/*.html`；仅对确认由模板生成的旧 Makefile 更新模板并重新构建，保留定制 Makefile。
 
 ### 源文件与生成文件
 
 * 源文件在 [notebook sources](_notebooks/) 与 [docx sources](_docx/)；转换后的 Markdown 输出到 [generated posts](_posts/)（生成物，不要手工改）。
 * 多课程拆分文件（`*_csp.md`/`*_csa.md`/`*_csse.md`/`*_content.md`）为生成物，禁止手改；规则见 [scripts/split_multi_course_files.py](scripts/split_multi_course_files.py)。
 * Notebook/DOCX 转换规则见 [scripts/convert_notebooks.py](scripts/convert_notebooks.py) 与 [scripts/convert_docx.py](scripts/convert_docx.py)。
+* Java 课程的规范源在 `_projects/lessons/java/notebooks/`；`_notebooks/projects/java/` 是项目 Makefile 复制的构建产物。
+* 以 CSA 1.2 为格式参考时，核对用户指定的[已发布页面](https://pages.opencodingsociety.com/csa/unit_01/1_2)，本地副本可能较旧。完整格式含 Reference Guide、LxD Cycle Process、College Board Requirements、Lesson Plan、Code Examples、Hacks & Practice Tasks（MCQ、1 分评分及提交说明）、Lesson Revisions、Feedback Evidence、References。Java 交互单元需 `// CODE_RUNNER:` 和末行 `ClassName.main(null);`；保留 `codemirror: true`、`assignment: true`。不要编造同伴教学反馈。
+* 当前 notebook 转换器按围栏代码块顺序匹配 code cells；在 runner 前插入 Markdown 围栏示例会使代码/题目错位。混合 runner 的说明示例用内容已 HTML 转义的 `<pre><code>`，转换后核对每个 runner 的位置、代码和 source。
+* 转换器重写 frontmatter 时可能丢失标量引号；标题避免 `: `，并验证生成 Markdown 的 YAML 能解析（源 notebook 中加引号仍可能失败）。
+* Java notebook 迁移到项目目录后，本地 `_posts/CSA/ap_mcq_lessons/` 可能残留同 permalink 的旧生成页。预览前检查重复 URL；确认旧源已不存在后归档旧生成物，避免旧页覆盖新页。CSA 3.5 聚焦实例方法与基本类型参数/返回值（3.5.A.1–8）；对象引用与类方法分别属于 3.6、3.7。
+* 核验 College Board 对齐时逐项检查官方 CED，而非只核对主题标题。3.5 见 Fall 2025 版印刷页 85–86（PDF 页 92–93）：特别覆盖循环内 `return` 退出整个方法、accessor 返回值副本、mutator 通常但不必为 `void`；每条 EK 应链接到例子和练习证据。
 
 ### 项目注册与样式
 
