@@ -52,17 +52,26 @@ export function login(options) {
         body: options.method === 'POST' ? JSON.stringify(options.body) : undefined  // Only add body for POST requests
     };
 
-    // Clear the message area
-    document.getElementById(options.message).textContent = "";
+    const messageEl = document.getElementById(options.message);
+
+    // Clear the message area and any lockout countdown from a previous attempt
+    clearInterval(messageEl._lockoutTimer);
+    messageEl.textContent = "";
 
     // Fetch JWT from the server
     fetch(options.URL, requestOptions)
-    .then(response => {
+    .then(async response => {
         // Trap error response from the Web API
         if (!response.ok) {
-            const errorMsg = 'Login error: ' + response.status;
+            // Show the server's explanation (wrong password, attempts left, lockout)
+            // instead of a bare status code.
+            const data = await response.json().catch(() => ({}));
+            const errorMsg = data.message || ('Login error: ' + response.status);
             console.log(errorMsg);
-            document.getElementById(options.message).textContent = errorMsg;
+            messageEl.textContent = errorMsg;
+            if (response.status === 423 && data.retry_after_seconds > 0) {
+                showLockoutCountdown(messageEl, data);
+            }
             return response;  // Exit early if response is not OK
         }
         // Success: Proceed with callback
@@ -73,4 +82,25 @@ export function login(options) {
         console.log('Possible CORS or Service Down error: ' + error);
         document.getElementById(options.message).textContent = 'Possible CORS or service down error: ' + error;
     });
+}
+
+// Live "try again in m:ss" countdown under a 423 Locked login message.
+function showLockoutCountdown(messageEl, data) {
+    const unlockAt = Date.now() + data.retry_after_seconds * 1000;
+    const countdown = document.createElement('span');
+    countdown.style.display = 'block';
+    messageEl.appendChild(countdown);
+    const tick = () => {
+        const left = Math.ceil((unlockAt - Date.now()) / 1000);
+        if (left <= 0) {
+            clearInterval(messageEl._lockoutTimer);
+            messageEl.textContent = 'Lockout over. You can try logging in again.';
+            return;
+        }
+        const mins = Math.floor(left / 60);
+        const secs = String(left % 60).padStart(2, '0');
+        countdown.textContent = `Time remaining: ${mins}:${secs}`;
+    };
+    tick();
+    messageEl._lockoutTimer = setInterval(tick, 1000);
 }
