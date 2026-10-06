@@ -66,10 +66,10 @@ export function login(options) {
             // Show the server's explanation (wrong password, attempts left, lockout)
             // instead of a bare status code.
             const data = await response.json().catch(() => ({}));
-            const errorMsg = data.message || 'Login failed';
-            // Status code goes to the console; the page shows only the message.
-            console.log(`${response.status} Error: ${errorMsg}`);
-            messageEl.textContent = errorMsg;
+            const lines = loginErrorLines(response.status, data);
+            console.log(lines.join(' '));
+            messageEl.textContent = "";
+            lines.forEach(line => addMessageLine(messageEl, line));
             if (response.status === 423 && data.retry_after_seconds > 0) {
                 showLockoutCountdown(messageEl, data);
             }
@@ -85,22 +85,62 @@ export function login(options) {
     });
 }
 
-// Live "try again in m:ss" countdown under a 423 Locked login message.
+// One line of a login error, with a blank gap below it so the lines don't run together.
+function addMessageLine(messageEl, text) {
+    const line = document.createElement('span');
+    line.style.display = 'block';
+    line.style.marginBottom = '1em';
+    line.textContent = text;
+    messageEl.appendChild(line);
+    return line;
+}
+
+// 60 -> "1 minute", 180 -> "3 minutes"
+function formatMinutes(seconds) {
+    const minutes = Math.round(seconds / 60);
+    return `${minutes} minute${minutes === 1 ? '' : 's'}`;
+}
+
+// Split a failed-login response into the lines shown under the form, e.g.
+//   401 Error: Invalid user ID or Password
+//   Failed attempts in a row: 1
+//   2 more and your account will be locked for 1 minute
+function loginErrorLines(status, data) {
+    if (data.failed_attempts === undefined) {
+        // Not a lockout-aware response (unknown user, other APIs): show it as-is.
+        return [`${status} Error: ${data.message || 'Login failed'}`];
+    }
+    const lines = [
+        `${status} Error: ${data.locked ? 'Account locked' : 'Invalid user ID or Password'}`,
+        `Failed attempts in a row: ${data.failed_attempts}`,
+    ];
+    if (data.locked && data.admin_locked) {
+        lines.push('Contact an admin to unlock your account');
+    } else if (!data.locked) {
+        const lockText = data.next_lock_seconds
+            ? `locked for ${formatMinutes(data.next_lock_seconds)}`
+            : 'locked until an admin unlocks it';
+        lines.push(`${data.attempts_until_lock} more and your account will be ${lockText}`);
+    }
+    // Timed locks get a live countdown line from showLockoutCountdown.
+    return lines;
+}
+
+// Live "Try again in m:ss" countdown under a 423 Locked login message.
 function showLockoutCountdown(messageEl, data) {
     const unlockAt = Date.now() + data.retry_after_seconds * 1000;
-    const countdown = document.createElement('span');
-    countdown.style.display = 'block';
-    messageEl.appendChild(countdown);
+    const countdown = addMessageLine(messageEl, '');
     const tick = () => {
         const left = Math.ceil((unlockAt - Date.now()) / 1000);
         if (left <= 0) {
             clearInterval(messageEl._lockoutTimer);
-            messageEl.textContent = 'Lockout over. You can try logging in again.';
+            messageEl.textContent = '';
+            addMessageLine(messageEl, 'Lockout over. You can try logging in again.');
             return;
         }
         const mins = Math.floor(left / 60);
         const secs = String(left % 60).padStart(2, '0');
-        countdown.textContent = `Time remaining: ${mins}:${secs}`;
+        countdown.textContent = `Try again in ${mins}:${secs}`;
     };
     tick();
     messageEl._lockoutTimer = setInterval(tick, 1000);
