@@ -66,8 +66,9 @@ export function login(options) {
             // Show the server's explanation (wrong password, attempts left, lockout)
             // instead of a bare status code.
             const data = await response.json().catch(() => ({}));
-            const errorMsg = `${response.status} Error: ${data.message || 'Login failed'}`;
-            console.log(errorMsg);
+            const errorMsg = data.message || 'Login failed';
+            // Status code goes to the console; the page shows only the message.
+            console.log(`${response.status} Error: ${errorMsg}`);
             messageEl.textContent = errorMsg;
             if (response.status === 423 && data.retry_after_seconds > 0) {
                 showLockoutCountdown(messageEl, data);
