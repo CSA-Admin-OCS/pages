@@ -1,11 +1,16 @@
 // Login error alert: a centered pop-up shown by login() in assets/js/api/config.js
 // when a login fails (wrong password, attempts left, account locked).
+// Built from the OCS modal/panel mixins and theme variables so it follows the
+// user's theme, like the runner panels on /cs-pathway. The OK button uses the
+// shared .ocs__btn classes.
 
 @import "../../materials/main.scss";
+@import "../../mixins/variables";
+@import "../../mixins/modals";
+@import "../../mixins/panel";
 
-$login-alert-error: #ef4444 !default;   // matches $validation-error-color
-$login-alert-radius: 15px !default;     // matches $login-container-border-radius
-$login-alert-width: 420px !default;
+$login-alert-tone: var(--red, #E53E3E);
+$login-alert-max-width: 420px;
 
 @keyframes login-alert-fade-in {
   from { opacity: 0; }
@@ -18,89 +23,89 @@ $login-alert-width: 420px !default;
 }
 
 .login-alert-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
+  @include modal-overlay;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.55);
+  padding: $spacing-md;
+  background: var(--ocs-game-overlay, rgba(13, 13, 26, 0.72));
   backdrop-filter: blur(4px);
-  animation: login-alert-fade-in 0.2s ease-out;
+  z-index: $z-modal-backdrop;
+  animation: login-alert-fade-in $transition-base ease-out;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-md;
+  }
 }
 
 .login-alert {
+  // Same surface as .runner-side-panel: theme panel, border and radius
   width: 100%;
-  max-width: $login-alert-width;
-  background-color: var(--bg-1, #1F2020);
-  color: var(--pref-text-color, #e6eef8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 4px solid $login-alert-error;
-  border-radius: $login-alert-radius;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  padding: 1.5rem 1.75rem 1.25rem;
+  max-width: $login-alert-max-width;
+  background: $panel-bg;
+  color: $panel-text;
+  border: 1px solid $panel-border;
+  border-top: 4px solid $login-alert-tone;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xl;
+  padding: $spacing-lg $spacing-xl;
+  font-family: var(--pref-font-family);
   text-align: center;
-  animation: login-alert-pop-in 0.25s ease-out;
+  z-index: $z-modal;
+  animation: login-alert-pop-in $transition-slow ease-out;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-lg;
+  }
 
   &__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    margin-bottom: 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: $spacing-sm;
     border-radius: 50%;
-    background: rgba($login-alert-error, 0.15);
-    color: $login-alert-error;
-    font-size: 1.5rem;
+    background: color-mix(in srgb, #{$login-alert-tone} 15%, transparent);
+    color: $login-alert-tone;
     font-weight: 700;
+    @include responsive-text($text-xxl);
   }
 
   &__title {
-    margin: 0 0 1rem;
-    color: $login-alert-error;
-    font-size: 1.1rem;
+    margin: 0 0 $spacing-md;
+    color: $login-alert-tone;
     font-weight: 700;
     line-height: 1.4;
+    @include responsive-text($text-xl);
   }
 
   &__line {
-    margin: 0 0 1rem;
+    margin: 0 0 $spacing-md;
     color: inherit;
     line-height: 1.5;
+    opacity: 0.95;
+    @include responsive-text($text-lg);
   }
 
   &__countdown {
     display: inline-block;
-    margin: 0 0 1rem;
-    padding: 0.35rem 0.9rem;
+    margin: 0 0 $spacing-md;
+    padding: $spacing-xxxs $spacing-md;
     border-radius: 999px;
-    background: rgba($login-alert-error, 0.12);
-    color: $login-alert-error;
+    background: color-mix(in srgb, #{$login-alert-tone} 15%, transparent);
+    color: $login-alert-tone;
+    font-family: $mono-font;
     font-variant-numeric: tabular-nums;
     font-weight: 600;
+    @include responsive-text($text-md);
   }
 
+  // Layout only; colors come from .ocs__btn.accent.fill
   &__button {
     display: block;
-    margin: 0.25rem auto 0;
-    padding: 0.6rem 2rem;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--pref-accent-color, #3b82f6);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: filter 0.15s ease, transform 0.15s ease;
-
-    &:hover { filter: brightness(1.1); }
-    &:active { transform: scale(0.97); }
-    &:focus-visible {
-      outline: 2px solid var(--pref-accent-color, #3b82f6);
-      outline-offset: 3px;
-    }
+    margin: $spacing-xxxs auto 0;
+    min-width: 6rem;
   }
 }
 

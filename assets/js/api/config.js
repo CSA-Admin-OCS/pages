@@ -68,7 +68,7 @@ export function login(options) {
             const data = await response.json().catch(() => ({}));
             const lines = loginErrorLines(response.status, data);
             console.log(lines.join(' '));
-            showLoginAlert(lines, response.status === 423 ? data : null);
+            showLoginAlert(lines, data.locked ? data : null);
             return response;  // Exit early if response is not OK
         }
         // Success: Proceed with callback
@@ -113,7 +113,7 @@ function loginErrorLines(status, data) {
 }
 
 // Centered pop-up for a failed login (styles: _sass/open-coding/elements/forms/login-alert.scss).
-// The first line is the title; a 423 with a timed lock gets a live countdown.
+// The first line is the title; a timed lock gets a live countdown.
 function showLoginAlert(lines, lockData) {
     closeLoginAlert();
     const backdrop = document.createElement('div');
@@ -130,14 +130,14 @@ function showLoginAlert(lines, lockData) {
         alertBox.appendChild(el);
         return el;
     };
-    addEl('div', 'login-alert__icon', lockData ? '🔒' : '!').setAttribute('aria-hidden', 'true');
+    addEl('div', 'login-alert__icon', '!').setAttribute('aria-hidden', 'true');
     alertBox.setAttribute('aria-labelledby', 'login-alert-title');
     addEl('p', 'login-alert__title', lines[0]).id = 'login-alert-title';
     lines.slice(1).forEach(line => addEl('p', 'login-alert__line', line));
     if (lockData && lockData.retry_after_seconds > 0) {
         backdrop._lockoutTimer = startLockoutCountdown(addEl('p', 'login-alert__countdown', ''), lockData.retry_after_seconds);
     }
-    const okButton = addEl('button', 'login-alert__button', 'OK');
+    const okButton = addEl('button', 'login-alert__button ocs__btn medium accent fill', 'OK');
     okButton.type = 'button';
     okButton.addEventListener('click', closeLoginAlert);
 
