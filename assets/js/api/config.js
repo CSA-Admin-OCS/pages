@@ -54,8 +54,8 @@ export function login(options) {
 
     const messageEl = document.getElementById(options.message);
 
-    // Clear the message area and any lockout countdown from a previous attempt
-    clearInterval(messageEl._lockoutTimer);
+    // Clear the message area and any alert left from a previous attempt
+    closeLoginAlert();
     messageEl.textContent = "";
 
     // Fetch JWT from the server
@@ -68,11 +68,7 @@ export function login(options) {
             const data = await response.json().catch(() => ({}));
             const lines = loginErrorLines(response.status, data);
             console.log(lines.join(' '));
-            messageEl.textContent = "";
-            lines.forEach(line => addMessageLine(messageEl, line));
-            if (response.status === 423 && data.retry_after_seconds > 0) {
-                showLockoutCountdown(messageEl, data);
-            }
+            showLoginAlert(lines, response.status === 423 ? data : null);
             return response;  // Exit early if response is not OK
         }
         // Success: Proceed with callback
@@ -83,16 +79,6 @@ export function login(options) {
         console.log('Possible CORS or Service Down error: ' + error);
         document.getElementById(options.message).textContent = 'Possible CORS or service down error: ' + error;
     });
-}
-
-// One line of a login error, with a blank gap below it so the lines don't run together.
-function addMessageLine(messageEl, text) {
-    const line = document.createElement('span');
-    line.style.display = 'block';
-    line.style.marginBottom = '1em';
-    line.textContent = text;
-    messageEl.appendChild(line);
-    return line;
 }
 
 // 60 -> "1 minute", 180 -> "3 minutes"
@@ -122,26 +108,76 @@ function loginErrorLines(status, data) {
             : 'locked until an admin unlocks it';
         lines.push(`${data.attempts_until_lock} more and your account will be ${lockText}`);
     }
-    // Timed locks get a live countdown line from showLockoutCountdown.
+    // Timed locks get a live countdown in the alert (startLockoutCountdown).
     return lines;
 }
 
-// Live "Try again in m:ss" countdown under a 423 Locked login message.
-function showLockoutCountdown(messageEl, data) {
-    const unlockAt = Date.now() + data.retry_after_seconds * 1000;
-    const countdown = addMessageLine(messageEl, '');
+// Centered pop-up for a failed login (styles: _sass/open-coding/elements/forms/login-alert.scss).
+// The first line is the title; a 423 with a timed lock gets a live countdown.
+function showLoginAlert(lines, lockData) {
+    closeLoginAlert();
+    const backdrop = document.createElement('div');
+    backdrop.className = 'login-alert-backdrop';
+    const alertBox = document.createElement('div');
+    alertBox.className = 'login-alert';
+    alertBox.setAttribute('role', 'alertdialog');
+    alertBox.setAttribute('aria-modal', 'true');
+
+    const addEl = (tag, className, text) => {
+        const el = document.createElement(tag);
+        el.className = className;
+        el.textContent = text;
+        alertBox.appendChild(el);
+        return el;
+    };
+    addEl('div', 'login-alert__icon', lockData ? '🔒' : '!').setAttribute('aria-hidden', 'true');
+    alertBox.setAttribute('aria-labelledby', 'login-alert-title');
+    addEl('p', 'login-alert__title', lines[0]).id = 'login-alert-title';
+    lines.slice(1).forEach(line => addEl('p', 'login-alert__line', line));
+    if (lockData && lockData.retry_after_seconds > 0) {
+        backdrop._lockoutTimer = startLockoutCountdown(addEl('p', 'login-alert__countdown', ''), lockData.retry_after_seconds);
+    }
+    const okButton = addEl('button', 'login-alert__button', 'OK');
+    okButton.type = 'button';
+    okButton.addEventListener('click', closeLoginAlert);
+
+    // Close on the backdrop or Escape, too
+    backdrop.addEventListener('click', event => { if (event.target === backdrop) closeLoginAlert(); });
+    document.addEventListener('keydown', onLoginAlertKeydown);
+
+    backdrop.appendChild(alertBox);
+    document.body.appendChild(backdrop);
+    okButton.focus();
+}
+
+function onLoginAlertKeydown(event) {
+    if (event.key === 'Escape') closeLoginAlert();
+}
+
+function closeLoginAlert() {
+    const backdrop = document.querySelector('.login-alert-backdrop');
+    if (!backdrop) return;
+    clearInterval(backdrop._lockoutTimer);
+    document.removeEventListener('keydown', onLoginAlertKeydown);
+    backdrop.remove();
+}
+
+// Live "Try again in m:ss" countdown inside the alert.
+// Returns the interval id so closeLoginAlert can stop it.
+function startLockoutCountdown(countdownEl, seconds) {
+    const unlockAt = Date.now() + seconds * 1000;
     const tick = () => {
         const left = Math.ceil((unlockAt - Date.now()) / 1000);
         if (left <= 0) {
-            clearInterval(messageEl._lockoutTimer);
-            messageEl.textContent = '';
-            addMessageLine(messageEl, 'Lockout over. You can try logging in again.');
+            clearInterval(timer);
+            countdownEl.textContent = 'Lockout over. You can try logging in again.';
             return;
         }
         const mins = Math.floor(left / 60);
         const secs = String(left % 60).padStart(2, '0');
-        countdown.textContent = `Try again in ${mins}:${secs}`;
+        countdownEl.textContent = `Try again in ${mins}:${secs}`;
     };
+    const timer = setInterval(tick, 1000);
     tick();
-    messageEl._lockoutTimer = setInterval(tick, 1000);
+    return timer;
 }
