@@ -29,6 +29,12 @@
             box-sizing: border-box;
         }
 
+        // Give back the auto margins the reset above takes away, which browsers use to
+        // center a modal <dialog> (showModal()) on the screen.
+        dialog:modal {
+            margin: auto;
+        }
+
         body {
             font-family: 'JetBrains Mono', monospace;
             background: var(--bg-0);
