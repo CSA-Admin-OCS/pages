@@ -115,58 +115,52 @@ function loginErrorLines(status, data) {
     return lines;
 }
 
-// Centered pop-up for a failed login (styles: _sass/open-coding/elements/forms/login-alert.scss).
+// Pop-up for a failed login, built only from existing OCS components (no CSS of its own):
+// a native <dialog> (the browser centers it, dims the page and closes it on Escape)
+// styled as an ocs__card, an ocs__section-title, an ocs__status-pill countdown and an
+// ocs__btn. All of them follow the theme picked in the preferences panel.
 // The first line is the title; a timed lock gets a live countdown.
 function showLoginAlert(lines, lockData) {
     closeLoginAlert();
-    const backdrop = document.createElement('div');
-    backdrop.className = 'login-alert-backdrop';
-    const alertBox = document.createElement('div');
-    alertBox.className = 'login-alert';
-    alertBox.setAttribute('role', 'alertdialog');
-    alertBox.setAttribute('aria-modal', 'true');
+    const dialog = document.createElement('dialog');
+    dialog.id = 'login-alert';
+    dialog.className = 'ocs__card';
+    dialog.setAttribute('aria-labelledby', 'login-alert-title');
 
-    const addEl = (tag, className, text) => {
+    const addEl = (parent, tag, className, text) => {
         const el = document.createElement(tag);
-        el.className = className;
+        if (className) el.className = className;
         el.textContent = text;
-        alertBox.appendChild(el);
+        parent.appendChild(el);
         return el;
     };
-    addEl('div', 'login-alert__icon', '!').setAttribute('aria-hidden', 'true');
-    alertBox.setAttribute('aria-labelledby', 'login-alert-title');
-    addEl('p', 'login-alert__title', lines[0]).id = 'login-alert-title';
-    lines.slice(1).forEach(line => addEl('p', 'login-alert__line', line));
+    addEl(dialog, 'h3', 'ocs__section-title', lines[0]).id = 'login-alert-title';
+    lines.slice(1).forEach(line => addEl(dialog, 'p', '', line));
     if (lockData && lockData.retry_after_seconds > 0) {
-        backdrop._lockoutTimer = startLockoutCountdown(addEl('p', 'login-alert__countdown', ''), lockData.retry_after_seconds);
+        const pill = addEl(addEl(dialog, 'p', '', ''), 'span', 'ocs__status-pill ocs__status-pill--bad', '');
+        dialog._lockoutTimer = startLockoutCountdown(pill, lockData.retry_after_seconds);
     }
-    const okButton = addEl('button', 'login-alert__button ocs__btn medium accent fill', 'OK');
-    okButton.type = 'button';
-    okButton.addEventListener('click', closeLoginAlert);
+    // method="dialog" closes the dialog when OK is pressed, with no script
+    const form = addEl(dialog, 'form', 'ocs__links', '');
+    form.method = 'dialog';
+    // Label straight in the button so the theme presets can't recolor it (see AGENTS.md)
+    addEl(form, 'button', 'ocs__btn medium accent fill', 'OK');
 
-    // Close on the backdrop or Escape, too
-    backdrop.addEventListener('click', event => { if (event.target === backdrop) closeLoginAlert(); });
-    document.addEventListener('keydown', onLoginAlertKeydown);
-
-    backdrop.appendChild(alertBox);
-    document.body.appendChild(backdrop);
-    okButton.focus();
-}
-
-function onLoginAlertKeydown(event) {
-    if (event.key === 'Escape') closeLoginAlert();
+    dialog.addEventListener('close', () => {
+        clearInterval(dialog._lockoutTimer);
+        dialog.remove();
+    });
+    document.body.appendChild(dialog);
+    dialog.showModal();
 }
 
 function closeLoginAlert() {
-    const backdrop = document.querySelector('.login-alert-backdrop');
-    if (!backdrop) return;
-    clearInterval(backdrop._lockoutTimer);
-    document.removeEventListener('keydown', onLoginAlertKeydown);
-    backdrop.remove();
+    const dialog = document.getElementById('login-alert');
+    if (dialog) dialog.close();
 }
 
 // Live "Try again in m:ss" countdown inside the alert.
-// Returns the interval id so closeLoginAlert can stop it.
+// Returns the interval id so the dialog's close handler can stop it.
 function startLockoutCountdown(countdownEl, seconds) {
     const unlockAt = Date.now() + seconds * 1000;
     const tick = () => {
