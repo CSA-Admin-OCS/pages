@@ -103,12 +103,12 @@ function loginErrorLines(status, data) {
         `${status} Error: ${data.locked ? 'Account locked' : 'Invalid user ID or Password'}`,
         `Failed attempts in a row: ${data.failed_attempts}`,
     ];
-    if (data.locked && data.admin_locked) {
-        lines.push('Contact an admin to unlock your account');
+    if (data.locked && data.reset_required) {
+        lines.push('Reset your password with "Forgot your password?" to unlock your account');
     } else if (!data.locked) {
         const lockText = data.next_lock_seconds
             ? `locked for ${formatMinutes(data.next_lock_seconds)}`
-            : 'locked until an admin unlocks it';
+            : 'locked until you reset your password';
         lines.push(`${data.attempts_until_lock} more and your account will be ${lockText}`);
     }
     // Timed locks get a live countdown in the alert (startLockoutCountdown).
@@ -143,8 +143,15 @@ function showLoginAlert(lines, lockData) {
     // method="dialog" closes the dialog when OK is pressed, with no script
     const form = addEl(dialog, 'form', 'ocs__links', '');
     form.method = 'dialog';
-    // Label straight in the button so the theme presets can't recolor it (see AGENTS.md)
-    addEl(form, 'button', 'ocs__btn medium accent fill', 'OK');
+    // Labels straight in the buttons so the theme presets can't recolor them (see AGENTS.md)
+    if (lockData && lockData.reset_required) {
+        // After 15 failures in a row only a password reset unlocks the account
+        const reset = addEl(form, 'a', 'ocs__btn medium accent fill', 'Forgot your password?');
+        reset.href = `${baseurl}/support?topic=reset`;
+        addEl(form, 'button', 'ocs__btn medium accent', 'OK');
+    } else {
+        addEl(form, 'button', 'ocs__btn medium accent fill', 'OK');
+    }
 
     dialog.addEventListener('close', () => {
         clearInterval(dialog._lockoutTimer);
