@@ -1,0 +1,234 @@
+# Copies of the OCS Admin & Security team's GitHub project boards, shown on
+# /capstone/ocs-admin-security/ by _includes/ocs-admin-board-copy.html.
+# The boards are private on GitHub, so the page can't load them live; update
+# these lists by hand when cards move. Each card: title, ref (repo #number), who.
+# stage picks the column's color: backlog, todo, doing, review or done.
+
+security:
+  title: "Vulnerability Risk Evaluation"
+  url: "https://github.com/orgs/CSA-Admin-OCS/projects/5"
+  updated: "Oct 23, 2026"
+  columns:
+    - name: "Todo"
+      stage: todo
+      cards:
+        - { title: "OCS Security Advisories", ref: "OCS-Kit-Pages #2" }
+        - { title: "feat: api keys", ref: "pages #90" }
+        - { title: "CI build integrity pipelines", ref: "pages #52", who: "mataiodoxion" }
+        - { title: "vre: group chat security", ref: "spring #12" }
+        - { title: "vre-0002 arbitrary assignment creation", ref: "pages #102" }
+        - { title: "API issue", ref: "spring #13", who: "ex1stencee, mataiodoxion, xinjiav2" }
+    - name: "In Progress"
+      stage: doing
+      cards:
+        - { title: "vre-0003 display name spoofing", ref: "pages #101" }
+        - { title: "endpoint security no longer permit all", ref: "pages #103" }
+        - { title: "dev: local S3 development", ref: "spring #14" }
+    - name: "In Review"
+      stage: review
+      cards:
+        - { title: "vre-0001 author spoofing", ref: "pages #100" }
+    - name: "Done"
+      stage: done
+      cards:
+        - { title: "Added Password Complexity Checks into Spring and Flask database", ref: "pages #8", who: "ex1stencee, mataiodoxion, xinjiav2" }
+        - { title: "Password Complexity", ref: "pages #11", who: "ex1stencee, xinjiav2" }
+        - { title: "Password complexity frontend", ref: "pages #6", who: "ex1stencee, mataiodoxion, xinjiav2" }
+        - { title: "Add .env option for running code runner locally", ref: "spring #5", who: "ex1stencee, xinjiav2" }
+
+admin:
+  title: "Admin Progress"
+  url: "https://github.com/orgs/CSA-Admin-OCS/projects/1"
+  updated: "Oct 23, 2026"
+  columns:
+    - name: "Backlog"
+      stage: backlog
+      cards:
+        - { title: "Creating OCS In-A-Kit independent capstone", ref: "pages #109", who: "Shayanb1" }
+        - { title: "Think about OCS Research functions", ref: "pages #108" }
+        - { title: "Strip OCS branding", ref: "pages #107" }
+        - { title: "OCS-Kit specific features for each kit", ref: "pages #106" }
+        - { title: "endpoint security no longer permit all", ref: "pages #103" }
+        - { title: "vre-0002 arbitrary assignment creation", ref: "pages #102" }
+        - { title: "vre-0003 display name spoofing", ref: "pages #101" }
+        - { title: "vre-0001 author spoofing", ref: "pages #100" }
+        - { title: "T1: test the Flask and Spring APIs with HTTP request files", ref: "pages #95" }
+        - { title: "F4: make account_types.json a general settings file", ref: "pages #94" }
+        - { title: "F5: guests and observers through Google, to discuss", ref: "pages #93" }
+        - { title: "feat: api keys", ref: "pages #90" }
+        - { title: "Housekeeping: decide what to do with the flask and spring fork main branches", ref: "pages #88" }
+        - { title: "Housekeeping: fast-forward the pages fork's main", ref: "pages #87" }
+        - { title: "Housekeeping and parked work", ref: "pages #86" }
+        - { title: "F4 flask: move the remaining policy values into the data file", ref: "pages #85" }
+        - { title: "F4 spring: the student-email regex in PersonViewController", ref: "pages #84" }
+        - { title: "F4 pages: read the same data (selector values and school-domain checks)", ref: "pages #83" }
+        - { title: "F4 flask: account types as data (model/account_types.json)", ref: "pages #82" }
+        - { title: "Team Structure", ref: "pages #23" }
+    - name: "Ready"
+      stage: todo
+      cards:
+        - { title: "F3: Login workflow", ref: "pages #75" }
+        - { title: "F3 spring (S1): remove the password-complexity check", ref: "pages #76" }
+        - { title: "F3a flask + pages: force a password reset for a weak or default password", ref: "pages #77" }
+        - { title: "F3b flask + pages: yearly student re-verification at login", ref: "pages #78" }
+        - { title: "F2 flask: Status column, deactivate endpoint, Activate/Verify/Deactivate buttons", ref: "pages #73" }
+        - { title: "F3c: Observer role (deferred by the spec)", ref: "pages #79" }
+        - { title: "F3d: domain and test accounts (deferred by the spec)", ref: "pages #80" }
+        - { title: "ai review w/ mentor design", ref: "pages #34" }
+    - name: "In progress"
+      stage: doing
+      cards:
+        - { title: "mentor dashboard", ref: "pages #31", who: "Darshan528" }
+        - { title: "F2: Account Administration screen", ref: "pages #71" }
+        - { title: "F2 flask: staff see all accounts, with Active/Inactive and Role filters", ref: "pages #72" }
+        - { title: "F2 decision: may a Teacher deactivate an Admin?", ref: "pages #74" }
+        - { title: "Migrating pages features to portfolio", ref: "pages #104" }
+        - { title: "Future Work - Whole group", ref: "pages #26" }
+    - name: "In review"
+      stage: review
+      cards:
+        - { title: "Login cookies: Flask logout can't clear a stale JWT cookie", ref: "pages #60", who: "HarrishAhilan" }
+        - { title: "logrotate", ref: "pages #33", who: "mataiodoxion" }
+        - { title: "Mentor Signup/Login", ref: "pages #28" }
+        - { title: "CSA Admin - Collectables HW task plan", ref: "pages #91" }
+    - name: "Done"
+      stage: done
+      cards:
+        - { title: "F4: OCS as a kit, configuration as data (ongoing)", ref: "pages #81" }
+        - { title: "F1: Account activation, sign-up and verification", ref: "pages #62" }
+        - { title: "F1 deploy: migration, GOOGLE_CLIENT_ID, deploy order, real student signup", ref: "pages #65" }
+        - { title: "F1 follow-ups: keep existing features working with inactive-by-default accounts", ref: "pages #66" }
+        - { title: "F1 follow-up flask: guest accounts are created active but unverified", ref: "pages #67" }
+        - { title: "F1 follow-up flask: backup restore keeps who was active", ref: "pages #68" }
+        - { title: "F1 follow-up flask: a pending account can read its own state from /api/id", ref: "pages #69" }
+        - { title: "F1 follow-up flask: dev import scripts still create or restore users inactive", ref: "pages #70" }
+        - { title: "F1 flask: active/last_verified, signup, enforcement, verify and admin-create", ref: "pages #63" }
+        - { title: "F1 pages: Student/Mentor signup selector", ref: "pages #64" }
+        - { title: "Feature 1: account activation and verification (active / last_verified), Flask", ref: "pages #56" }
+        - { title: "Options for packaging OCS", ref: "pages #58" }
+        - { title: "CSA Admin team map and OCS In A Kit teamwork plan", ref: "pages #57" }
+        - { title: "prevent sql inject on calendar feature", ref: "pages #59" }
+        - { title: "CI build integrity pipelines", ref: "pages #52", who: "mataiodoxion" }
+        - { title: "Add .env option for running code runner locally", ref: "pages #51", who: "ex1stencee, xinjiav2" }
+        - { title: "Harrish & Zhengji organization and communication future plan", ref: "pages #50", who: "HarrishAhilan, xinjiav2" }
+        - { title: "09-24-2026 Review, Zhengji, Harrish, Jacob", ref: "pages #48", who: "ex1stencee, HarrishAhilan, xinjiav2" }
+        - { title: "Security Audit Log system", ref: "pages #46", who: "Shayanb1" }
+        - { title: "Presentation Thursday on Groups work - Harrish, Jacob, Zhengji", ref: "pages #45" }
+        - { title: "Catalog for unit 3 lessons needs to be completed", ref: "pages #43" }
+        - { title: "db automatic upgrades", ref: "pages #32", who: "dhyantsoni, mataiodoxion" }
+        - { title: "DB Migration", ref: "pages #10", who: "dhyantsoni" }
+        - { title: "Password Complexity", ref: "pages #11", who: "ex1stencee, xinjiav2" }
+        - { title: "Github id check on signup", ref: "pages #12", who: "ArnavPallapotu, HarrishAhilan" }
+        - { title: "Password Reset", ref: "pages #9", who: "Darshan528, RudraBJoshi, Shayanb1" }
+        - { title: "Support Pages Rework", ref: "pages #7", who: "Darshan528, Shayanb1" }
+        - { title: "Jacob - Week 5 Plan", ref: "pages #36", who: "ex1stencee" }
+        - { title: "zhengji week 5 plan", ref: "pages #38" }
+        - { title: "Dhyan - Week 5 Plan", ref: "pages #35" }
+        - { title: "Darshan - Week 5 plan", ref: "pages #30", who: "Darshan528" }
+        - { title: "Shayan - Week 5 Tasks", ref: "pages #29", who: "Shayanb1" }
+        - { title: "Darshan Ground 0", ref: "pages #24" }
+        - { title: "Ground 0 - Shayan", ref: "pages #22" }
+        - { title: "Onboarding Issues Dhyan", ref: "pages #21" }
+        - { title: "Onboarding Challenge - Lucas", ref: "pages #20" }
+        - { title: "Onboarding Challenge - Zhengji Li", ref: "pages #19", who: "xinjiav2" }
+        - { title: "Onboarding Issue Darshan", ref: "pages #18" }
+        - { title: "Onboarding Issue - Harrish Ahilan", ref: "pages #17" }
+        - { title: "Onboarding Issue - Rudra Joshi", ref: "pages #16", who: "RudraBJoshi" }
+        - { title: "Onboarding Issue - Arnav Pallapotu", ref: "pages #15" }
+        - { title: "Onboarding Issue - Jacob Chou", ref: "pages #25" }
+
+kit:
+  title: "OCS in a Kit"
+  url: "https://github.com/orgs/CSA-Admin-OCS/projects/16"
+  updated: "Oct 23, 2026"
+  columns:
+    - name: "Backlog"
+      stage: backlog
+      cards:
+        - { title: "OCS-Kit specific features for each kit", ref: "pages #106" }
+        - { title: "Migrating pages features to portfolio", ref: "pages #104" }
+        - { title: "endpoint security no longer permit all", ref: "pages #103" }
+        - { title: "vre-0002 arbitrary assignment creation", ref: "pages #102" }
+        - { title: "vre-0003 display name spoofing", ref: "pages #101" }
+        - { title: "vre-0001 author spoofing", ref: "pages #100" }
+        - { title: "Pages features to portfolio", ref: "pages #98" }
+        - { title: "T1: test the Flask and Spring APIs with HTTP request files", ref: "pages #95" }
+        - { title: "ai review w/ mentor design", ref: "pages #34" }
+        - { title: "CI build integrity pipelines", ref: "pages #52", who: "mataiodoxion" }
+        - { title: "Login cookies: Flask logout can't clear a stale JWT cookie", ref: "pages #60", who: "HarrishAhilan" }
+        - { title: "F2: Account Administration screen", ref: "pages #71" }
+        - { title: "F2 flask: staff see all accounts, with Active/Inactive and Role filters", ref: "pages #72" }
+        - { title: "F2 flask: Status column, deactivate endpoint, Activate/Verify/Deactivate buttons", ref: "pages #73" }
+        - { title: "F2 decision: may a Teacher deactivate an Admin?", ref: "pages #74" }
+        - { title: "F3: Login workflow", ref: "pages #75" }
+        - { title: "F3 spring (S1): remove the password-complexity check", ref: "pages #76" }
+        - { title: "F3a flask + pages: force a password reset for a weak or default password", ref: "pages #77" }
+        - { title: "F3d: domain and test accounts (deferred by the spec)", ref: "pages #80" }
+    - name: "Ready"
+      stage: todo
+      cards:
+        - { title: "Strip OCS branding", ref: "pages #107" }
+        - { title: "Think about OCS Research functions", ref: "pages #108" }
+    - name: "In progress"
+      stage: doing
+      cards:
+        - { title: "Creating OCS In-A-Kit independent capstone", ref: "pages #109", who: "Shayanb1" }
+        - { title: "Migrating features from pages into portfolio", ref: "pages #110", who: "dhyantsoni" }
+    - name: "Done"
+      stage: done
+      cards:
+        - { title: "F4: OCS as a kit, configuration as data (ongoing)", ref: "pages #81" }
+        - { title: "F1: Account activation, sign-up and verification", ref: "pages #62" }
+        - { title: "F1 deploy: migration, GOOGLE_CLIENT_ID, deploy order, real student signup", ref: "pages #65" }
+        - { title: "F1 follow-ups: keep existing features working with inactive-by-default accounts", ref: "pages #66" }
+        - { title: "F1 follow-up flask: guest accounts are created active but unverified", ref: "pages #67" }
+        - { title: "F1 follow-up flask: backup restore keeps who was active", ref: "pages #68" }
+        - { title: "F1 follow-up flask: a pending account can read its own state from /api/id", ref: "pages #69" }
+        - { title: "F1 follow-up flask: dev import scripts still create or restore users inactive", ref: "pages #70" }
+        - { title: "Feature 1: account activation and verification (active / last_verified), Flask", ref: "pages #56" }
+        - { title: "Options for packaging OCS", ref: "pages #58" }
+        - { title: "CSA Admin team map and OCS In A Kit teamwork plan", ref: "pages #57" }
+        - { title: "prevent sql inject on calendar feature", ref: "pages #59" }
+        - { title: "Harrish & Zhengji organization and communication future plan", ref: "pages #50", who: "HarrishAhilan, xinjiav2" }
+
+mentor:
+  title: "Mentor Dashboard (Management Progress)"
+  url: "https://github.com/orgs/CSA-Admin-OCS/projects/11"
+  updated: "Oct 23, 2026"
+  columns:
+    - name: "Backlog"
+      stage: backlog
+      cards:
+        - { title: "mentor dashboard", ref: "pages #31", who: "Darshan528" }
+        - { title: "logrotate", ref: "pages #33", who: "mataiodoxion" }
+        - { title: "ai review w/ mentor design", ref: "pages #34" }
+        - { title: "Login cookies: Flask logout can't clear a stale JWT cookie", ref: "pages #60", who: "HarrishAhilan" }
+        - { title: "feat: api keys", ref: "pages #90" }
+        - { title: "CSA Admin - Collectables HW task plan", ref: "pages #91" }
+        - { title: "F5: guests and observers through Google, to discuss", ref: "pages #93" }
+        - { title: "F4: make account_types.json a general settings file", ref: "pages #94" }
+        - { title: "T1: test the Flask and Spring APIs with HTTP request files", ref: "pages #95" }
+        - { title: "Pages features to portfolio", ref: "pages #98" }
+        - { title: "vre-0001 author spoofing", ref: "pages #100" }
+        - { title: "vre-0003 display name spoofing", ref: "pages #101" }
+        - { title: "vre-0002 arbitrary assignment creation", ref: "pages #102" }
+        - { title: "endpoint security no longer permit all", ref: "pages #103" }
+        - { title: "Migrating pages features to portfolio", ref: "pages #104" }
+        - { title: "OCS-Kit specific features for each kit", ref: "pages #106" }
+        - { title: "Strip OCS branding", ref: "pages #107" }
+        - { title: "Think about OCS Research functions", ref: "pages #108" }
+        - { title: "Creating OCS In-A-Kit independent capstone", ref: "pages #109", who: "Shayanb1" }
+        - { title: "Migrating features from pages into portfolio", ref: "pages #110", who: "dhyantsoni" }
+    - name: "Done"
+      stage: done
+      cards:
+        - { title: "09-24-2026 Review, Zhengji, Harrish, Jacob", ref: "pages #48", who: "ex1stencee, HarrishAhilan, xinjiav2" }
+        - { title: "Harrish & Zhengji organization and communication future plan", ref: "pages #50", who: "HarrishAhilan, xinjiav2" }
+        - { title: "Feature 1: account activation and verification (active / last_verified), Flask", ref: "pages #56" }
+        - { title: "CSA Admin team map and OCS In A Kit teamwork plan", ref: "pages #57" }
+        - { title: "Options for packaging OCS", ref: "pages #58" }
+        - { title: "prevent sql inject on calendar feature", ref: "pages #59" }
+        - { title: "DB Migration", ref: "pages #10", who: "dhyantsoni" }
+        - { title: "Onboarding Challenge - Lucas", ref: "pages #20" }
+        - { title: "CI build integrity pipelines", ref: "pages #52", who: "mataiodoxion" }
+        - { title: "db automatic upgrades", ref: "pages #32", who: "dhyantsoni, mataiodoxion" }

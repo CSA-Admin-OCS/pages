@@ -1,0 +1,35 @@
+{% comment %}
+  A copy of one of the OCS Admin team's GitHub boards, built at site build time
+  from _data/ocs-admin-boards.yml. The boards are private, so the live
+  ocs_kanban_board.html include can't read them; this draws the same
+  ocs__kanban columns and cards from the saved copy instead.
+
+  {% raw %}{% include ocs-admin-board-copy.html board="admin" %}{% endraw %}
+{% endcomment %}
+{% assign ocs_board = site.data["ocs-admin-boards"][include.board] %}
+{% assign ocs_board_shown = 6 %}
+{% assign ocs_board_first_hidden = ocs_board_shown | plus: 1 %}
+<section class="ocs__card ocs__keypoints" aria-label="{{ ocs_board.title | escape }} board">
+  <div class="ocs__links">
+    <strong>{{ ocs_board.title | escape }}</strong>
+    <span class="ocs__text">Copy of our GitHub board, updated {{ ocs_board.updated }}</span>
+    <a class="ocs__btn small pill" href="{{ ocs_board.url }}" target="_blank" rel="noopener">Open on GitHub</a>
+  </div>
+  <ul class="ocs__kanban-board">
+    {% for column in ocs_board.columns %}
+    <li class="ocs__kanban-column" data-stage="{{ column.stage }}">
+      <div><strong>{{ column.name | escape }}</strong> <span class="ocs__status-pill ocs__status-pill--neutral">{{ column.cards | size }}</span></div>
+      {% for card in column.cards %}
+      {% if forloop.index == ocs_board_first_hidden %}<details class="ocs__keypoints"><summary class="ocs__status-pill ocs__status-pill--neutral">+{{ column.cards | size | minus: ocs_board_shown }} more</summary>{% endif %}
+      {% assign card_parts = card.ref | split: " #" %}
+      <a class="ocs__kanban-item" href="https://github.com/CSA-Admin-OCS/{{ card_parts[0] }}/issues/{{ card_parts[1] }}" target="_blank" rel="noopener">
+        <div class="ocs__kanban-kicker">{{ card.ref | escape }}</div>
+        <div class="ocs__kanban-name">{{ card.title | escape }}</div>
+        {% if card.who %}<div class="ocs__kanban-note">{{ card.who | escape }}</div>{% endif %}
+      </a>
+      {% if forloop.last and forloop.length > ocs_board_shown %}</details>{% endif %}
+      {% endfor %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -2,6 +2,7 @@
 {% comment %}
   Capstone page body for /capstone/ocs-admin-security/ (OCS Admin & Security team; OCS in a Kit is its first sector).
   Built only from shared ocs__ grammar (_sass/open-coding/elements): no page-specific classes or styles.
+  The four team boards are copies drawn from _data/ocs-admin-boards.yml (the GitHub boards are private); update that file when cards move.
   Each sector lists what shipped, what is in review, and what's next. To move an item, cut its entry
   from one list to the other, then update the count pill beside each heading and the roadmap table.
 {% endcomment %}
@@ -62,6 +63,8 @@
 <div class="ocs__grid-cell"><strong>3</strong><br>Deploy pages, then Flask</div>
 <div class="ocs__grid-cell"><strong>4</strong><br>Sign up one real student and confirm activation</div>
 </div>
+<h3 class="ocs__section-title">Kit board</h3>
+{% include ocs-admin-board-copy.html board="kit" %}
 </div>
 
 <div class="ocs__card" id="security">
@@ -108,7 +111,8 @@
 <div class="ocs__grid-cell"><strong>4</strong><br>Password changed</div>
 <div class="ocs__grid-cell"><strong>5</strong><br>Active tokens invalidated</div>
 </div>
-<div class="ocs__callout"><div class="ocs__links"><a class="ocs__btn medium alert-green fill" href="https://github.com/orgs/CSA-Admin-OCS/projects/5/views/2">See Security tasks on our GitHub project board</a></div></div>
+<h3 class="ocs__section-title">Security board</h3>
+{% include ocs-admin-board-copy.html board="security" %}
 </div>
 
 <div class="ocs__card" id="backend">
@@ -153,7 +157,9 @@
 <div class="ocs__grid-cell"><strong>4</strong><br>Active flag and verified date saved</div>
 </div>
 <div class="ocs__callout"><strong>Deferred:</strong> the Observer role, which needs authorization from a student and then from staff, and domain or test accounts, which stay out until their requirements are clearer.</div>
-<div class="ocs__callout"><div class="ocs__links"><a class="ocs__btn medium alert-green fill" href="https://github.com/orgs/CSA-Admin-OCS/projects/6/">Accounts and mentor tasks</a><a class="ocs__btn medium" href="https://github.com/orgs/CSA-Admin-OCS/projects/7/">Database and infrastructure tasks</a></div></div>
+<h3 class="ocs__section-title">Mentor dashboard board</h3>
+{% include ocs-admin-board-copy.html board="mentor" %}
+<div class="ocs__callout"><div class="ocs__links"><a class="ocs__btn medium" href="https://github.com/orgs/CSA-Admin-OCS/projects/7/">Database and infrastructure tasks</a></div></div>
 </div>
 
 <div class="ocs__card" id="vision">
@@ -181,6 +187,8 @@
 </tbody>
 </table>
 </div>
+<h3 class="ocs__section-title">Team board</h3>
+{% include ocs-admin-board-copy.html board="admin" %}
 <h3 class="ocs__section-title">How we work</h3>
 <div class="ocs__grid ocs__grid--standard cols-2">
 <div class="ocs__grid-cell"><strong>Three sectors, three reps</strong><br>One rep each for security, mentor, and kit work speaks for that area.</div>
