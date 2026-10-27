@@ -618,6 +618,10 @@ git checkout &lt;previous commit&gt; && docker compose up -d --build</code></pre
               <td>2026-10-21</td><td>Flask</td><td><code>dac2786</code> → <code>b58c2f6</code>: 9 presence tables, <code>users.kasm_server_needed</code> retired</td><td>02 (by hand)</td>
               <td>19 → 28 tables on RDS, all 676 users still active, ids unchanged</td>
             </tr>
+            <tr>
+              <td>2026-10-26</td><td>Flask</td><td><code>d100bcc</code> → <code>fed6db4</code>: PRs 2–4 (flask#105–107), no schema change</td><td>03</td>
+              <td>dump of 28 tables taken first; <code>db_upgrade.py --check</code> on production: <em>Up to date</em>. A hand edit to <code>scripts/db_init.py</code> on cockpit (the same mysqldump fix) was saved to <code>~/flask_db_init_local_edit_20261026.patch</code> so the pull could go through</td>
+            </tr>
           </tbody>
         </table>
       </div>
