@@ -1,0 +1,18 @@
+# OCS-in-a-Kit Capstone Infographic
+Title: "OCS-in-a-Kit"
+Description: "Turning Open Coding Society's in-use classroom platform into a school-neutral, installable product: three technology-specific repos (Pages, Spring, Flask) ship one codebase each, configurable into Vanilla, Education, or Business kits through a feature-flag catalog instead of separate forks."
+
+Team:
+  - "Shayan"
+
+Repos:
+  - name: "OCS-Kit-Vanilla (installer + catalog)"
+    url: "https://github.com/CSA-Admin-OCS/OCS-Kit-Vanilla"
+  - name: "OCS-Kit-Pages"
+    url: "https://github.com/CSA-Admin-OCS/OCS-Kit-Pages"
+  - name: "OCS-Kit-Flask"
+    url: "https://github.com/CSA-Admin-OCS/OCS-Kit-Flask"
+  - name: "OCS-Kit-Spring"
+    url: "https://github.com/CSA-Admin-OCS/OCS-Kit-Spring"
+
+Year: "2026-2027"
