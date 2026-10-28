@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function(){
    <!-- OCS-in-a-Kit -->
    <div class="ocs__grid-cell CSA" data-year="2026-2027">
      <a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">
-       <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder" style="background: linear-gradient(135deg, #6366f1, #22c55e);">OCS Kit</div>
+       <img src="{{ '/images/OCS-Kit-Capstone.png' | relative_url }}" alt="OCS-in-a-Kit" class="ocs__image-frame ocs__image-frame--thumbnail" />
      </a>
      <div>
        <h3><a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">OCS-in-a-Kit</a></h3>
