@@ -106,10 +106,11 @@ function canSelfJoin(project, viewer) {
     return viewer.roles.includes('ROLE_STUDENT') || viewer.roles.includes('ROLE_USER');
 }
 
-// In the mentor view Chat is only for projects the mentor was approved for; every other
-// viewer sees it on every card.
+// Chat needs a signed-in viewer. In the mentor view it is only for projects the mentor was
+// approved for; every other signed-in viewer sees it on every card.
 function canShowChat(project, viewer) {
-    if (viewFor(viewer?.roles ?? []) !== 'mentor') return true;
+    if (!viewer) return false;
+    if (viewFor(viewer.roles) !== 'mentor') return true;
     return viewer.mentoredProjectIds.has(project.id);
 }
 
