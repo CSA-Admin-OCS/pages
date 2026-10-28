@@ -50,8 +50,8 @@ show_reading_time: false
         <div id="oauth-verification" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h3 style="color: #6366f1; margin-bottom: 1rem;">🎓 School Email Verification</h3>
             <p style="margin-bottom: 1.5rem; color: #d1d5db;">
-                Please sign in with your school Google account to verify you're a Poway USD student or teacher.
-                <br><strong>You must use an email ending in @stu.powayusd.com or @powayusd.com</strong>
+                <span id="oauth-prompt-text"></span>
+                <br><strong id="oauth-domains"></strong>
             </p>
             <div id="g_id_onload"
                  data-client_id="{{ site.google_client_id }}"
@@ -284,12 +284,16 @@ show_reading_time: false
     // This list is only what the form falls back on when Flask cannot be asked, such as a Flask that has not
     // been updated yet: the options the markup has.
     const FALLBACK_TYPES = [
-        { id: 'student', label: 'I am a Student', asks_school: true, email_required: true, spring_account: true, google_step: true, requires_open_window: false, note: null },
-        { id: 'mentor', label: 'I am a Mentor', asks_school: false, email_required: true, spring_account: true, google_step: false, requires_open_window: false, note: null },
+        { id: 'student', label: 'I am a Student', asks_school: true, email_required: true, spring_account: true, google_step: true,
+          google_domains: ['stu.powayusd.com', 'powayusd.com'],
+          google_prompt: "Please sign in with your school Google account to verify you're a Poway USD student or teacher.",
+          requires_open_window: false, note: null },
+        { id: 'mentor', label: 'I am a Mentor', asks_school: false, email_required: true, spring_account: true, google_step: false, google_domains: [], google_prompt: null, requires_open_window: false, note: null },
     ];
     let signupTypes = FALLBACK_TYPES;
     let windowCloses = null;  // when the Guest Window closes, while it is open
     const typeOf = id => signupTypes.find(type => type.id === id) || signupTypes[0];
+    const domainList = type => (type.google_domains || []).map(domain => '@' + domain).join(' or ');
 
     // Spring is used when the site has it, and the account type gets a Spring account: a guest, for one,
     // would be given a full account.
@@ -435,6 +439,10 @@ show_reading_time: false
         reverifying = false;
         document.getElementById('reverify').style.display = 'none';
         document.getElementById('signupForm').style.display = 'none';
+        // what the account type says about the Google step is Flask's data
+        const type = typeOf(signupFormData.accountType);
+        document.getElementById('oauth-prompt-text').textContent = type.google_prompt || '';
+        document.getElementById('oauth-domains').textContent = domainList(type) ? `You must use an email ending in ${domainList(type)}` : '';
         document.getElementById('oauth-verification').style.display = 'block';
     }
 
@@ -450,7 +458,10 @@ show_reading_time: false
 
     function showOAuthStatus(message, isError = false) {
         const statusDiv = document.getElementById('oauth-status');
-        statusDiv.innerHTML = `<div class="${isError ? 'oauth-error' : 'oauth-success'}">${message}</div>`;
+        const line = document.createElement('div');
+        line.className = isError ? 'oauth-error' : 'oauth-success';
+        line.textContent = message;  // text, never markup
+        statusDiv.replaceChildren(line);
     }
 
     // After login, a student whose verification has lapsed signs in with Google once more.
@@ -481,8 +492,10 @@ show_reading_time: false
         try {
             const userInfo = parseJwt(response.credential);
             const email = userInfo.email;
-            if (!email.endsWith('@stu.powayusd.com') && !email.endsWith('@powayusd.com')) {
-                showOAuthStatus('❌ You must use your school email address ending with @stu.powayusd.com or @powayusd.com', true);
+            // The account type says which email domains the Google step accepts. With none named, Flask decides.
+            const type = typeOf(signupFormData.accountType);
+            if (type.google_domains && type.google_domains.length > 0 && !type.google_domains.some(domain => email.endsWith('@' + domain))) {
+                showOAuthStatus(`❌ You must use your school email address ending with ${domainList(type)}`, true);
                 return;
             }
             verifiedSchoolEmail = email;
