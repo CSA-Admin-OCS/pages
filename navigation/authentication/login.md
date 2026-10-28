@@ -165,7 +165,7 @@ show_reading_time: false
     import { login, pythonURI, javaURI, fetchOptions, GOOGLE_CLIENT_ID, springEnabled } from '{{site.baseurl}}/assets/js/api/config.js';
     import { fetchPerson, clearRoleViewCache } from '{{site.baseurl}}/assets/js/api/role-view.js';
     import { reverifyNeeded, staffMustVerify, reverify } from '{{site.baseurl}}/assets/js/api/reverify.js';
-    import { SPRING_PASSWORD_RULES, meetsSpringPasswordRules, attachPasswordChecklist } from '{{site.baseurl}}/assets/js/api/passwordRules.js';
+    import { SPRING_PASSWORD_RULES, meetsSpringPasswordRules, attachPasswordChecklist, mustResetPassword } from '{{site.baseurl}}/assets/js/api/passwordRules.js';
 
     let signupFormData = {};
     let verifiedSchoolEmail = null;
@@ -607,6 +607,13 @@ show_reading_time: false
                 document.getElementById('loginPending').hidden = false;
                 return;
             }
+            // The default or a weak password must be reset before anything else (see passwordRules.js).
+            if (flaskBody && mustResetPassword(document.getElementById('password').value)) {
+                await clearFlaskSession();
+                logoutSpring();
+                showPasswordResetRequired();
+                return;
+            }
             const finish = async () => {
                 // A limited account (a guest) has no Spring account and no profile: it goes to the home page.
                 if (flaskBody && flaskBody.user && flaskBody.user.limited) {
@@ -645,6 +652,21 @@ show_reading_time: false
             finish();
         });
     };
+
+    // Drops the Spring session too, so a forced reset does not leave the user half signed in.
+    function logoutSpring() {
+        fetch(`${javaURI}/api/logout`, { ...fetchOptions, method: 'POST' })
+            .catch(error => console.warn('Spring logout after forced reset failed:', error.message));
+    }
+
+    function showPasswordResetRequired() {
+        const messageEl = document.getElementById('message');
+        messageEl.innerHTML = '';
+        messageEl.append(
+            'Your password is the default or too weak, so you must reset it before you log in. ',
+            springLink('{{site.baseurl}}/support?topic=reset', 'Reset your password'),
+        );
+    }
 
     // Drops a Flask session left over from an earlier login on this browser.
     async function clearFlaskSession() {

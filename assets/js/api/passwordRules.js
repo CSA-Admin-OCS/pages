@@ -16,6 +16,15 @@ export function meetsSpringPasswordRules(password) {
     return PASSWORD_RULES.every((rule) => rule.test(password));
 }
 
+// The password every seeded account starts with (Flask's DEFAULT_PASSWORD). It meets the rules
+// above, so it has to be named: login forces a reset for it.
+export const DEFAULT_PASSWORD = '123Qwerty!';
+
+// Login forces a password reset for the default password or one that is too weak.
+export function mustResetPassword(password) {
+    return password === DEFAULT_PASSWORD || !meetsSpringPasswordRules(password);
+}
+
 // Renders the rules as a checklist under `input` that ticks off as the user types.
 export function attachPasswordChecklist(input) {
     if (!input) return;
