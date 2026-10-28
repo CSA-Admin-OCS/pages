@@ -27,7 +27,7 @@ show_reading_time: false
         <hr>
         <div id="loginPending" class="login-notice login-notice--pending" role="status" hidden>
             <h3>Verification Pending</h3>
-            <p>Your mentor account has not been verified yet. Please wait for an administrator to approve your account before accessing the mentor portal.</p>
+            <p>Your account is not active yet. A Teacher or Admin must verify and activate it before you can log in.</p>
             <p>Your account and signup information are saved, so you won't need to register again.</p>
         </div>
         <form id="pythonForm" onsubmit="loginBoth(); return false;">
@@ -64,7 +64,7 @@ show_reading_time: false
         <hr>
         <div id="signupMentorPending" class="login-notice login-notice--pending" role="status" hidden>
             <h3>Mentor Verification Pending</h3>
-            <p>Your mentor account has been created successfully. An administrator must verify your account before you can access the mentor portal.</p>
+            <p>Your mentor account has been created. A Teacher or Admin must verify and activate it before you can log in.</p>
             <p>You will be able to log in normally once your account has been verified.</p>
         </div>
         <!-- Google OAuth Section (initially hidden) -->
@@ -134,9 +134,6 @@ show_reading_time: false
             <div class="form-group">
                 <input type="email" id="signupEmail" placeholder="Personal (not school) Email" required>
             </div>
-            <div class="form-group" id="signupBusinessEmailGroup" hidden>
-                <input type="email" id="signupBusinessEmail" placeholder="Business / Work Email">
-            </div>
             <div class="form-group">
                 <input type="password" id="signupPassword" placeholder="Password" required>
             </div>
@@ -166,7 +163,7 @@ show_reading_time: false
 
 <script type="module">
     import { login, pythonURI, javaURI, fetchOptions, GOOGLE_CLIENT_ID, springEnabled } from '{{site.baseurl}}/assets/js/api/config.js';
-    import { fetchPerson, roleNames, clearRoleViewCache } from '{{site.baseurl}}/assets/js/api/role-view.js';
+    import { fetchPerson, clearRoleViewCache } from '{{site.baseurl}}/assets/js/api/role-view.js';
     import { reverifyNeeded, staffMustVerify, reverify } from '{{site.baseurl}}/assets/js/api/reverify.js';
     import { SPRING_PASSWORD_RULES, meetsSpringPasswordRules, attachPasswordChecklist } from '{{site.baseurl}}/assets/js/api/passwordRules.js';
 
@@ -174,23 +171,26 @@ show_reading_time: false
     let verifiedSchoolEmail = null;
     let validationTimeout = null;
 
-    // Kept as references so the Flask chip can be detached for mentors and restored.
-    const flaskStatusEl = document.getElementById('flaskStatus');
-    const springStatusEl = document.getElementById('springStatus');
+    const accountTypeSelect = document.getElementById('signupRole');
 
     function isMentorMode() {
-        return document.querySelector('[data-account-role="mentor"]').getAttribute('aria-pressed') === 'true';
+        return accountTypeSelect.value === 'mentor';
+    }
+
+    // The pills just set the account type select, so there is one source of truth.
+    function selectAccountRole(button) {
+        accountTypeSelect.value = button.dataset.accountRole;
+        accountTypeSelect.dispatchEvent(new Event('change'));
     }
 
     // Selected option uses the OCS "accent fill" pill; the other stays a plain pill.
-    function selectAccountRole(button) {
+    function showSelectedAccountRole() {
         document.querySelectorAll('[data-account-role]').forEach(option => {
-            const selected = option === button;
+            const selected = option.dataset.accountRole === accountTypeSelect.value;
             option.setAttribute('aria-pressed', String(selected));
             option.classList.toggle('accent', selected);
             option.classList.toggle('fill', selected);
         });
-        updateSignupModeUI();
     }
 
     const STUDENT_ID_AS_GITHUB_ID_PATTERN = /^\d{7}$/;
@@ -198,16 +198,6 @@ show_reading_time: false
     function validateGithubId() {
         const githubIdField = document.getElementById('signupUid');
         const messageDiv = document.getElementById('github-id-validation-message');
-
-        // This check only makes sense for students, who might mistakenly type their
-        // 7-digit student ID into what's asking for a GitHub username. Mentors don't
-        // have a student ID to confuse it with, and aren't necessarily asked for a
-        // GitHub account at all (see updateSignupModeUI) -- so skip it for them.
-        if (isMentorMode()) {
-            githubIdField.setCustomValidity('');
-            messageDiv.textContent = '';
-            return true;
-        }
 
         const isStudentId = STUDENT_ID_AS_GITHUB_ID_PATTERN.test(githubIdField.value.trim());
         const message = isStudentId ? 'Enter your GitHub ID, not your 7-digit student ID.' : '';
@@ -219,49 +209,27 @@ show_reading_time: false
 
     document.getElementById('signupUid').addEventListener('input', validateGithubId);
 
-    // Mentor signup drops Student ID, school and the Google step, and asks for a business
-    // email instead (see signupMentor). A hidden-but-required field still blocks form
-    // submission, so the required attribute has to come off, not just the display.
+    // Mentor signup has no Google step: Flask creates the account inactive until a Teacher/Admin
+    // activates it in Account Administration. Student ID and school are hidden by the
+    // signupRole change listener below.
     function updateSignupModeUI() {
         const isMentor = isMentorMode();
-        const sidGroup = document.getElementById('signupSidGroup');
-        const schoolGroup = document.getElementById('signupSchoolGroup');
-        const sidField = document.getElementById('signupSid');
-        const schoolField = document.getElementById('signupSchool');
-        const emailField = document.getElementById('signupEmail');
-
-        sidGroup.hidden = isMentor;
-        schoolGroup.hidden = isMentor;
-        sidField.required = !isMentor;
-        schoolField.required = !isMentor;
-        emailField.placeholder = isMentor ? 'Personal Email' : 'Personal (not school) Email';
-        // Spring requires a business email for mentors (shown to the admin on the mentor ticket).
-        document.getElementById('signupBusinessEmailGroup').hidden = !isMentor;
-        document.getElementById('signupBusinessEmail').required = isMentor;
+        document.getElementById('signupEmail').placeholder = isMentor ? 'Personal Email' : 'Personal (not school) Email';
         document.getElementById('mentorSignupNote').hidden = !isMentor;
         document.getElementById('signupMentorPending').hidden = true;
         document.getElementById('signupTitle').textContent = isMentor ? 'Mentor Sign Up' : 'Sign Up';
         document.getElementById('accountRoleHint').textContent = isMentor
             ? 'Mentor accounts require administrator verification before access to the mentor portal is granted.'
             : 'Students sign up with their school information and Google account.';
-        document.getElementById('uid').placeholder = isMentor ? 'Username' : 'GitHub ID';
-        // Mentor accounts are created in Spring only. .status-item sets display, which
-        // overrides the hidden attribute, so the Flask chip is detached instead.
-        if (isMentor) flaskStatusEl.remove();
-        else if (!flaskStatusEl.isConnected) springStatusEl.before(flaskStatusEl);
         document.getElementById('overallStatus').classList.add('hidden');
         window.showSignupForm();
-
-        // "GitHub ID" is a student-signup concept (matches their GitHub Classroom
-        // handle); a mentor has no reason to have or know one. The field is still
-        // required -- it's their login username either way -- just relabeled, and
-        // re-validated immediately so a leftover "not your student ID" message from
-        // switching modes doesn't linger.
-        const uidField = document.getElementById('signupUid');
-        uidField.placeholder = isMentor ? 'Username' : 'GitHub ID';
         validateGithubId();
     }
 
+    accountTypeSelect.addEventListener('change', () => {
+        showSelectedAccountRole();
+        updateSignupModeUI();
+    });
     document.querySelectorAll('[data-account-role]').forEach(button => button.addEventListener('click', () => selectAccountRole(button)));
 
     // Password validation with debouncing (1.5 second delay)
@@ -443,7 +411,7 @@ show_reading_time: false
         email.required = this.value !== 'guest';
         email.placeholder = this.value === 'guest' ? 'Email (optional, helps you keep one account)' : 'Personal (not school) Email';
         document.getElementById('guest-note').hidden = this.value !== 'guest';
-        if (springEnabled) document.getElementById('springStatus').style.display = this.value === 'guest' ? 'none' : '';
+        if (springEnabled) document.getElementById('springStatus').style.display = noSchool ? 'none' : '';
         ['signupSid', 'signupSchool'].forEach(id => {
             const field = document.getElementById(id);
             field.required = !noSchool;
@@ -463,11 +431,6 @@ show_reading_time: false
 
         // Check password confirmation
         if (!validateSignupForm()) {
-            return;
-        }
-
-        if (isMentorMode()) {
-            signupMentor();
             return;
         }
 
@@ -510,55 +473,6 @@ show_reading_time: false
         document.getElementById('oauth-verification').hidden = true;
         document.getElementById('signupForm').hidden = false;
         clearOAuthStatus();
-    }
-
-    // Mentor accounts live in Spring only. Spring's /api/person/create accepts a signup
-    // without a Google token only when accountType is exactly "mentor"; the account is
-    // created as ROLE_PENDING with a MentorTicket that an admin approves.
-    async function signupMentor() {
-        const signupButton = document.querySelector('#signupForm button[type="submit"]');
-        const overallEl = document.getElementById('overallStatus');
-        signupButton.disabled = true;
-        updateBackendStatus('spring', 'pending');
-        overallEl.classList.add('hidden');
-        overallEl.classList.remove('success', 'partial', 'error');
-
-        let errorMessage = null;
-        try {
-            const response = await fetch(`${javaURI}/api/person/create`, {
-                ...fetchOptions,
-                method: "POST",
-                body: JSON.stringify({
-                    accountType: "mentor",
-                    name: document.getElementById("name").value,
-                    uid: document.getElementById("signupUid").value,
-                    email: document.getElementById("signupEmail").value,
-                    businessEmail: document.getElementById("signupBusinessEmail").value,
-                    password: document.getElementById("signupPassword").value,
-                }),
-            });
-            if (!response.ok) {
-                const raw = await response.text();
-                let detail = raw;
-                try { detail = JSON.parse(raw).error || raw; } catch (_) { /* keep raw text */ }
-                errorMessage = `Mentor signup failed: ${detail || response.status}`;
-            }
-        } catch (error) {
-            errorMessage = `Mentor signup failed: ${error.message}`;
-        }
-
-        signupButton.disabled = false;
-        if (errorMessage) {
-            console.error(errorMessage);
-            updateBackendStatus('spring', 'error');
-            overallEl.classList.remove('hidden');
-            overallEl.classList.add('error');
-            overallEl.textContent = `💥 ${errorMessage}`;
-            return;
-        }
-        updateBackendStatus('spring', 'success');
-        document.getElementById('signupForm').hidden = true;
-        document.getElementById('signupMentorPending').hidden = false;
     }
 
     function clearOAuthStatus() {
@@ -683,9 +597,16 @@ show_reading_time: false
         });
         document.getElementById('loginPending').hidden = true;
         Promise.allSettled([javaPromise, pythonPromise]).then(async ([javaOutcome, pythonOutcome]) => {
-            // pythonLogin resolves with Flask's login body, or false when Flask refused. Mentors
-            // exist only in Spring, so a Flask failure alone does not stop the login.
+            // pythonLogin resolves with Flask's login body, or false when Flask refused. A mentor
+            // created before the Flask signup exists only in Spring, so a Flask failure alone does not stop the login.
             const flaskBody = pythonOutcome.value;
+            // An inactive account (a mentor awaiting a Teacher/Admin) is not let in or asked to re-verify.
+            if (flaskBody && flaskBody.user && flaskBody.user.active === false) {
+                await clearFlaskSession();
+                document.getElementById('message').textContent = '';
+                document.getElementById('loginPending').hidden = false;
+                return;
+            }
             const finish = async () => {
                 // A limited account (a guest) has no Spring account and no profile: it goes to the home page.
                 if (flaskBody && flaskBody.user && flaskBody.user.limited) {
@@ -694,13 +615,6 @@ show_reading_time: false
                 }
                 // Spring decides the mentor/student view (see role-view.js).
                 const person = springEnabled ? await fetchPerson() : null;
-                if (person && roleNames(person).includes('ROLE_PENDING') && await hasPendingMentorTicket()) {
-                    // A mentor awaiting approval must not reach the mentor portal.
-                    document.getElementById('message').textContent = '';
-                    document.getElementById('loginPending').hidden = false;
-                    logoutSpring();
-                    return;
-                }
                 if (person || (flaskBody && !springEnabled)) {
                     // A Spring-only account (a mentor) must not inherit an earlier Flask
                     // login: the navbar asks Flask first and would show that person instead.
@@ -731,24 +645,6 @@ show_reading_time: false
             finish();
         });
     };
-
-    // ROLE_PENDING alone can't tell a pending mentor from other unapproved signups,
-    // so ask Spring whether this account has an open mentor application.
-    async function hasPendingMentorTicket() {
-        try {
-            const response = await fetch(`${javaURI}/api/person/mentor/ticket/status`, fetchOptions);
-            return response.ok && !!(await response.json()).pending;
-        } catch (error) {
-            console.warn('Could not read mentor ticket status:', error.message);
-            return false;
-        }
-    }
-
-    // Drops the Spring session so a pending mentor isn't left half signed in.
-    function logoutSpring() {
-        fetch(`${javaURI}/api/logout`, { ...fetchOptions, method: 'POST' })
-            .catch(error => console.warn('Spring logout after pending login failed:', error.message));
-    }
 
     // Drops a Flask session left over from an earlier login on this browser.
     async function clearFlaskSession() {
@@ -908,8 +804,6 @@ show_reading_time: false
             password: data.password,
             kasmServerNeeded: data.kasm_server_needed,
             idToken: data.idToken,
-            // Only "mentor" takes Spring's no-idToken path (see signupMentor); students
-            // keep the mandatory Google verification.
             accountType: data.role,
         };
 
@@ -953,6 +847,13 @@ show_reading_time: false
             }
 
             updateBackendStatus('flask', 'success');
+            // A mentor exists only in Flask until a Teacher/Admin activates the account, so there
+            // is no Spring signup to make: tell them to wait for activation.
+            if (data.accountType === 'mentor') {
+                document.getElementById('signupForm').hidden = true;
+                document.getElementById('signupMentorPending').hidden = false;
+                return;
+            }
             if (!usesSpring()) {
                 setTimeout(updateOverallStatus, 500);
                 return;
