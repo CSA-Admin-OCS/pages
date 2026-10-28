@@ -369,6 +369,19 @@ document.addEventListener('DOMContentLoaded', function(){
        <p>Team: Vibha Mandayam (RFID), Ruta Sirdeshmukh (QR), Kush Shah (Camera)</p>
      </div>
    </div>
+
+
+   <!-- OCS-in-a-Kit -->
+   <div class="ocs__grid-cell CSH" data-year="2026-2027">
+     <a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">
+       <div class="ocs__image-frame ocs__image-frame--thumbnail capstone-card-placeholder" style="background: linear-gradient(135deg, #6366f1, #22c55e);">OCS Kit</div>
+     </a>
+     <div>
+       <h3><a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">OCS-in-a-Kit</a></h3>
+       <p>Turns Open Coding Society's in-use classroom platform into a school-neutral, installable product. One codebase each for Pages, Spring, and Flask ships Vanilla, Education, and Business presets through a tagged feature catalog and installer, with an upstream sync toolchain that scrubs school-specific data before any feature is imported.</p>
+       <p>Team: Shayan</p>
+     </div>
+   </div>
     <!-- Jarvis Classroom Object Detection -->
     <div class="ocs__grid-cell CSH" data-year="{{ site.data.jarvis_infograph.Year }}" data-frontend-url="{{ site.data.jarvis_infograph.Repo }}">
       <a href="{% post_url capstone/2026-09-01-jarvis-capstone %}">
