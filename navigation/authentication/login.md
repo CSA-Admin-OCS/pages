@@ -9,17 +9,6 @@ show_reading_time: false
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<!-- Student/Mentor selector: switches the signup form and wording. Where an account goes after
-     login (student, pending mentor, verified mentor) is always decided by Spring's roles. -->
-<section class="login-role">
-    <h3 class="login-role__title">Create an Account</h3>
-    <div class="ocs__links login-role__options" role="group" aria-label="Account type" aria-describedby="accountRoleHint">
-        <button type="button" class="ocs__btn pill accent fill" data-account-role="student" aria-pressed="true">Student</button>
-        <button type="button" class="ocs__btn pill" data-account-role="mentor" aria-pressed="false">Mentor</button>
-    </div>
-    <div id="accountRoleHint" class="login-role__hint">Students sign up with their school information and Google account.</div>
-</section>
-
 <div class="login-container">
     <!-- Python Login Form -->
     <div class="login-card">
@@ -177,22 +166,6 @@ show_reading_time: false
         return accountTypeSelect.value === 'mentor';
     }
 
-    // The pills just set the account type select, so there is one source of truth.
-    function selectAccountRole(button) {
-        accountTypeSelect.value = button.dataset.accountRole;
-        accountTypeSelect.dispatchEvent(new Event('change'));
-    }
-
-    // Selected option uses the OCS "accent fill" pill; the other stays a plain pill.
-    function showSelectedAccountRole() {
-        document.querySelectorAll('[data-account-role]').forEach(option => {
-            const selected = option.dataset.accountRole === accountTypeSelect.value;
-            option.setAttribute('aria-pressed', String(selected));
-            option.classList.toggle('accent', selected);
-            option.classList.toggle('fill', selected);
-        });
-    }
-
     const STUDENT_ID_AS_GITHUB_ID_PATTERN = /^\d{7}$/;
 
     function validateGithubId() {
@@ -218,19 +191,12 @@ show_reading_time: false
         document.getElementById('mentorSignupNote').hidden = !isMentor;
         document.getElementById('signupMentorPending').hidden = true;
         document.getElementById('signupTitle').textContent = isMentor ? 'Mentor Sign Up' : 'Sign Up';
-        document.getElementById('accountRoleHint').textContent = isMentor
-            ? 'Mentor accounts require administrator verification before access to the mentor portal is granted.'
-            : 'Students sign up with their school information and Google account.';
         document.getElementById('overallStatus').classList.add('hidden');
         window.showSignupForm();
         validateGithubId();
     }
 
-    accountTypeSelect.addEventListener('change', () => {
-        showSelectedAccountRole();
-        updateSignupModeUI();
-    });
-    document.querySelectorAll('[data-account-role]').forEach(button => button.addEventListener('click', () => selectAccountRole(button)));
+    accountTypeSelect.addEventListener('change', updateSignupModeUI);
 
     // Password validation with debouncing (1.5 second delay)
     function validatePasswordsDebounced() {

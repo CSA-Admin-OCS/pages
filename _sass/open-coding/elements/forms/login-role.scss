@@ -1,41 +1,8 @@
-// /login: Student/Mentor selector and mentor notices. Built on the OCS panel mixin and
-// theme tokens so it follows the user's color preferences; the toggle itself is the
-// standard ocs__btn pill grammar (selected option adds "accent fill"). The hint and the
-// login message are divs because the theme forces a light color on every <p>.
+// /login: mentor notices and login message. Built on the OCS panel mixin and theme tokens
+// so it follows the user's color preferences. The login message is a div because the
+// theme forces a light color on every <p>.
 
 @import "../../mixins/panel";
-
-.login-role {
-  max-width: 440px;
-  margin: 0 auto 2rem;
-  text-align: center;
-
-  &__title {
-    margin: 0 0 0.75rem;
-  }
-
-  &__options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.35rem;
-    padding: 0.35rem;
-    border: 1px solid var(--ui-border);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--pref-text-color) 4%, var(--pref-bg-color));
-
-    .ocs__btn {
-      width: 100%;
-      margin: 0;
-      justify-content: center;
-    }
-  }
-
-  &__hint {
-    margin: 0.75rem 0 0;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-}
 
 .login-notice {
   @include info-panel(1rem 1.25rem, 1px, 1.25rem);
