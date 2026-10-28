@@ -95,8 +95,8 @@
         // mentor account -- with a switch to flip views -- and for a pending applicant,
         // who still sees the normal student sidebar since they aren't a mentor yet.
         function applySidebar(isMentor, isPending, isMentorAcct = false) {
-            defaultEl.style.display = isMentor ? 'none' : 'block';
-            mentorEl.style.display = isMentor ? 'block' : 'none';
+            defaultEl.hidden = isMentor;
+            mentorEl.hidden = !isMentor;
             const showBar = isMentorAcct || isPending;
             badgeEl.hidden = !showBar;
             badgeEl.classList.toggle('mentor-badge--pending', !isMentorAcct && isPending);

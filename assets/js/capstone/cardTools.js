@@ -1,7 +1,9 @@
 // /capstone card tools, for everyone (navigation/capstone.md):
 //   - "Mentors (n)": who is currently mentoring the project (names from GET /api/capstones).
 //     Only on projects that have a mentor.
-//   - "Chat": on every project. It is the chat of the project's student group
+//   - "Chat": on every project, except in the mentor view, where it is only on the projects
+//     the mentor was approved for (their chat is with that project's team). It is the chat
+//     of the project's student group
 //     (CapstoneGroupLinkService; created on first open via POST /api/capstones/{id}/chat),
 //     so the team sees the same conversation in their normal group chat. Anyone signed in
 //     can read it; the team, its approved mentors (mentor view) and admins/teachers can
@@ -16,16 +18,12 @@ import { javaURI, fetchOptions } from '../api/config.js';
 import { fetchPerson, roleNames, viewFor } from '../api/role-view.js';
 import { cardUrl, cardActionGroup } from './cardActions.js';
 import { mountGroupChat } from '../chat/groupChatPanel.js';
-import { iconButton, setIconLabel } from './cardIcons.js';
+import { labelButton, setLabel } from './cardButtons.js';
 
 
 export async function initCardTools(grid) {
-    // The Links menu button is created by the page's non-module script; give it the same
-    // icon + label format as the other card buttons.
-    grid.querySelectorAll('.capstone-links-button').forEach((button) => setIconLabel(button, 'link', 'Links'));
-    // Same for the page's floating Edit / New buttons.
-    setPageActionIcon('editCapstoneFab', 'pencil', 'Edit');
-    setPageActionIcon('ncFab', 'plus', 'New');
+    // The Links menu button is created by the page's non-module script without a label.
+    grid.querySelectorAll('.capstone-links-button').forEach((button) => setLabel(button, 'Links'));
     const projectsByUrl = await loadProjects();
     const viewer = await loadViewer();
     grid.querySelectorAll(':scope > div').forEach((card) => {
@@ -35,15 +33,10 @@ export async function initCardTools(grid) {
         const extra = cardActionGroup(card, 'extra');
         if (!extra) return;
         // Chat first, so it is in the same place on every card.
-        extra.append(chatButton(project, viewer));
+        if (canShowChat(project, viewer)) extra.append(chatButton(project, viewer));
         if (project.mentorNames.length > 0) extra.append(mentorsButton(extra, project));
         if (canSelfJoin(project, viewer)) extra.append(joinChatButton(extra, project, viewer));
     });
-}
-
-function setPageActionIcon(id, icon, label) {
-    const button = document.getElementById(id);
-    if (button) setIconLabel(button, icon, label);
 }
 
 // ---------- data ----------
@@ -113,10 +106,17 @@ function canSelfJoin(project, viewer) {
     return viewer.roles.includes('ROLE_STUDENT') || viewer.roles.includes('ROLE_USER');
 }
 
+// In the mentor view Chat is only for projects the mentor was approved for; every other
+// viewer sees it on every card.
+function canShowChat(project, viewer) {
+    if (viewFor(viewer?.roles ?? []) !== 'mentor') return true;
+    return viewer.mentoredProjectIds.has(project.id);
+}
+
 // ---------- Mentors popover ----------
 
 function mentorsButton(row, project) {
-    const button = iconButton('ocs__btn small accent', 'people', `Mentors (${project.mentorNames.length})`);
+    const button = labelButton('ocs__btn small accent', `Mentors (${project.mentorNames.length})`);
     button.setAttribute('aria-expanded', 'false');
 
     const panel = document.createElement('div');
@@ -150,7 +150,7 @@ function mentorsButton(row, project) {
 const chat = { dialog: null, panel: null };
 
 function chatButton(project, viewer) {
-    const button = iconButton('ocs__btn small accent fill', 'chat', 'Chat');
+    const button = labelButton('ocs__btn small accent fill', 'Chat');
     button.addEventListener('click', () => openChat(project, viewer));
     return button;
 }
@@ -159,7 +159,7 @@ function chatButton(project, viewer) {
 // same endpoint the admin page uses, then opens the chat with posting enabled; the card's
 // "Chat" button covers it from then on, so this button goes away.
 function joinChatButton(row, project, viewer) {
-    const button = iconButton('ocs__btn small accent', 'send', 'Message Mentor');
+    const button = labelButton('ocs__btn small accent', 'Message Mentor');
     button.addEventListener('click', async () => {
         button.disabled = true;
         try {
@@ -197,7 +197,7 @@ function chatDialog() {
     const dialog = document.createElement('dialog');
     dialog.className = 'capstone-chat';
     dialog.setAttribute('aria-label', 'Capstone chat');
-    const close = iconButton('ocs__btn small accent capstone-chat__close', 'x', 'Close');
+    const close = labelButton('ocs__btn small accent capstone-chat__close', 'Close');
     close.setAttribute('aria-label', 'Close chat');
     close.addEventListener('click', () => dialog.close());
     const body = document.createElement('div');

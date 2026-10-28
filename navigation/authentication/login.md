@@ -411,7 +411,7 @@ show_reading_time: false
         ['signupSid', 'signupSchool'].forEach(id => {
             const field = document.getElementById(id);
             field.required = !isMentor;
-            field.closest('.form-group').style.display = isMentor ? 'none' : '';
+            field.closest('.form-group').hidden = isMentor;
         });
     });
 
@@ -650,6 +650,9 @@ show_reading_time: false
                     return;
                 }
                 if (person || (flaskBody && !springEnabled)) {
+                    // A Spring-only account (a mentor) must not inherit an earlier Flask
+                    // login: the navbar asks Flask first and would show that person instead.
+                    if (!flaskBody) await clearFlaskSession();
                     // A new session starts in the account's own view (mentor for mentors).
                     clearRoleViewCache();
                     window.location.href = '{{site.baseurl}}/profile';
@@ -693,6 +696,15 @@ show_reading_time: false
     function logoutSpring() {
         fetch(`${javaURI}/api/logout`, { ...fetchOptions, method: 'POST' })
             .catch(error => console.warn('Spring logout after pending login failed:', error.message));
+    }
+
+    // Drops a Flask session left over from an earlier login on this browser.
+    async function clearFlaskSession() {
+        try {
+            await fetch(`${pythonURI}/api/authenticate`, { ...fetchOptions, method: 'DELETE' });
+        } catch (error) {
+            console.warn('Could not clear the earlier Flask session:', error.message);
+        }
     }
 
     // A Mentor's verification has lapsed. Only a Teacher or Admin can verify it, and the

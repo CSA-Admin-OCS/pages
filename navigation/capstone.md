@@ -10,7 +10,7 @@ show_reading_time: false
 <!-- markdownlint-disable MD033 MD046 -->
 <link rel="stylesheet" href="/assets/css/new-capstone.css">
 
-<!-- Floating page actions: icons and labels are set by cardTools.js; placement is in
+<!-- Floating page actions: the labels are set by cardTools.js; placement is in
      capstone-cards.scss. -->
 <div class="capstone-page-actions">
   <button id="editCapstoneFab" type="button" class="ocs__btn small accent" title="Edit capstone">Edit</button>
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function(){
 import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 import { viewFor } from '{{ site.baseurl }}/assets/js/api/role-view.js';
 import { cardUrl, cardActionGroup } from '{{ site.baseurl }}/assets/js/capstone/cardActions.js';
-import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js';
+import { setLabel } from '{{ site.baseurl }}/assets/js/capstone/cardButtons.js';
 
 (async function () {
   // Wait for the script above (which sets card.dataset.pageUrl for the few
@@ -461,16 +461,16 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
   }
 
   const APPLY_STATES = {
-    none:     { label: 'Apply Now',        icon: 'send',    variant: 'accent fill',      enabled: true },
-    pending:  { label: 'Pending approval', icon: 'clock',   variant: 'alert-yellow',     enabled: false },
-    approved: { label: 'Approved',         icon: 'check',   variant: 'alert-green fill', enabled: false },
-    denied:   { label: 'Not approved',     icon: 'xCircle', variant: 'alert-red',        enabled: false },
+    none:     { label: 'Apply Now',        variant: 'accent fill',      enabled: true },
+    pending:  { label: 'Pending approval', variant: 'alert-yellow',     enabled: false },
+    approved: { label: 'Approved',         variant: 'alert-green fill', enabled: false },
+    denied:   { label: 'Not approved',     variant: 'alert-red',        enabled: false },
   };
 
   function showApplyState(button, state) {
-    const { label, icon, variant, enabled } = APPLY_STATES[state];
+    const { label, variant, enabled } = APPLY_STATES[state];
     button.className = `ocs__btn small ${variant}`;
-    setIconLabel(button, icon, label);
+    setLabel(button, label);
     button.disabled = !enabled;
     button.title = state === 'pending' ? 'An admin must approve your application before you get access to this project.' : '';
   }
@@ -490,13 +490,13 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
   const skipped = readSet(SKIPPED_KEY);
 
   const resetBtn = document.getElementById('mentor-reset-marks');
-  setIconLabel(resetBtn, 'undo', 'Reset');
+  setLabel(resetBtn, 'Reset');
   // One per card that can carry a mark: puts the card back to its unmarked look.
   const cardResetters = [];
 
   function updateCounter() {
-    setIconLabel(interestedCountEl, 'star', `Interested: ${interested.size}`);
-    setIconLabel(skippedCountEl, 'x', `Skipped: ${skipped.size}`);
+    setLabel(interestedCountEl, `Interested: ${interested.size}`);
+    setLabel(skippedCountEl, `Skipped: ${skipped.size}`);
     resetBtn.disabled = interested.size === 0 && skipped.size === 0;
   }
 
@@ -550,16 +550,16 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
     const interestedBtn = document.createElement('button');
     interestedBtn.type = 'button';
     interestedBtn.className = 'ocs__btn small alert-green';
-    setIconLabel(interestedBtn, 'star', 'Interested');
+    setLabel(interestedBtn, 'Interested');
 
     const skipBtn = document.createElement('button');
     skipBtn.type = 'button';
     skipBtn.className = 'ocs__btn small alert-red';
-    setIconLabel(skipBtn, 'x', 'Skip');
+    setLabel(skipBtn, 'Skip');
 
     // A marked project shows a filled "Interested" button that can no longer be clicked.
     function showInterested() {
-      setIconLabel(interestedBtn, 'starFill', 'Interested');
+      setLabel(interestedBtn, 'Interested');
       interestedBtn.classList.add('fill');
       interestedBtn.disabled = true;
     }
@@ -568,7 +568,7 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
     // clickable as "Unskip" so the mentor can change their mind.
     function showSkipped() {
       card.classList.add('capstone-card--skipped');
-      setIconLabel(skipBtn, 'undo', 'Unskip');
+      setLabel(skipBtn, 'Unskip');
       skipBtn.classList.add('fill');
       skipBtn.setAttribute('aria-pressed', 'true');
       applyBtn.disabled = true;
@@ -578,7 +578,7 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
     // Restores the card to exactly how it would look had it never been skipped.
     function showUnskipped() {
       card.classList.remove('capstone-card--skipped');
-      setIconLabel(skipBtn, 'x', 'Skip');
+      setLabel(skipBtn, 'Skip');
       skipBtn.classList.remove('fill');
       skipBtn.setAttribute('aria-pressed', 'false');
       showApplyState(applyBtn, applyStateFor(idByUrl[url]));
@@ -586,7 +586,7 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
     }
 
     function showNotInterested() {
-      setIconLabel(interestedBtn, 'star', 'Interested');
+      setLabel(interestedBtn, 'Interested');
       interestedBtn.classList.remove('fill');
     }
 
@@ -598,12 +598,12 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
     applyBtn.addEventListener('click', async () => {
       const id = idByUrl[url];
       if (!id) {
-        setIconLabel(applyBtn, 'clock', "Hasn't synced yet");
+        setLabel(applyBtn, "Hasn't synced yet");
         setTimeout(() => showApplyState(applyBtn, 'none'), 2500);
         return;
       }
       applyBtn.disabled = true;
-      setIconLabel(applyBtn, 'send', 'Applying…');
+      setLabel(applyBtn, 'Applying…');
       try {
         const res = await fetch(`${javaURI}/api/capstones/${id}/apply`, { ...fetchOptions, method: 'POST' });
         if (res.status === 409) {
@@ -619,7 +619,7 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
           // was not sent, so say so instead of inviting a retry that can't work.
           console.warn(`Capstone: apply refused (HTTP ${res.status}) -- not signed in as an approved mentor`);
           applyBtn.className = 'ocs__btn small alert-yellow';
-          setIconLabel(applyBtn, 'xCircle', 'Log in as a mentor to apply');
+          setLabel(applyBtn, 'Log in as a mentor to apply');
           applyBtn.title = 'Your application was not sent. Log in with an approved mentor account, then apply again.';
           applyBtn.disabled = false;
           applyBtn.addEventListener('click', (event) => {
@@ -630,16 +630,16 @@ import { setIconLabel } from '{{ site.baseurl }}/assets/js/capstone/cardIcons.js
           // Spring's rate limiter (per IP, per minute): nothing is wrong with the
           // application, it just has to be sent again shortly.
           console.warn('Capstone: apply rate-limited (HTTP 429)');
-          setIconLabel(applyBtn, 'clock', 'Busy, try again in a minute');
+          setLabel(applyBtn, 'Busy, try again in a minute');
           applyBtn.disabled = false;
         } else {
           console.error(`Capstone: apply failed (HTTP ${res.status})`);
-          setIconLabel(applyBtn, 'send', 'Try again');
+          setLabel(applyBtn, 'Try again');
           applyBtn.disabled = false;
         }
       } catch (e) {
         console.error('Capstone: apply failed', e);
-        setIconLabel(applyBtn, 'send', 'Try again');
+        setLabel(applyBtn, 'Try again');
         applyBtn.disabled = false;
       }
     });

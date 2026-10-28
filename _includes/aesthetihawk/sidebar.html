@@ -7,7 +7,7 @@
 <div id="sidebar-role-default">
   {% include aesthetihawk/sidebar-list.html data=site.data.aesthetihawk_sidebar %}
 </div>
-<div id="sidebar-role-mentor" style="display:none;">
+<div id="sidebar-role-mentor" hidden>
   {% include aesthetihawk/sidebar-list.html data=site.data.aesthetihawk_sidebar prefix="mentor-" exclude="bathroom_pass,analytics,grades,submissions" %}
   {% include aesthetihawk/sidebar-list.html data=site.data.aesthetihawk_sidebar_mentor prefix="mentor-" %}
 </div>
@@ -17,8 +17,8 @@
   // while the real /api/person/get check (in the layout, below) re-verifies it.
   try {
     if (localStorage.getItem('ocsMentorSidebar') === 'mentor') {
-      document.getElementById('sidebar-role-default').style.display = 'none';
-      document.getElementById('sidebar-role-mentor').style.display = 'block';
+      document.getElementById('sidebar-role-default').hidden = true;
+      document.getElementById('sidebar-role-mentor').hidden = false;
       const badge = document.getElementById('mentor-badge');
       if (badge) {
         badge.hidden = false;
