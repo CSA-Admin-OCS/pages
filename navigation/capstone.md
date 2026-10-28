@@ -399,23 +399,15 @@ import { setLabel } from '{{ site.baseurl }}/assets/js/capstone/cardButtons.js';
 
   // Only an approved mentor (ROLE_MENTOR) gets the hover actions below --
   // everyone else (including a pending mentor applicant) sees the plain grid.
-  //
-  // Local-only preview: login.md's "mentor" GitHub ID shortcut sets this flag and
-  // sends you straight here, so the backend role check below is skipped entirely --
-  // lets the mentor UI be previewed without a real, admin-approved Spring account.
-  // Gated to localhost so a stray flag can never grant this on the deployed site.
-  const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  let isMentor = isLocalhost && localStorage.getItem('ocsDevMentorPreview') === 'true';
-  if (!isMentor) {
-    try {
-      const res = await fetch(`${javaURI}/api/person/get`, fetchOptions);
-      if (res.ok) {
-        const person = await res.json();
-        const roles = Array.isArray(person.roles) ? person.roles.map(r => r.name) : [];
-        isMentor = viewFor(roles) === 'mentor';
-      }
-    } catch (e) { /* not logged in / offline -- treat as not a mentor */ }
-  }
+  let isMentor = false;
+  try {
+    const res = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+    if (res.ok) {
+      const person = await res.json();
+      const roles = Array.isArray(person.roles) ? person.roles.map(r => r.name) : [];
+      isMentor = viewFor(roles) === 'mentor';
+    }
+  } catch (e) { /* not logged in / offline -- treat as not a mentor */ }
   if (!isMentor) return;
 
   const cards = Array.from(grid.querySelectorAll(':scope > div'));
