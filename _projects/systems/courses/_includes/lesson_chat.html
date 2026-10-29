@@ -103,7 +103,7 @@
   }
 
   function eventKey(event) {
-    return [event?.sender || '', event?.date || '', event?.message || ''].join('|');
+    return [event?.author || '', event?.date || '', event?.message || ''].join('|');
   }
 
   function matchesLesson(rawMessage) {
@@ -177,10 +177,10 @@
       (messages || []).forEach((msg) => {
         const stripped = matchesLesson(msg.message);
         if (stripped === null) return;
-        const key = eventKey({ sender: msg.name, date: msg.date, message: msg.message });
+        const key = eventKey({ author: msg.author, date: msg.date, message: msg.message });
         if (state.seenKeys.has(key)) return;
         state.seenKeys.add(key);
-        appendMessage({ sender: msg.name, message: stripped, date: msg.date });
+        appendMessage({ sender: msg.author, message: stripped, date: msg.date });
       });
     } catch (err) {
       console.warn('Lesson chat: history load failed', err);
@@ -194,7 +194,7 @@
     const key = eventKey(event);
     if (state.seenKeys.has(key)) return;
     state.seenKeys.add(key);
-    appendMessage({ sender: event.sender, message: stripped, date: event.date });
+    appendMessage({ sender: event.author, message: stripped, date: event.date });
   }
 
   function connect() {
