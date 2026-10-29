@@ -516,7 +516,7 @@
   }
 
   function eventKey(event) {
-    return [event?.sender || '', event?.date || '', event?.message || ''].join('|');
+    return [event?.author || '', event?.date || '', event?.message || ''].join('|');
   }
 
   /* ── Local preview mode ─────────────────────────────────────────────
@@ -667,10 +667,10 @@
       if (!res.ok) { console.warn('Announcement chat: history HTTP', res.status); return; }
       const messages = await res.json();
       (messages || []).forEach((msg) => {
-        const key = eventKey({ sender: msg.name, date: msg.date, message: msg.message });
+        const key = eventKey({ author: msg.author, date: msg.date, message: msg.message });
         if (state.seenKeys.has(key)) return;
         state.seenKeys.add(key);
-        appendMessage({ id: msg.id, sender: msg.name, message: msg.message, date: msg.date, edited: msg.edited });
+        appendMessage({ id: msg.id, sender: msg.author, message: msg.message, date: msg.date, edited: msg.edited });
       });
     } catch (err) {
       console.warn('Announcement chat: history load failed', err);
@@ -691,7 +691,7 @@
     const key = eventKey(event);
     if (state.seenKeys.has(key)) return;
     state.seenKeys.add(key);
-    appendMessage({ id: event.messageId, sender: event.sender, message: event.message, date: event.date });
+    appendMessage({ id: event.messageId, sender: event.author, message: event.message, date: event.date });
   }
 
   function connect() {
