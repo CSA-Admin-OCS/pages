@@ -331,7 +331,13 @@
       if (state.connected) return resolve(true);
       if (typeof SockJS === 'undefined' || typeof Stomp === 'undefined') { return resolve(false); }
       setStatus('connecting…');
-      const socket = new SockJS(buildChatSocketEndpoint());
+      const socket = new SockJS(
+          buildChatSocketEndpoint(),
+          null,
+          {
+              transports: ['xhr-streaming', 'xhr-polling']
+          }
+      );
       const client = Stomp.over(socket);
       client.debug = null;
       state.stompClient = client;

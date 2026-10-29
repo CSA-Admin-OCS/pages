@@ -205,7 +205,13 @@
         return resolve(false);
       }
       setStatus('connecting…');
-      const socket = new SockJS(buildChatSocketEndpoint());
+      const socket = new SockJS(
+          buildChatSocketEndpoint(),
+          null,
+          {
+              transports: ['xhr-streaming', 'xhr-polling']
+          }
+      );
       const client = Stomp.over(socket);
       client.debug = null;
       state.stompClient = client;
