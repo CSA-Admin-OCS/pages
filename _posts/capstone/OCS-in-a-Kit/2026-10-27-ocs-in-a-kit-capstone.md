@@ -19,15 +19,6 @@ oik_active: hub
 {% include ocs-in-a-kit-nav.html %}
 
 <div class="ocs__card">
-  <div class="ocs__stats">
-    <div class="ocs__stat"><span class="ocs__stat-value">4</span><span class="ocs__stat-label">Repos</span></div>
-    <div class="ocs__stat"><span class="ocs__stat-value">3</span><span class="ocs__stat-label">Kits</span></div>
-    <div class="ocs__stat"><span class="ocs__stat-value">16</span><span class="ocs__stat-label">Features</span></div>
-    <div class="ocs__stat"><span class="ocs__stat-value">32</span><span class="ocs__stat-label">Commits so far</span></div>
-  </div>
-</div>
-
-<div class="ocs__card">
   <h3 class="ocs__section-title">The App</h3>
   <div class="ocs__table-wrap">
     <table class="ocs__table">
