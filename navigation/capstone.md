@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function(){
      </a>
      <div>
        <h3><a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">OCS-in-a-Kit</a></h3>
-       <p>Turns Open Coding Society's in-use classroom platform into a school-neutral, installable product. One codebase each for Pages, Spring, and Flask ships Vanilla, Education, and Business presets through a tagged feature catalog and installer, with an upstream sync toolchain that scrubs school-specific data before any feature is imported.</p>
+       <p>Turns Open Coding Society's classroom platform into a school-neutral, installable kit. One script installs any of 3 kits — Vanilla, Education, Business — each bundling a Portfolio frontend with Flask and Spring backends.</p>
        <p>Team: Shayan, Dhyan, Arnav</p>
      </div>
    </div>
