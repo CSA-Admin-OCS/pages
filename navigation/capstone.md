@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function(){
      <div>
        <h3><a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">OCS-in-a-Kit</a></h3>
        <p>Turns Open Coding Society's in-use classroom platform into a school-neutral, installable product. One codebase each for Pages, Spring, and Flask ships Vanilla, Education, and Business presets through a tagged feature catalog and installer, with an upstream sync toolchain that scrubs school-specific data before any feature is imported.</p>
-       <p>Team: Shayan</p>
+       <p>Team: Shayan, Dhyan, Arnav</p>
      </div>
    </div>
     <!-- Jarvis Classroom Object Detection -->
