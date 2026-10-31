@@ -32,8 +32,8 @@ export async function initCardTools(grid) {
         // Project info goes on its own line under the card text.
         const extra = cardActionGroup(card, 'extra');
         if (!extra) return;
-        // Chat first, so it is in the same place on every card.
-        if (canShowChat(project, viewer)) extra.append(chatButton(project, viewer));
+        // The card "Chat" button is switched off for now: re-add
+        // `if (canShowChat(project, viewer)) extra.append(chatButton(project, viewer));` here.
         if (project.mentorNames.length > 0) extra.append(mentorsButton(extra, project));
         if (canSelfJoin(project, viewer)) extra.append(joinChatButton(extra, project, viewer));
     });
