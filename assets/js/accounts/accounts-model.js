@@ -1,5 +1,5 @@
 // Pure rules for the Account Administration page. No DOM and no network, so they can be
-// tested on their own. An account is the user object from Flask's GET /api/users:
+// tested on their own. An account is the user object from Flask's GET /api/user:
 // { uid, name, email, role, active, last_verified, verification_state }.
 
 export const STATUS_FILTERS = ['all', 'active', 'inactive'];

@@ -11,7 +11,7 @@
         <td id="logoutLink"></td>
     </tr>
 </table>
-<p id="pendingApprovalMessage" role="status" style="display: none; text-align: center;">
+<p id="pendingApprovalMessage" class="pending-approval-message" role="status" hidden>
     Your account is awaiting administrator approval. Toolkit access will be available after approval.
 </p>
 
@@ -32,15 +32,10 @@
                 const pendingApprovalMessage = document.getElementById('pendingApprovalMessage');
 
                 if (data?.pendingApproval) {
-                    signupLink.style.display = 'none';
-                    loginLink.style.display = 'none';
-                    calendarLink.style.display = 'none';
-                    profileLink.style.display = 'none';
-                    studentToolkitLink.style.display = 'none';
-                    teacherToolkitLink.style.display = 'none';
-                    mentorLink.style.display = 'none';
+                    [signupLink, loginLink, calendarLink, profileLink, studentToolkitLink,
+                     teacherToolkitLink, mentorLink].forEach(link => { link.hidden = true; });
                     logoutLink.innerHTML = `<a href="{{site.baseurl}}/logoutjava">Logout of Toolkit</a>`;
-                    pendingApprovalMessage.style.display = 'block';
+                    pendingApprovalMessage.hidden = false;
                 } else if (data) { // User is authenticated
                     // Hide signup and login links
                     signupLink.style.display = 'none';
@@ -60,7 +55,7 @@
                         teacherToolkitLink.innerHTML = `<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>`;
                     }
 
-                    mentorLink.style.display = 'none';
+                    mentorLink.hidden = true;
 
                     // Display logout link
                     logoutLink.innerHTML = `<a href="{{site.baseurl}}/logoutjava">Logout of Toolkit</a>`;
@@ -74,7 +69,7 @@
                     profileLink.style.display = 'none';
                     studentToolkitLink.style.display = 'none';
                     teacherToolkitLink.style.display = 'none';
-                    mentorLink.style.display = 'none';
+                    mentorLink.hidden = true;
                     logoutLink.style.display = 'none';
                 }
             })

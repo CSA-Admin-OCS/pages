@@ -96,7 +96,7 @@ export async function initAccountsPage(api) {
             say('Account Administration is only available to Teachers and Admins.');
             return;
         }
-        state.accounts = await flaskJson(api, '/api/users');
+        state.accounts = await flaskJson(api, '/api/user');
     } catch (error) {
         console.error('Accounts: could not load accounts', error);
         say(`Log in as a Teacher or Admin to manage accounts. (${error.message})`);

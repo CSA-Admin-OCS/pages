@@ -74,3 +74,8 @@
 body.mentor-bar-active .lesson-sidebar {
   top: var(--mentor-bar-bottom);
 }
+
+// "Awaiting administrator approval" line in the toolkit menu (_includes/nav/homejava.html).
+.pending-approval-message {
+  text-align: center;
+}
