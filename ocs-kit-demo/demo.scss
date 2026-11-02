@@ -51,10 +51,6 @@ $bar-grad: linear-gradient(180deg, $soft, $accent 60%, rgba($accent, 0.35));
   overflow: hidden;
 }
 
-@mixin mono-emoji {
-  filter: grayscale(1) brightness(1.35);
-}
-
 @mixin sheen {
   background: linear-gradient(90deg, rgba(#fff, 0.06), rgba(#fff, 0.18), rgba(#fff, 0.06));
   background-size: 200% 100%;
@@ -290,6 +286,11 @@ section {
     opacity: 0.5;
     cursor: default;
   }
+
+  .icon {
+    width: 1.05em;
+    height: 1.05em;
+  }
 }
 
 .eyebrow {
@@ -321,8 +322,24 @@ h2 {
   }
 }
 
-.e {
-  @include mono-emoji;
+// Inline SVG icons (Lucide). The sprite is hidden, each <use> inherits the text color.
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.125em;
 }
 
 // ---------- nav ----------
@@ -569,15 +586,19 @@ nav {
 }
 
 .mt {
-  @include mono-emoji;
   aspect-ratio: 1;
   border-radius: 14px;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
+  color: $soft;
   background: rgba(#fff, 0.06);
   border: 1px solid $line;
   animation: pulse 3.6s ease-in-out infinite;
+
+  .icon {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
 
   &:nth-child(3n + 1) {
     animation-delay: -0.6s;
@@ -825,11 +846,15 @@ nav {
   }
 
   .ic {
-    @include mono-emoji;
-    font-size: 1.8rem;
     display: block;
     margin-bottom: 10px;
-    transition: transform 0.4s;
+    color: $muted;
+    transition: transform 0.4s, color 0.4s;
+
+    .icon {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
   }
 
   .nm {
@@ -854,6 +879,7 @@ nav {
 
     .ic {
       transform: scale(1.15) rotate(-6deg);
+      color: $soft;
     }
   }
 
@@ -1038,6 +1064,12 @@ nav {
     color: $bg;
     background: $btn-grad;
     box-shadow: 0 0 40px rgba($accent, 0.5);
+
+    .icon {
+      width: 1.9rem;
+      height: 1.9rem;
+      stroke-width: 2.5;
+    }
   }
 
   h3 {
@@ -1430,15 +1462,19 @@ canvas.fill {
   opacity: 0.5;
 
   span {
-    @include mono-emoji;
     width: 48px;
     height: 48px;
     border-radius: 50%;
     display: grid;
     place-items: center;
-    font-size: 1.4rem;
+    color: $soft;
     background: rgba(#fff, 0.08);
     border: 2px solid $line;
+
+    .icon {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
   }
 
   &.on {
@@ -1512,16 +1548,20 @@ canvas.fill {
   }
 
   .ic {
-    @include mono-emoji;
     width: 56px;
     height: 56px;
     border-radius: 16px;
     display: grid;
     place-items: center;
-    font-size: 1.7rem;
+    color: $soft;
     background: rgba($accent, 0.16);
     border: 1px solid rgba($accent, 0.3);
     margin-bottom: 18px;
+
+    .icon {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
   }
 
   h3 {
