@@ -21,10 +21,10 @@ show_reading_time: false
         </div>
         <form id="pythonForm" onsubmit="loginBoth(); return false;">
             <div class="form-group">
-                <input type="text" id="uid" placeholder="GitHub ID" required>
+                <input type="text" id="uid" name="username" placeholder="GitHub ID" aria-label="GitHub ID" autocomplete="username" autocapitalize="none" spellcheck="false" required>
             </div>
             <div class="form-group">
-                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" placeholder="Password" aria-label="Password" autocomplete="current-password" required>
             </div>
             <p>
                 <button type="submit" class="large primary submit-button">Login</button>
@@ -87,7 +87,7 @@ show_reading_time: false
                 You are creating a <strong>mentor account</strong>. Mentor accounts require administrator verification before access to the mentor portal is granted.
             </p>
             <div class="form-group">
-                <select id="signupRole">
+                <select id="signupRole" aria-label="Account type">
                     <option value="student" selected>I am a Student</option>
                     <option value="mentor">I am a Mentor</option>
                     <option value="guest" id="guestOption" hidden disabled>I am a guest</option>
@@ -99,17 +99,17 @@ show_reading_time: false
                 </p>
             </div>
             <div class="form-group">
-                <input type="text" id="name" placeholder="Name" required>
+                <input type="text" id="name" name="name" placeholder="Name" aria-label="Name" autocomplete="name" required>
             </div>
             <div class="form-group">
-                <input type="text" id="signupUid" placeholder="GitHub ID" aria-describedby="github-id-validation-message" required>
+                <input type="text" id="signupUid" name="username" placeholder="GitHub ID" aria-label="GitHub ID" aria-describedby="github-id-validation-message" autocomplete="username" autocapitalize="none" spellcheck="false" required>
                 <div id="github-id-validation-message" class="validation-message error" aria-live="polite"></div>
             </div>
             <div class="form-group" id="signupSidGroup">
-                <input type="text" id="signupSid" placeholder="Student ID" required>
+                <input type="text" id="signupSid" placeholder="Student ID" aria-label="Student ID" required>
             </div>
             <div class="form-group" id="signupSchoolGroup">
-                <select id="signupSchool" required>
+                <select id="signupSchool" aria-label="High school" required>
                     <option value="" disabled selected>Select Your High School</option>
                     <option value="Abraxas High School">Abraxas</option>
                     <option value="Del Norte High School">Del Norte</option>
@@ -121,14 +121,14 @@ show_reading_time: false
                 </select>
             </div>
             <div class="form-group">
-                <input type="email" id="signupEmail" placeholder="Personal (not school) Email" required>
+                <input type="email" id="signupEmail" name="email" placeholder="Personal (not school) Email" aria-label="Personal email" autocomplete="email" required>
             </div>
             <div class="form-group">
-                <input type="password" id="signupPassword" placeholder="Password" required>
+                <input type="password" id="signupPassword" name="password" placeholder="Password" aria-label="New password" autocomplete="new-password" required>
             </div>
             <!-- Confirm Password Field -->
             <div class="form-group">
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <input type="password" id="confirmPassword" name="confirm-password" placeholder="Confirm Password" aria-label="Confirm password" autocomplete="new-password" required>
                 <div id="password-validation-message" class="validation-message"></div>
             </div>
             <p>

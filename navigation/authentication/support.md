@@ -26,7 +26,7 @@ show_reading_time: false
         <hr>
         <div id="reset-step-uid" class="support-step active">
             <div class="form-group">
-                <input type="text" id="resetUid" placeholder="GitHub ID" aria-label="GitHub ID" required>
+                <input type="text" id="resetUid" name="username" placeholder="GitHub ID" aria-label="GitHub ID" autocomplete="username" autocapitalize="none" spellcheck="false" required>
             </div>
             <p>
                 <button type="button" class="large primary submit-button" onclick="startOAuthReset()">Verify with School Account</button>
@@ -44,10 +44,10 @@ show_reading_time: false
         </div>
         <div id="reset-step-password" class="support-step">
             <div class="form-group">
-                <input type="password" id="resetNewPassword" placeholder="New Password" aria-label="New Password" minlength="8" required>
+                <input type="password" id="resetNewPassword" name="new-password" placeholder="New Password" aria-label="New Password" autocomplete="new-password" minlength="8" required>
             </div>
             <div class="form-group">
-                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password" aria-label="Confirm New Password" minlength="8" required>
+                <input type="password" id="resetConfirmPassword" name="confirm-password" placeholder="Confirm New Password" aria-label="Confirm New Password" autocomplete="new-password" minlength="8" required>
             </div>
             <p id="reset-password-validation-message"></p>
             <p>
