@@ -124,6 +124,7 @@ async function getCredentials(baseurl) {
 }
 
 async function getSpringCredentials() {
+    if (!springEnabled) return null;
     try {
         const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
         if (!response.ok) return null;
