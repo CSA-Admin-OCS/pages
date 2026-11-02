@@ -3,155 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OCS-in-a-Kit | Interactive Demo</title>
-<meta name="description" content="An interactive, no-install look at OCS-in-a-Kit: pick a kit, toggle features, and watch a classroom platform install itself.">
+<title>OCS-in-a-Kit | Demo</title>
+<meta name="description" content="A one minute demo of OCS-in-a-Kit: installation and the three kits.">
 <link rel="stylesheet" href="demo.css">
 <script>document.documentElement.className = 'js';</script>
 </head>
 <body>
-<!-- Icons: Lucide (ISC License, Copyright (c) 2026 Lucide Icons and Contributors), https://lucide.dev -->
-<svg class="sprite" width="0" height="0" aria-hidden="true"><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 5v16" /><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /></symbol><symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /></symbol><symbol id="i-gamepad-2" viewBox="0 0 24 24"><line x1="6" x2="10" y1="11" y2="11" /><line x1="8" x2="8" y1="9" y2="13" /><line x1="15" x2="15.01" y1="12" y2="12" /><line x1="18" x2="18.01" y1="10" y2="10" /><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-lock-keyhole" viewBox="0 0 24 24"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></symbol><symbol id="i-clipboard-list" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M12 11h4" /><path d="M12 16h4" /><path d="M8 11h.01" /><path d="M8 16h.01" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /><path d="M20 2v4" /><path d="M22 4h-4" /><circle cx="4" cy="20" r="2" /></symbol><symbol id="i-messages-square" viewBox="0 0 24 24"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /><path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /></symbol><symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2" /><path d="M10 3H7a2 2 0 00-2 2v16" /><path d="M14 12h.01" /><path d="M19 21V5a2 2 0 00-1.675-1.974l-6.163-1.013A1 1 0 0010 3v18a1 1 0 001.124.992z" /><path d="M22 21h-3" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6" /><path d="m22 7-8.5 8.5-5-5L2 17" /></symbol><symbol id="i-id-card" viewBox="0 0 24 24"><path d="M13 19a4 4 0 00-8 0" /><path d="M16 10h2" /><path d="M16 14h2" /><circle cx="9" cy="12" r="3" /><rect x="2" y="5" width="20" height="14" rx="2" /></symbol><symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2" /><line x1="8" x2="16" y1="21" y2="21" /><line x1="12" x2="12" y1="17" y2="21" /></symbol><symbol id="i-scan-face" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><path d="M9 9h.01" /><path d="M15 9h.01" /></symbol><symbol id="i-flask-conical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol><symbol id="i-wand-sparkles" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" /><path d="m14 7 3 3" /><path d="M5 6v4" /><path d="M19 14v4" /><path d="M10 2v2" /><path d="M7 8H3" /><path d="M21 16h-4" /><path d="M11 3H9" /></symbol><symbol id="i-sliders-horizontal" viewBox="0 0 24 24"><path d="M10 5H3" /><path d="M12 19H3" /><path d="M14 3v4" /><path d="M16 17v4" /><path d="M21 12h-9" /><path d="M21 19h-5" /><path d="M21 5h-7" /><path d="M8 10v4" /><path d="M8 12H3" /></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-school" viewBox="0 0 24 24"><path d="M14 21v-3a2 2 0 0 0-4 0v3" /><path d="M18 4.933V21" /><path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /><path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /><path d="M6 4.933V21" /><circle cx="12" cy="9" r="2" /></symbol><symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></symbol><symbol id="i-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="i-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol><symbol id="i-rotate-cw" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /></symbol></svg>
-<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<!-- Icons: Lucide (ISC License, Copyright (c) 2026 Lucide Icons and Contributors), https://lucide.dev. See ICONS-LICENSE.txt -->
+<svg class="sprite" width="0" height="0" aria-hidden="true"><symbol id="i-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol><symbol id="i-rotate-cw" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></symbol><symbol id="i-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="i-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></symbol><symbol id="i-pen-line" viewBox="0 0 24 24"><path d="M13 21h8" /><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /></symbol><symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /><rect width="20" height="14" x="2" y="6" rx="2" /></symbol><symbol id="i-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol></svg>
+<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
 <div id="glow"></div><div id="prog"></div><canvas id="confetti"></canvas>
 
 <nav>
-  <a class="logo" href="#top"><span class="grad">OCS</span>-in-a-Kit</a>
-  <div class="links"><a href="#kits">Kits</a><a href="#install">Install</a><a href="#showcase">Showcase</a><a href="#why">Why</a></div>
+  <a class="logo" href="#install"><span class="grad">OCS</span>-in-a-Kit</a>
+  <div class="links"><a href="#install">Installation</a><a href="#showcase">Showcase</a></div>
 </nav>
 
-<header class="hero" id="top">
-  <canvas id="particles"></canvas>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <div class="pill"><span class="dot"></span>Interactive demo. Nothing to install.</div>
-      <h1>Your own <span class="grad rot" id="rot">school</span> platform.<br><span class="grad">One script.</span></h1>
-      <p class="lead">OCS-in-a-Kit turns a full classroom platform into a kit anyone can install. Pick a kit, answer a few questions, and it's yours.</p>
-      <div class="cta">
-        <a class="btn primary" href="#kits">Explore the kits &rarr;</a>
-        <a class="btn ghost" href="#install"><svg class="icon"><use href="#i-play"/></svg>Watch it install</a>
-      </div>
-      <div class="chips"><div><b data-to="3">0</b>kits</div><div><b data-to="16">0</b>features</div><div><b data-to="1">0</b>script</div></div>
-    </div>
-    <div class="hv">
-      <div class="mock glass">
-        <div class="bar-top"><i></i><i></i><i></i></div>
-        <div class="body">
-          <div class="side"><div class="sk"></div><div class="sk s70"></div><div class="sk"></div><div class="sk s55"></div><div class="sk"></div></div>
-          <div class="main">
-            <div class="sk title"></div>
-            <div class="mt"><svg class="icon"><use href="#i-book-open"/></svg></div><div class="mt"><svg class="icon"><use href="#i-zap"/></svg></div><div class="mt"><svg class="icon"><use href="#i-bot"/></svg></div>
-            <div class="mt"><svg class="icon"><use href="#i-calendar"/></svg></div><div class="mt"><svg class="icon"><use href="#i-gamepad-2"/></svg></div><div class="mt"><svg class="icon"><use href="#i-chart-column"/></svg></div>
-          </div>
-        </div>
-      </div>
-      <div class="fc glass c1"><span class="kw">print</span>(<span class="str">"Hello, OCS!"</span>)</div>
-      <div class="fc glass c2">"Check your loop condition, i never changes."</div>
-      <div class="fc glass c3"><span class="ok"><svg class="icon"><use href="#i-check"/></svg></span> Hall pass approved</div>
-    </div>
-  </div>
-</header>
-
-<section id="kits"><div class="wrap">
-  <div class="sec-head rv"><span class="eyebrow">Pick a kit</span><h2>One platform. <span class="grad">Three kits.</span></h2><p>Click a kit, then click any feature to switch it on or off, just like the admin dashboard.</p></div>
-  <div class="tabs rv" id="tabs"></div>
-  <div class="kit-grid">
-    <aside class="glass kit-info rv">
-      <div class="ring">
-        <svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="54"/><circle class="fg" id="ringFg" cx="60" cy="60" r="54"/></svg>
-        <div class="num"><b id="cnt">1</b><span>of 16 on</span></div>
-      </div>
-      <h3 id="kitName">Vanilla</h3>
-      <p id="kitDesc"></p>
-      <div class="roles" id="roles"></div>
-    </aside>
-    <div class="tiles rv" id="tiles"></div>
-  </div>
-</div></section>
-
-<section id="install"><div class="wrap">
-  <div class="sec-head rv"><span class="eyebrow">Setup</span><h2>Install it in <span class="grad">one script</span></h2><p>Press run and watch a whole classroom platform appear. This is a simulation, nothing is really installed.</p></div>
+<section class="screen" id="install"><div class="wrap">
+  <div class="sec-head"><h2>Installation</h2><p>One script sets everything up. This is a simulation.</p></div>
   <div class="install-grid">
-    <div class="glass rv">
+    <div class="glass">
       <div class="term-bar"><i></i><i></i><i></i><span>~/ocs-kit</span><button class="btn primary sm" id="runBtn"><svg class="icon"><use href="#i-play"/></svg>Run install</button></div>
       <div id="term"></div>
       <div class="progress"><div id="barFill"></div></div>
     </div>
-    <div class="glass steps rv"><h4>The setup wizard</h4><ol id="steps"></ol></div>
+    <div class="glass steps"><h4>The setup wizard</h4><ol id="steps"></ol></div>
   </div>
   <div class="glass done-card" id="doneCard">
     <div class="check"><svg class="icon"><use href="#i-check"/></svg></div>
-    <div><h3>Your Education kit is ready</h3><p>Portfolio, Flask and Spring are running. Log in and start teaching.</p></div>
+    <div><h3>Your site is ready</h3><p>Portfolio, Flask and Spring are running.</p></div>
     <div class="acc"><span>Admin</span><span>Teacher</span><span>Student</span></div>
   </div>
 </div></section>
 
-<section id="showcase"><div class="wrap">
-  <div class="sec-head rv"><span class="eyebrow">Showcase</span><h2>What it <span class="grad">feels like</span></h2><p>A peek at the features your kit can switch on. Everything here is animated for the demo.</p></div>
-  <div class="bento">
-    <div class="cell w2 rv"><article class="glass" data-tilt>
-      <div class="bt">Code Runner <small>Python, JS, Java</small></div>
-      <div class="code"><div id="codeIn"></div><div id="codeOut"></div></div>
-    </article></div>
-    <div class="cell h2 rv"><article class="glass" data-tilt>
-      <div class="bt">AI Tutor <small>keys stay on the server</small></div>
-      <div class="chat" id="chat"></div>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Hall Pass</div>
-      <div class="hp" id="hp"></div>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Analytics</div>
-      <div class="bars" id="bars"></div>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Calendar</div>
-      <div class="cal" id="cal"></div>
-    </article></div>
-    <div class="cell w2 rv"><article class="glass" data-tilt>
-      <div class="bt">Finance Sim <small>simulated, no real money</small></div>
-      <canvas class="fill" id="fin"></canvas>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Leaderboard</div>
-      <div class="lb" id="lb"></div>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Game Engine</div>
-      <canvas class="fill" id="game"></canvas>
-    </article></div>
-    <div class="cell rv"><article class="glass" data-tilt>
-      <div class="bt">Roles</div>
-      <div class="rl" id="rl"></div>
-      <div class="rlcap" id="rlcap"></div>
-    </article></div>
-  </div>
+<section class="screen" id="showcase"><div class="wrap">
+  <div class="sec-head"><h2>Showcase</h2></div>
+  <div class="tabs" id="tabs"></div>
+  <p class="kit-line" id="kitLine"></p>
+  <div class="bento" id="bento"></div>
 </div></section>
 
-<section id="why"><div class="wrap">
-  <div class="sec-head rv"><span class="eyebrow">Why it matters</span><h2>A classroom platform, <span class="grad">anyone can run</span></h2><p>OCS built these tools for one school. The kit makes them available to every school and organization.</p></div>
-  <div class="counts">
-    <div class="glass count rv"><b class="grad" data-to="3">0</b><span>Kits</span></div>
-    <div class="glass count rv"><b class="grad" data-to="16">0</b><span>Features</span></div>
-    <div class="glass count rv"><b class="grad" data-to="3">0</b><span>Codebases bundled</span></div>
-    <div class="glass count rv"><b class="grad" data-to="1">0</b><span>Install script</span></div>
-  </div>
-  <div class="ben">
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-wand-sparkles"/></svg></div><h3>No coding needed</h3><p>Pick a kit and answer a few questions. The installer does the rest.</p></article></div>
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-sliders-horizontal"/></svg></div><h3>Your features, your call</h3><p>Switch features on or off any time from the admin dashboard, no reinstall.</p></article></div>
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-shield-check"/></svg></div><h3>Cleaned for sharing</h3><p>School specific names, logins and secrets are scrubbed before anything ships.</p></article></div>
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-house"/></svg></div><h3>You own it</h3><p>It runs on your own computer or server, with your own accounts and data.</p></article></div>
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-school"/></svg></div><h3>Schools and businesses</h3><p>An Education kit for classrooms and a Business kit for organizations.</p></article></div>
-    <div class="rv"><article class="glass" data-tilt><div class="ic"><svg class="icon"><use href="#i-refresh-cw"/></svg></div><h3>Updates keep your data</h3><p>Run the installer again to update in place. Your secrets and data stay put.</p></article></div>
-  </div>
-</div></section>
-
-<section class="final"><div class="wrap rv">
-  <h2>Ready to run <span class="grad">your own?</span></h2>
-  <a class="btn primary" href="#kits">Back to the kits &uarr;</a>
-</div></section>
-
-<footer>Built by <b>Shayan, Dhyan, Arnav, Harrish, Darshan</b> for Open Coding Society. Interactive demo only: nothing is installed or saved.</footer>
+<footer>Built by <b>Shayan, Dhyan, Arnav, Harrish, Darshan</b> for Open Coding Society</footer>
 
 <script>
 (()=>{
@@ -167,11 +59,9 @@ const ACC=css.getPropertyValue('--accent-rgb').trim()||'124,140,255';
 const SOFT=css.getPropertyValue('--soft-rgb').trim()||'196,203,255';
 const acc=(a=1)=>'rgba('+ACC+','+a+')',soft=(a=1)=>'rgba('+SOFT+','+a+')';
 
-/* scroll progress, reveal, cursor glow, spotlight, tilt */
+/* scroll progress, cursor glow, spotlight, tilt */
 const prog=$('#prog');
 addEventListener('scroll',()=>{const d=document.documentElement;prog.style.transform='scaleX('+(scrollY/Math.max(1,d.scrollHeight-innerHeight))+')'},{passive:true});
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-$$('.rv').forEach(el=>io.observe(el));
 const glow=$('#glow');
 document.addEventListener('pointermove',e=>{
   glow.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';
@@ -179,95 +69,15 @@ document.addEventListener('pointermove',e=>{
   if(g){const r=g.getBoundingClientRect();g.style.setProperty('--mx',(e.clientX-r.left)+'px');g.style.setProperty('--my',(e.clientY-r.top)+'px')}
 });
 if(matchMedia('(hover:none)').matches)glow.classList.add('off');
-$$('[data-tilt]').forEach(el=>{
+function tilt(el){
   el.addEventListener('pointermove',e=>{
     if(reduce)return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
     el.style.transform='perspective(900px) rotateY('+x*9+'deg) rotateX('+(-y*9)+'deg)';
   });
   el.addEventListener('pointerleave',()=>el.style.transform='');
-});
-
-/* counters */
-function count(el){const to=+el.dataset.to;let t0=null;const dur=1100;
-  const f=t=>{if(t0===null)t0=t;const p=Math.min(1,(t-t0)/dur);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
-const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);cio.unobserve(e.target)}}),{threshold:.6});
-$$('[data-to]').forEach(el=>cio.observe(el));
-
-/* rotating word */
-const words=['school','club','company','classroom','team'];let wi=0;const rot=$('#rot');
-setInterval(()=>{wi=(wi+1)%words.length;rot.textContent=words[wi];rot.classList.remove('swap');void rot.offsetWidth;rot.classList.add('swap')},2300);
-
-/* particles */
-const pc=$('#particles'),px=pc.getContext('2d');let PW,PH,P=[],mouse={x:-999,y:-999},heroVis=true;
-function psize(){const r=pc.parentElement.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);PW=r.width;PH=r.height;pc.width=PW*d;pc.height=PH*d;px.setTransform(d,0,0,d,0,0);
-  P=Array.from({length:Math.min(95,Math.floor(PW*PH/15000))},()=>({x:rnd(0,PW),y:rnd(0,PH),vx:rnd(-.35,.35),vy:rnd(-.35,.35)}))}
-psize();addEventListener('resize',psize);
-pc.parentElement.addEventListener('pointermove',e=>{const r=pc.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
-pc.parentElement.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-999});
-new IntersectionObserver(e=>heroVis=e[0].isIntersecting).observe(pc.parentElement);
-(function pf(){
-  requestAnimationFrame(pf);if(!heroVis||reduce)return;
-  px.clearRect(0,0,PW,PH);
-  for(const p of P){
-    const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.hypot(dx,dy);if(d<130){p.vx+=dx/d*.05;p.vy+=dy/d*.05}
-    p.vx*=.995;p.vy*=.995;p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0||p.x>PW)p.vx*=-1;if(p.y<0||p.y>PH)p.vy*=-1;
-    px.fillStyle=soft(.85);px.beginPath();px.arc(p.x,p.y,1.8,0,7);px.fill();
-  }
-  for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
-    const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);
-    if(d<120){px.strokeStyle=acc(.24*(1-d/120));px.beginPath();px.moveTo(P[i].x,P[i].y);px.lineTo(P[j].x,P[j].y);px.stroke()}
-  }
-})();
-
-/* kit switcher */
-const FEAT=[
- ['core','lock-keyhole','Core','Login, accounts, blog'],
- ['lessons','book-open','Lessons','Courses and notebooks'],
- ['code-runner','terminal','Code Runner','Run code in the browser'],
- ['assignments','clipboard-list','Assignments','Submit and grade'],
- ['game-engine','gamepad-2','Game Engine','Build and play games'],
- ['ai-chatbot','bot','AI Chatbot','An AI helper on the site'],
- ['ai-grading','sparkles','AI Grading','AI feedback on work'],
- ['social','messages-square','Chat and Posts','Posts, chat, messages'],
- ['calendar','calendar','Calendar','Events and schedules'],
- ['analytics','chart-column','Analytics','Usage and progress'],
- ['hallpass','door-open','Hall Pass','Pass queues for class'],
- ['finance-sim','trending-up','Finance Sim','Stocks and banking sim'],
- ['resume','id-card','Resumes','Profiles and resumes'],
- ['kasm','monitor','Kasm','Remote workspaces'],
- ['face-recognition','scan-face','Face Login','Sign in with your face'],
- ['examples','flask-conical','Demo Examples','Sample code and demos']
-];
-const KITS={
- vanilla:{n:'Vanilla',d:'A clean starting point: accounts, profiles and a blog. Add anything later.',r:['Admin','Editor','User'],f:['core']},
- education:{n:'Education',d:'A full CS classroom: lessons, code runner, assignments, grading, AI tutor and hall pass.',r:['Admin','Teacher','Student'],f:['core','lessons','code-runner','assignments','game-engine','ai-chatbot','ai-grading','calendar','analytics','hallpass','social','resume']},
- business:{n:'Business',d:'For companies and organizations: chat, calendar, analytics and an AI chatbot, with no classroom features.',r:['Admin','Manager','Member'],f:['core','ai-chatbot','social','calendar','analytics','resume']}
-};
-let on=new Set();
-const tilesEl=$('#tiles'),cnt=$('#cnt'),ringFg=$('#ringFg');
-FEAT.forEach(f=>{const b=document.createElement('button');b.className='tile';b.dataset.id=f[0];
-  b.innerHTML='<span class="ic">'+ico(f[1])+'</span><span class="nm">'+f[2]+'</span><span class="sb">'+f[3]+'</span>';
-  b.onclick=()=>{
-    if(f[0]==='core'){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
-    on.has(f[0])?on.delete(f[0]):on.add(f[0]);paint(false);
-  };tilesEl.appendChild(b)});
-Object.entries(KITS).forEach(([k,v])=>{const b=document.createElement('button');b.className='tab';b.textContent=v.n;b.dataset.k=k;b.onclick=()=>setKit(k);$('#tabs').appendChild(b)});
-function paint(stagger){
-  $$('.tile').forEach((t,i)=>{t.style.transitionDelay=stagger?(i*30)+'ms':'0ms';t.classList.toggle('on',on.has(t.dataset.id))});
-  cnt.textContent=on.size;cnt.classList.remove('pop');void cnt.offsetWidth;cnt.classList.add('pop');
-  ringFg.style.strokeDashoffset=339.3*(1-on.size/16);
 }
-function setKit(k){
-  on=new Set(KITS[k].f);const v=KITS[k];
-  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.k===k));
-  const n=$('#kitName'),d=$('#kitDesc'),r=$('#roles');n.textContent=v.n;d.textContent=v.d;r.innerHTML=v.r.map(x=>'<span>'+x+'</span>').join('');
-  [n,d,r].forEach(el=>{el.classList.remove('fade');void el.offsetWidth;el.classList.add('fade')});
-  paint(true);
-}
-setKit('education');
 
-/* install simulation */
+/* ---------- installation ---------- */
 const STEPS=['Choose a kit','Backend and website','School details','Accounts','Feature settings','Website','Prerequisite check','Live install','Done'];
 const stepsEl=$('#steps');STEPS.forEach((s,i)=>{const li=document.createElement('li');li.innerHTML='<span class="n">'+(i+1)+'</span>'+s;stepsEl.appendChild(li)});
 function setStep(i){$$('li',stepsEl).forEach((li,j)=>{li.classList.toggle('done',j<i);li.classList.toggle('active',j===i)})}
@@ -302,9 +112,8 @@ async function run(){
   runBtn.disabled=false;runBtn.innerHTML=ico('rotate-cw')+'Run again';running=false;
 }
 runBtn.onclick=run;
-new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){o.disconnect();setTimeout(run,500)}},{threshold:.45}).observe($('#install .install-grid'));
+setTimeout(run,700);
 
-/* confetti */
 function confetti(){
   const c=$('#confetti'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
   const cols=[acc(),soft(),'#ffffff',acc(.6)];
@@ -314,108 +123,109 @@ function confetti(){
     if(++t<230)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
 }
 
-/* showcase: code runner */
+/* ---------- showcase ---------- */
+let T=null;
+const nap=(t,ms)=>sleep(ms).then(()=>{if(t.dead)throw 0});
+const loop=async(t,fn)=>{try{while(!t.dead)await fn()}catch(e){}};
+const every=(t,fn,ms)=>{t.ids.push(setInterval(()=>{if(!t.dead)fn()},ms))};
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const hl=s=>esc(s).replace(/("[^"]*")|\b(for|in)\b|\b(range|print)\b/g,(m,st,k,f)=>st?'<span class="s">'+st+'</span>':k?'<span class="k">'+k+'</span>':'<span class="f">'+f+'</span>');
-(async function codeLoop(){
-  const src='for i in range(3):\n    print("Hello, OCS!", i)',inEl=$('#codeIn'),out=$('#codeOut');
-  while(true){
-    inEl.innerHTML='<span class="cur"></span>';out.innerHTML='';let t='';
-    for(const ch of src){t+=ch;inEl.innerHTML=hl(t)+'<span class="cur"></span>';await sleep(reduce?0:60)}
-    await sleep(500);
-    for(let i=0;i<3;i++){const d=document.createElement('div');d.textContent='Hello, OCS! '+i;out.appendChild(d);await sleep(380)}
-    const ok=document.createElement('div');ok.textContent='finished';out.appendChild(ok);
-    await sleep(3200);
-  }
-})();
+const mkEl=(tag,cls,html)=>{const d=document.createElement(tag);if(cls)d.className=cls;if(html!==undefined)d.innerHTML=html;return d};
 
-/* showcase: AI tutor chat */
-(async function chatLoop(){
-  const el=$('#chat'),M=[['me','Why does my loop never stop?'],['ai','Check the condition. The value of i never changes inside the loop.'],['me','Oh! I forgot i += 1'],['ai','Exactly. Want a practice problem?']];
-  while(true){
-    el.innerHTML='';
-    for(const [w,t] of M){
-      if(w==='ai'){const ty=document.createElement('div');ty.className='msg ai typing';ty.innerHTML='<i></i><i></i><i></i>';el.appendChild(ty);await sleep(1100);ty.remove()}
-      const m=document.createElement('div');m.className='msg '+w;m.textContent=t;el.appendChild(m);await sleep(1300);
-    }
-    await sleep(2600);
-  }
-})();
+/* vanilla tiles */
+const tLogin=()=>({cls:'w2',title:'Login',sub:'accounts built in',
+  html:'<div class="login"><div class="field"><span>Username</span><b class="u"></b></div><div class="field"><span>Password</span><b class="p"></b></div><div class="lbtn">Log in</div><div class="welcome">Welcome back, Ava</div></div>',
+  init(el,t){const u=$('.u',el),p=$('.p',el),b=$('.lbtn',el),w=$('.welcome',el);
+    loop(t,async()=>{u.textContent='';p.textContent='';b.classList.remove('press');w.classList.remove('show');
+      for(const ch of 'ava.lee'){u.textContent+=ch;await nap(t,reduce?0:90)}
+      for(let i=0;i<8;i++){p.textContent+='•';await nap(t,reduce?0:70)}
+      await nap(t,300);b.classList.add('press');await nap(t,400);w.classList.add('show');await nap(t,2600)})}});
+const tBlog=()=>({cls:'h2',title:'Blog',sub:'posts and notebooks',html:'<div class="posts"></div>',
+  init(el,t){const c=$('.posts',el),P=['Welcome to our site','Getting started','This week in class','Meet the team'];
+    loop(t,async()=>{c.innerHTML='';for(const x of P){c.appendChild(mkEl('div','post','<b>'+x+'</b><i></i><i class="s"></i>'));await nap(t,900)}await nap(t,2600)})}});
+const tProfile=()=>({cls:'',title:'Profile',
+  html:'<div class="profile"><div class="big-av">AL</div><b>Ava Lee</b><em>ava@example.org</em><span class="role">User</span></div>',init(){}});
+const tAdd=()=>({cls:'w2',title:'Admin Dashboard',sub:'add features any time',html:'<div class="feats"></div>',
+  init(el,t){const c=$('.feats',el),F=['Code Runner','Calendar','AI Chatbot','Hall Pass'];
+    c.innerHTML=F.map(x=>'<div class="frow"><span>'+x+'</span><i class="sw"></i></div>').join('');const sw=$$('.sw',c);
+    loop(t,async()=>{sw.forEach(r=>r.classList.remove('on'));await nap(t,900);for(const r of sw){r.classList.add('on');await nap(t,800)}await nap(t,2200)})}});
 
-/* showcase: hall pass */
-(function(){
-  const el=$('#hp'),R=[['Ava','Restroom',192],['Liam','Nurse',64],['Mia','Library',301]],ST=['Approved','Out','Back soon'];
-  R.forEach(r=>{const d=document.createElement('div');d.innerHTML='<b>'+r[0]+'</b><em>'+r[1]+'</em><span class="st"></span><span class="t"></span>';el.appendChild(d)});
-  let n=0;const draw=()=>{[...el.children].forEach((d,i)=>{const s=R[i][2]+n;$('.t',d).textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');$('.st',d).textContent=ST[(Math.floor(n/5)+i)%3]})};
-  draw();setInterval(()=>{n++;draw()},1000);
-})();
+/* education tiles */
+const tCode=()=>({cls:'w2',title:'Code Runner',sub:'Python, JS, Java',html:'<div class="code"><div class="cin"></div><div class="cout"></div></div>',
+  init(el,t){const inEl=$('.cin',el),out=$('.cout',el),src='for i in range(3):\n    print("Hello, OCS!", i)';
+    loop(t,async()=>{inEl.innerHTML='<span class="cur"></span>';out.innerHTML='';let s='';
+      for(const ch of src){s+=ch;inEl.innerHTML=hl(s)+'<span class="cur"></span>';await nap(t,reduce?0:60)}
+      await nap(t,500);
+      for(let i=0;i<3;i++){out.appendChild(mkEl('div','','Hello, OCS! '+i));await nap(t,380)}
+      out.appendChild(mkEl('div','','finished'));await nap(t,3200)})}});
+const tChat=(M,title,sub)=>({cls:'h2',title,sub,html:'<div class="chat"></div>',
+  init(el,t){const c=$('.chat',el);
+    loop(t,async()=>{c.innerHTML='';
+      for(const [w,x] of M){
+        if(w==='ai'){const ty=mkEl('div','msg ai typing','<i></i><i></i><i></i>');c.appendChild(ty);await nap(t,1100);ty.remove()}
+        c.appendChild(mkEl('div','msg '+w,esc(x)));await nap(t,1300)}
+      await nap(t,2600)})}});
+const EDU_CHAT=[['me','Why does my loop never stop?'],['ai','Check the condition. The value of i never changes inside the loop.'],['me','Oh! I forgot i += 1'],['ai','Exactly. Want a practice problem?']];
+const BIZ_CHAT=[['me','How do I request time off?'],['ai','Open the Calendar tab and choose Request. Your manager is notified.'],['me','Done, thanks!'],['ai','You are all set. Anything else?']];
+const tHall=()=>({cls:'',title:'Hall Pass',html:'<div class="hp"></div>',
+  init(el,t){const h=$('.hp',el),R=[['Ava','Restroom',192],['Liam','Nurse',64],['Mia','Library',301]],ST=['Approved','Out','Back soon'];
+    R.forEach(r=>h.appendChild(mkEl('div','','<b>'+r[0]+'</b><em>'+r[1]+'</em><span class="st"></span><span class="t"></span>')));
+    let n=0;const draw=()=>[...h.children].forEach((d,i)=>{const s=R[i][2]+n;$('.t',d).textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');$('.st',d).textContent=ST[(Math.floor(n/5)+i)%3]});
+    draw();every(t,()=>{n++;draw()},1000)}});
+const tLb=()=>({cls:'',title:'Leaderboard',html:'<div class="lb"></div>',
+  init(el,t){const c=$('.lb',el),N=['Ava','Noah','Mia','Liam'],S=N.map(()=>Math.floor(rnd(200,600))),rows=[];
+    N.forEach(n=>{const d=mkEl('div','','<span class="who">'+n+'</span><span class="track"><i></i></span><span class="score"></span>');c.appendChild(d);rows.push(d)});
+    const draw=()=>{const max=Math.max(...S),order=S.map((s,i)=>i).sort((a,b)=>S[b]-S[a]);
+      order.forEach((idx,rank)=>{const r=rows[idx];r.style.transform='translateY('+(rank*33)+'px)';$('i',r).style.width=(S[idx]/max*100)+'%';$('.score',r).textContent=S[idx]})};
+    draw();every(t,()=>{S[Math.floor(rnd(0,S.length))]+=Math.floor(rnd(20,140));draw()},1500)}});
 
-/* showcase: analytics bars */
-(function(){
-  const el=$('#bars');for(let i=0;i<12;i++)el.appendChild(document.createElement('i'));
-  const go=()=>[...el.children].forEach(b=>b.style.height=rnd(18,96)+'%');go();setInterval(go,1900);
-})();
+/* shared tiles */
+const tBars=()=>({cls:'',title:'Analytics',html:'<div class="bars"></div>',
+  init(el,t){const c=$('.bars',el);for(let i=0;i<12;i++)c.appendChild(document.createElement('i'));
+    const go=()=>[...c.children].forEach(b=>b.style.height=rnd(18,96)+'%');go();every(t,go,1900)}});
+const tCal=()=>({cls:'',title:'Calendar',html:'<div class="cal"></div>',
+  init(el,t){const c=$('.cal',el);['S','M','T','W','T','F','S'].forEach(d=>c.appendChild(mkEl('b','',d)));
+    for(let i=0;i<4;i++)c.appendChild(document.createElement('span'));
+    const days=[];for(let d=1;d<=28;d++){const s=mkEl('span',[3,7,12,15,19,24].includes(d)?'ev':'',String(d));c.appendChild(s);days.push(s)}
+    let n=9;const mv=()=>{days.forEach(x=>x.classList.remove('today'));days[n%28].classList.add('today');n++};mv();every(t,mv,1500)}});
+const ROLES={
+  vanilla:[['shield','Admin','Runs the site and its features'],['pen-line','Editor','Manages content'],['user-round','User','Uses the site']],
+  education:[['shield','Admin','Manages users, roles and features'],['presentation','Teacher','Runs the class and grades work'],['graduation-cap','Student','Learns, codes and builds']],
+  business:[['shield','Admin','Manages users, roles and features'],['briefcase','Manager','Runs the team day to day'],['user-round','Member','Uses the tools']]
+};
+const tRoles=kit=>({cls:'',title:'Roles',html:'<div class="rl"></div><div class="rlcap"></div>',
+  init(el,t){const c=$('.rl',el),cap=$('.rlcap',el),R=ROLES[kit];
+    R.forEach(r=>c.appendChild(mkEl('div','av','<span>'+ico(r[0])+'</span>'+r[1])));
+    let n=0;const go=()=>{[...c.children].forEach((d,j)=>d.classList.toggle('on',j===n%3));cap.textContent=R[n%3][2];n++};go();every(t,go,2200)}});
 
-/* showcase: calendar */
-(function(){
-  const el=$('#cal');['S','M','T','W','T','F','S'].forEach(d=>{const b=document.createElement('b');b.textContent=d;el.appendChild(b)});
-  const days=[];for(let i=0;i<4;i++){el.appendChild(document.createElement('span'))}
-  for(let d=1;d<=28;d++){const s=document.createElement('span');s.textContent=d;if([3,7,12,15,19,24].includes(d))s.className='ev';el.appendChild(s);days.push(s)}
-  let t=9;const mv=()=>{days.forEach(x=>x.classList.remove('today'));days[t%28].classList.add('today');t++};mv();setInterval(mv,1500);
-})();
+/* business tiles */
+const tFeed=()=>({cls:'w2',title:'Team Feed',sub:'posts and announcements',html:'<div class="feed"></div>',
+  init(el,t){const c=$('.feed',el),P=[['MC','Maya','Q3 planning is live in the calendar'],['SO','Sam','A new teammate joined design this week'],['OP','Ops','Office closed this Friday']];
+    loop(t,async()=>{c.innerHTML='';for(const [i,n,x] of P){c.appendChild(mkEl('div','fpost','<span class="av2">'+i+'</span><div><b>'+n+'</b><p>'+x+'</p></div>'));await nap(t,1000)}await nap(t,2800)})}});
+const tPeople=()=>({cls:'',title:'Profiles',html:'<div class="ppl"></div>',
+  init(el,t){const c=$('.ppl',el),P=[['Maya Chen','Product'],['Sam Ortiz','Design'],['Lee Park','Engineering']];
+    c.innerHTML=P.map(p=>'<div><span class="av2">'+p[0].split(' ').map(w=>w[0]).join('')+'</span><b>'+p[0]+'</b><em>'+p[1]+'</em></div>').join('');
+    const r=[...c.children];let n=0;const go=()=>{r.forEach((x,j)=>x.classList.toggle('hot',j===n%r.length));n++};go();every(t,go,1600)}});
 
-/* showcase: leaderboard */
-(function(){
-  const el=$('#lb'),N=['Ava','Noah','Mia','Liam','Zoe'],S=N.map(()=>Math.floor(rnd(200,600))),rows=[];
-  N.forEach(n=>{const d=document.createElement('div');d.innerHTML='<span class="who">'+n+'</span><span class="track"><i></i></span><span class="score"></span>';el.appendChild(d);rows.push(d)});
-  const draw=()=>{const max=Math.max(...S),order=S.map((s,i)=>i).sort((a,b)=>S[b]-S[a]);
-    order.forEach((idx,rank)=>{const r=rows[idx];r.style.transform='translateY('+(rank*38)+'px)';$('i',r).style.width=(S[idx]/max*100)+'%';$('.score',r).textContent=S[idx]})};
-  draw();setInterval(()=>{S[Math.floor(rnd(0,S.length))]+=Math.floor(rnd(20,140));draw()},1500);
-})();
-
-/* canvas helper */
-function fitCanvas(c){const r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return[x,r.width,r.height]}
-
-/* showcase: finance sim */
-(function(){
-  const c=$('#fin');let x,w,h,v=[],y=50;
-  const init=()=>{[x,w,h]=fitCanvas(c);v=Array.from({length:90},()=>y+=rnd(-3,3.2))};init();addEventListener('resize',init);
-  (function f(){requestAnimationFrame(f);if(reduce||!w)return;
-    y=Math.min(88,Math.max(12,y+rnd(-3,3.2)));v.push(y);v.shift();
-    x.clearRect(0,0,w,h);const sx=w/(v.length-1),py=n=>h-(n/100)*h;
-    const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,acc(.4));g.addColorStop(1,acc(0));
-    x.beginPath();v.forEach((n,i)=>i?x.lineTo(i*sx,py(n)):x.moveTo(0,py(n)));
-    x.strokeStyle=soft();x.lineWidth=2.5;x.lineJoin='round';x.stroke();
-    x.lineTo(w,h);x.lineTo(0,h);x.closePath();x.fillStyle=g;x.fill();
-    x.beginPath();x.arc(w,py(v[v.length-1]),4,0,7);x.fillStyle='#fff';x.fill();
-  })();
-})();
-
-/* showcase: game engine (auto-playing pong) */
-(function(){
-  const c=$('#game');let x,w,h,bx,by,vx,vy,p1,p2,trail=[];
-  const reset=()=>{bx=w/2;by=h/2;vx=(Math.random()<.5?-1:1)*2.6;vy=rnd(-1.8,1.8);p1=p2=h/2;trail=[]};
-  const init=()=>{[x,w,h]=fitCanvas(c);reset()};init();addEventListener('resize',init);
-  (function f(){requestAnimationFrame(f);if(reduce||!w)return;
-    bx+=vx;by+=vy;if(by<6||by>h-6)vy*=-1;
-    p1+=(by-p1)*.07;p2+=(by-p2)*.06;
-    if(bx<16&&Math.abs(by-p1)<24)vx=Math.abs(vx)*1.03;
-    if(bx>w-16&&Math.abs(by-p2)<24)vx=-Math.abs(vx)*1.03;
-    if(bx<-10||bx>w+10)reset();
-    trail.push([bx,by]);if(trail.length>14)trail.shift();
-    x.clearRect(0,0,w,h);
-    trail.forEach((t,i)=>{x.fillStyle=soft(i/trail.length*.5);x.beginPath();x.arc(t[0],t[1],5*i/trail.length,0,7);x.fill()});
-    x.fillStyle=acc();x.fillRect(6,p1-22,5,44);x.fillRect(w-11,p2-22,5,44);
-    x.fillStyle='#fff';x.beginPath();x.arc(bx,by,5,0,7);x.fill();
-  })();
-})();
-
-/* showcase: roles */
-(function(){
-  const el=$('#rl'),cap=$('#rlcap'),R=[['shield','Admin','Manages users, roles and features'],['presentation','Teacher','Runs the class and grades work'],['graduation-cap','Student','Learns, codes and builds']];
-  R.forEach(r=>{const d=document.createElement('div');d.className='av';d.innerHTML='<span>'+ico(r[0])+'</span>'+r[1];el.appendChild(d)});
-  let i=0;const go=()=>{[...el.children].forEach((d,j)=>d.classList.toggle('on',j===i%3));cap.textContent=R[i%3][2];i++};go();setInterval(go,2200);
-})();
+const KITS={
+  vanilla:{n:'Vanilla',line:'The base: login, profiles and a blog. Add features any time.',tiles:[tLogin,tBlog,tProfile,tAdd,()=>tRoles('vanilla')]},
+  education:{n:'Education',line:'A full CS classroom, ready on day one.',tiles:[tCode,()=>tChat(EDU_CHAT,'AI Tutor','keys stay on the server'),tHall,tCal,tLb,tBars]},
+  business:{n:'Business',line:'For companies and organizations. No classroom features.',tiles:[()=>tChat(BIZ_CHAT,'AI Chatbot','answers your team'),tFeed,tBars,tCal,tPeople,()=>tRoles('business')]}
+};
+const bento=$('#bento'),kitLine=$('#kitLine');
+function mount(kit){
+  if(T){T.dead=true;T.ids.forEach(clearInterval)}
+  const t=T={dead:false,ids:[]};
+  $$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===kit));
+  kitLine.textContent=KITS[kit].line;bento.innerHTML='';
+  KITS[kit].tiles.forEach(f=>{
+    const d=f(),cell=mkEl('div','cell '+d.cls,'<article class="glass"><div class="bt">'+d.title+(d.sub?'<small>'+d.sub+'</small>':'')+'</div>'+d.html+'</article>');
+    bento.appendChild(cell);tilt($('article',cell));d.init(cell,t);
+  });
+}
+Object.entries(KITS).forEach(([k,v])=>{const b=mkEl('button','tab',v.n);b.dataset.k=k;b.onclick=()=>mount(k);$('#tabs').appendChild(b)});
+addEventListener('keydown',e=>{const k={'1':'vanilla','2':'education','3':'business'}[e.key];if(k)mount(k)});
+mount('vanilla');
 })();
 </script>
 </body>
