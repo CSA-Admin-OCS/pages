@@ -447,7 +447,11 @@ show_reading_time: false
 
     function showOAuthStatus(message, isError = false) {
         const statusDiv = document.getElementById('oauth-status');
-        statusDiv.innerHTML = `<div class="${isError ? 'oauth-error' : 'oauth-success'}">${message}</div>`;
+        statusDiv.textContent = '';
+        const messageEl = document.createElement('div');
+        messageEl.className = isError ? 'oauth-error' : 'oauth-success';
+        messageEl.textContent = message;
+        statusDiv.appendChild(messageEl);
     }
 
     // After login, a student whose verification has lapsed signs in with Google once more.

@@ -16,11 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data) { // Update the login area based on the data
                     loginArea.innerHTML = `
                         <div class="dropdown">
-                            <button class="dropbtn page-link" style="border:none; background:none; cursor:pointer; color:inherit; font-size:inherit; font-family:inherit; padding:0;">${data.name}</button>
+                            <button class="dropbtn page-link" style="border:none; background:none; cursor:pointer; color:inherit; font-size:inherit; font-family:inherit; padding:0;"></button>
                             <div class="dropdown-content hidden">
                                 ${data.roles && Array.isArray(data.roles) && data.roles.length > 0
                             ? `<div class="roles-list" style="padding: 8px 16px; color: #888; font-size: 0.95em;">
-                                            Roles: ${data.roles.map(role => role.name).join(", ")}
                                            </div>
                                            <hr style="margin: 4px 0;">`
                             : ''
@@ -40,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Add click event listener for dropdown toggle
                     const dropdownButton = loginArea.querySelector('.dropbtn');
                     const dropdownContent = loginArea.querySelector('.dropdown-content');
+                    // Account values are text, even when a name contains HTML-like characters.
+                    if (dropdownButton) dropdownButton.textContent = data.name;
+                    const rolesList = loginArea.querySelector('.roles-list');
+                    if (rolesList) rolesList.textContent = `Roles: ${data.roles.map(role => role.name).join(', ')}`;
 
                     if (dropdownButton && dropdownContent) {
                         dropdownButton.addEventListener('click', (event) => {
