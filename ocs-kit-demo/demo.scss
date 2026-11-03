@@ -8,13 +8,18 @@ $bg: #07080d;
 $text: #f1f2f9;
 $muted: #9b9fb5;
 
-$ar: 124;
-$ag: 140;
-$ab: 255;
-$sr: 196;
-$sg: 203;
-$sb: 255;
+// Two cool colors only: violet and cyan, plus a pale cyan tint for text.
+$ar: 139;
+$ag: 92;
+$ab: 246;
+$cr: 34;
+$cg: 211;
+$cb: 238;
+$sr: 170;
+$sg: 238;
+$sb: 250;
 $accent: rgb($ar, $ag, $ab);
+$accent2: rgb($cr, $cg, $cb);
 $soft: rgb($sr, $sg, $sb);
 $line: rgba(#fff, 0.1);
 
@@ -24,13 +29,14 @@ $mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 $bp-lg: 1020px;
 $bp-sm: 700px;
 
-$btn-grad: linear-gradient(90deg, $accent, $soft);
-$text-grad: linear-gradient(90deg, #fff, $soft, $accent, $soft, #fff);
-$bar-grad: linear-gradient(180deg, $soft, $accent 60%, rgba($accent, 0.35));
+$btn-grad: linear-gradient(90deg, $accent, $accent2);
+$text-grad: linear-gradient(90deg, #fff, $accent2, $accent, $accent2, #fff);
+$bar-grad: linear-gradient(180deg, $accent2, $accent 70%, rgba($accent, 0.3));
 
 // Canvas code in the page reads these so the colors live in one place.
 :root {
   --accent-rgb: #{$ar}, #{$ag}, #{$ab};
+  --accent2-rgb: #{$cr}, #{$cg}, #{$cb};
   --soft-rgb: #{$sr}, #{$sg}, #{$sb};
 }
 
@@ -171,7 +177,8 @@ button {
   }
 
   &.b2 {
-    background: mix(#000, $accent, 30%);
+    background: $accent2;
+    opacity: 0.2;
     bottom: -26vmax;
     right: -16vmax;
     animation-delay: -9s;

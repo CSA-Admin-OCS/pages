@@ -56,8 +56,9 @@ const ico=n=>'<svg class="icon"><use href="#i-'+n+'"/></svg>';
 /* colors come from the stylesheet so SASS stays the single source of truth */
 const css=getComputedStyle(document.documentElement);
 const ACC=css.getPropertyValue('--accent-rgb').trim()||'124,140,255';
-const SOFT=css.getPropertyValue('--soft-rgb').trim()||'196,203,255';
-const acc=(a=1)=>'rgba('+ACC+','+a+')',soft=(a=1)=>'rgba('+SOFT+','+a+')';
+const ACC2=css.getPropertyValue('--accent2-rgb').trim()||'34,211,238';
+const SOFT=css.getPropertyValue('--soft-rgb').trim()||'170,238,250';
+const acc=(a=1)=>'rgba('+ACC+','+a+')',acc2=(a=1)=>'rgba('+ACC2+','+a+')',soft=(a=1)=>'rgba('+SOFT+','+a+')';
 
 /* scroll progress, cursor glow, spotlight, tilt */
 const prog=$('#prog');
@@ -116,7 +117,7 @@ setTimeout(run,700);
 
 function confetti(){
   const c=$('#confetti'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
-  const cols=[acc(),soft(),'#ffffff',acc(.6)];
+  const cols=[acc(),acc2(),soft(),'#ffffff'];
   const ps=Array.from({length:170},(_,i)=>({x:innerWidth/2+rnd(-160,160),y:innerHeight*.62,vx:rnd(-8,8),vy:rnd(-17,-5),s:rnd(5,11),r:rnd(0,6),vr:rnd(-.3,.3),c:cols[i%cols.length]}));
   let t=0;(function f(){x.clearRect(0,0,c.width,c.height);
     for(const p of ps){p.vy+=.34;p.x+=p.vx;p.y+=p.vy;p.vx*=.992;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);x.restore()}
