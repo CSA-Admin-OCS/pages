@@ -35,8 +35,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 
 /* glass, neon border, gradient text */
 .glass{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:22px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
-.glass::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),hsl(var(--h) 95% 70% / .22),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
-.glass:hover::before{opacity:1}
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;opacity:0;transition:opacity .35s;background:linear-gradient(135deg,var(--a),var(--c));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 .glass.spin::after,.cell>.glass:hover::after{opacity:1}
 .grad{background:linear-gradient(90deg,var(--a),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -266,8 +264,6 @@ addEventListener('scroll',()=>{const d=document.documentElement;prog.style.trans
 const mouse={x:-999,y:-999};
 document.addEventListener('pointermove',e=>{
   mouse.x=e.clientX;mouse.y=e.clientY;
-  const g=e.target.closest&&e.target.closest('.glass');
-  if(g){const r=g.getBoundingClientRect();g.style.setProperty('--mx',(e.clientX-r.left)+'px');g.style.setProperty('--my',(e.clientY-r.top)+'px')}
 });
 function tilt(el){
   el.addEventListener('pointermove',e=>{
