@@ -5,6 +5,8 @@ Run from the repository root:
 """
 import io
 import json
+import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -49,14 +51,28 @@ class CollectEvidenceTest(unittest.TestCase):
         evidence = toolchain_agent.collect_evidence("editor-isle-tower", Path("."), runner)
         self.assertEqual(evidence[0]["exitCode"], 0)
 
-    def test_terminal_gate_finds_the_folder_in_home(self):
-        with tempfile.TemporaryDirectory() as home, tempfile.TemporaryDirectory() as cwd:
-            (Path(home) / "toolchain-trail").mkdir()
-            with mock.patch.object(Path, "home", return_value=Path(home)), mock.patch.object(Path, "cwd", return_value=Path(cwd)):
-                evidence = toolchain_agent.collect_evidence("terminal-town-gate", Path("."))
+    def test_terminal_gate_reports_where_pages_is_cloned(self):
+        runner = fake_runner({"git rev-parse --show-toplevel": (0, "/home/ada/opencs/pages\n")})
+        with mock.patch.object(Path, "cwd", return_value=Path("/home/ada/opencs/pages")):
+            evidence = toolchain_agent.collect_evidence("terminal-town-gate", Path("."), runner)
         by_id = {item["id"]: item for item in evidence}
-        self.assertEqual(by_id["working-folder"]["output"], cwd)
-        self.assertTrue(by_id["trail-folder"]["output"].endswith("toolchain-trail"))
+        self.assertEqual([item["id"] for item in evidence], ["working-folder", "pages-clone"])
+        self.assertEqual(by_id["pages-clone"], {"id": "pages-clone", "exitCode": 0, "output": "/home/ada/opencs/pages\n"})
+
+    def test_summit_rechecks_pages_and_tools_and_never_commits_or_pushes(self):
+        commands = []
+
+        def recording_runner(command, cwd=None):
+            commands.append(" ".join(command))
+            return 0, "ok"
+
+        evidence = toolchain_agent.collect_evidence("integration-summit", Path("."), recording_runner)
+        ids = [item["id"] for item in evidence]
+        for check_id in ["pages-clone", "python", "pip", "ruby", "bundler", "rubygems", "editor", "git"]:
+            self.assertIn(check_id, ids)
+        self.assertNotIn("recent-commit", ids)
+        self.assertNotIn("push-dry-run", ids)
+        self.assertFalse([c for c in commands if " commit" in c or " push" in c or " add" in c], commands)
 
     def test_every_station_the_backend_knows_has_checks(self):
         runner = fake_runner({})
@@ -264,6 +280,50 @@ class PathRefreshTest(unittest.TestCase):
                 mock.patch.dict(toolchain_agent.os.environ, {"PATH": "/usr/bin"}):
             toolchain_agent.refresh_path()
             self.assertEqual(toolchain_agent.os.environ["PATH"], "/usr/bin")
+
+
+LAUNCHER = Path(__file__).resolve().parent / "toolchain_agent.sh"
+
+
+class LauncherTest(unittest.TestCase):
+    """toolchain_agent.sh starts the agent, or says how to install Python when it is missing."""
+
+    def run_launcher(self, python3_script, uname="Linux", args=()):
+        with tempfile.TemporaryDirectory() as fake_bin:
+            fakes = {"python3": python3_script, "uname": f'echo "{uname}"'}
+            for name, body in fakes.items():
+                path = Path(fake_bin) / name
+                path.write_text(f"#!/bin/sh\n{body}\n")
+                path.chmod(0o755)
+            # The fakes come first, so they hide any real python3 on this computer.
+            env = {**os.environ, "PATH": f"{fake_bin}:{os.environ['PATH']}"}
+            return subprocess.run(["bash", str(LAUNCHER), *args], env=env,
+                                  capture_output=True, text=True, timeout=30)
+
+    def test_starts_the_agent_and_passes_options_through(self):
+        # A ready python3 passes the version check (-c ...) and then runs the agent.
+        result = self.run_launcher('[ "$1" = -c ] && exit 0; echo "ran: $*"',
+                                   args=("--server", "http://localhost:8585"))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("toolchain_agent.py --server http://localhost:8585", result.stdout)
+
+    def test_missing_python_on_linux_shows_the_apt_command(self):
+        result = self.run_launcher("exit 127")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("sudo apt update && sudo apt install -y python3", result.stdout)
+        self.assertNotIn("ran:", result.stdout)
+
+    def test_missing_python_on_macos_shows_the_developer_tools_command(self):
+        result = self.run_launcher("exit 1", uname="Darwin")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("xcode-select --install", result.stdout)
+
+    def test_too_old_python_counts_as_missing(self):
+        # The version check exits 1 when python3 is older than the agent needs.
+        result = self.run_launcher('[ "$1" = -c ] && exit 1; echo "ran: $*"')
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("needs Python 3.7 or newer", result.stdout)
+        self.assertNotIn("ran:", result.stdout)
 
 
 if __name__ == "__main__":

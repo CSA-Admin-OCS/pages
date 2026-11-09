@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function(){
     return currentQuery.split(/\s+/).every(word=>cardText.get(card).includes(word));
   }
   // Highlight each search word in the card's own text with <mark>, like the Topics page.
-  const markSkip = '.capstone-links-button, .capstone-popup, .capstone-card-placeholder';
+  const markSkip = '.capstone-links-button, .capstone-popup, .capstone-card-placeholder, .microblog-unread-badge';
   function clearMarks(card){
     card.querySelectorAll('mark[data-search-mark]').forEach(mark=>{
       const parent = mark.parentNode;
@@ -787,8 +787,23 @@ if (grid) initCardTools(grid);
        <h3><a href="{% post_url capstone/Presence/2026-09-12-presence-system-capstone %}">Classroom Presence System</a></h3>
        <p>A design-based research project asking whether classroom presence can be measured with zero teacher effort. Three low-effort inputs, RFID tap, QR scan, and face scan, are evaluated in parallel against a shared presence engine and the bell schedule to track instructional minutes and show who is missing in real time.</p>
        <p>Team: Vibha Mandayam (RFID), Ruta Sirdeshmukh (QR), Kush Shah (Camera)</p>
+       <p>Mentor: {{ site.data.presence_system_infograph.Mentor }}</p>
      </div>
    </div>
+
+
+   <!-- OCS-in-a-Kit -->
+   <div class="ocs__grid-cell CSA" data-year="2026-2027">
+     <a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">
+       <img src="{{ '/images/OCS-Kit-Capstone.png' | relative_url }}" alt="OCS-in-a-Kit" class="ocs__image-frame ocs__image-frame--thumbnail" />
+     </a>
+     <div>
+       <h3><a href="{% post_url capstone/OCS-in-a-Kit/2026-10-27-ocs-in-a-kit-capstone %}">OCS-in-a-Kit</a></h3>
+       <p>Open Coding Society built a full classroom platform with lessons, a code runner, grading, chat, and hall passes, but it was wired to one school, with names, logins, and settings hard coded in. OCS-in-a-Kit turns that into a product any school or organization can run on its own. An admin picks a kit, answers a few questions, and gets a working copy with no coding required. Vanilla is a basic site with accounts and a blog. Education adds a full CS classroom: lessons, code runner, assignments, grading, an AI tutor, and hall pass. Business drops the classroom features for chat, calendar, and an AI chatbot aimed at organizations. Every kit bundles the same three codebases, a Portfolio frontend plus Flask and Spring backends, and admins can turn individual features on or off later without reinstalling.</p>
+       <p>Team: Shayan, Dhyan, Arnav, Harrish, Darshan</p>
+     </div>
+   </div>
+
     <!-- Jarvis Classroom Object Detection -->
     <div class="ocs__grid-cell CSH" data-year="{{ site.data.jarvis_infograph.Year }}" data-frontend-url="{{ site.data.jarvis_infograph.Repo }}">
       <a href="{% post_url capstone/2026-09-01-jarvis-capstone %}">
@@ -852,11 +867,11 @@ if (grid) initCardTools(grid);
     </div>
 
    <div class="ocs__grid-cell CSA" data-year="2026-2027">
-       <a href="{% post_url capstone/2026-08-28-toolchain-trail %}">
+       <a href="{{ '/capstone/toolchain-trail/' | relative_url }}">
          <img src="{{ '/images/' | append: site.data.toolchain-trail-capstone.Logo | relative_url }}" alt="{{ site.data.toolchain-trail-capstone.Title }} logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-         <h3><a href="{% post_url capstone/2026-08-28-toolchain-trail %}"></a>{{ site.data.toolchain-trail-capstone.Title }}</h3>
+         <h3><a href="{{ '/capstone/toolchain-trail/' | relative_url }}">{{ site.data.toolchain-trail-capstone.Title }}</a></h3>
          <p>{{ site.data.toolchain-trail-capstone.Overview }}</p>
        </div>
    </div>
@@ -1104,14 +1119,14 @@ if (grid) initCardTools(grid);
         </div>
     </div>
 
-   <!-- Integra (CSP 26-27) -->
+   <!-- Poway Recovery Center (CSP 26-27) -->
    <div class="ocs__grid-cell CSP" data-year="2026-2027">
-       <a href="{% post_url 2026-09-09-integra-capstone %}">
-           <img src="/images/capstone/sentri.png" alt="Sentri" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       <a href="{{ '/capstone/poway-recovery-center/' | relative_url }}">
+           <img src="{{ '/images/capstone/poway-recovery-center-logo.png' | relative_url }}" alt="Poway Recovery Center" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url 2026-09-09-integra-capstone %}">Integra</a></h3>
-           <p>An AI-driven recovery ecosystem for the Poway Recovery Center that provides users with access to specialized support programs and meeting schedules at the center while also tracking long-term sobriety milestones through a secure, high-fidelity user profile/dashboard.</p>
+           <h3><a href="{{ '/capstone/poway-recovery-center/' | relative_url }}">Poway Recovery Center</a></h3>
+           <p>Supporting Poway Recovery Center's mission by helping visitors find its recovery community, meetings, resources, and key contacts.</p>
            <p>Team: Adya Shipekar, Anika Seksaria, Jailene Tang</p>
        </div>
    </div>
@@ -1242,6 +1257,22 @@ if (grid) initCardTools(grid);
     </div>
 
 
+   <!-- Unified Social Club (CSP, 2026-2027) -->
+   <div class="ocs__grid-cell CSP"
+        data-year="2026-2027"
+        data-page-url="{{ '/capstone/unified-social-club/' | relative_url }}"
+        data-frontend-url="https://github.com/Unified-Social-Club-CSP/usc-pages"
+        data-backend-url="https://github.com/Unified-Social-Club-CSP/usc-flask">
+       <a href="{{ '/capstone/unified-social-club/' | relative_url }}">
+           <img src="{{ '/images/capstone/unified-social-club.png' | relative_url }}" alt="Unified Social Club 2026–27" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       </a>
+       <div>
+           <h3><a href="{{ '/capstone/unified-social-club/' | relative_url }}">Unified Social Club</a></h3>
+           <p>Club games for Poway's free social club for adults with special needs: Club Bingo, Club Trivia Live (like Kahoot), and Club Jeopardy, played together at club night or at home, with big print and hands-free Nod to select.</p>
+           <p>Team: Triple T (Chetan Tiduwar, Aaditya Prem, Kashyap Tubati)</p>
+       </div>
+   </div>
+
    <!-- San Diego Rescue Mission (2026-2027) -->
    <div class="ocs__grid-cell CSP" data-year="2026-2027" data-page-url="{{ '/capstone/sdrm/' | relative_url }}">
        <a href="{% post_url 2026-09-10-sdrm-capstone %}">
@@ -1329,24 +1360,25 @@ if (grid) initCardTools(grid);
        </div>
    </div>
 
+   <!-- PowPAC - Poway Performing Arts Company (CSP, 2026/2027) -->
    <div class="ocs__grid-cell CSP" data-year="2026-2027">
-       <a href="{% post_url 2026-09-10-poway-scripps-rotary-capstone %}">
-           <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Rotary_International_Logo.svg" alt="Rotary International Logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       <a href="{% post_url capstone/2026-10-29-powpac-capstone %}">
+           <img src="/images/capstone/powpac-logo.png" alt="PowPAC logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url 2026-09-10-poway-scripps-rotary-capstone %}">Poway Rotary Club</a></h3>
-           <p>Helping the Poway Scripps Rotary Club improve their website. With better organization, search feachures, and UI, we're helping the non-profit club manage the many activities they do to help others.</p>
+           <h3><a href="{% post_url capstone/2026-10-29-powpac-capstone %}">PowPAC - Poway Performing Arts Company</a></h3>
+           <p>Helping PowPAC improve their website with cleaner organization, production galleries, search, and UI, so audiences can find shows, tickets, auditions, and ways to support Poway's community theatre.</p>
            <p>Team: Samarth H, Rigved G, Rohan S</p>
        </div>
    </div>
 
    <!-- Shoreline Project Outreach (CSP, 2026/2027) -->
    <div class="ocs__grid-cell CSP" data-year="2026-2027">
-       <a href="{% post_url 2026-09-11-shoreline-volunteer-capstone %}">
-           <img src="/images/capstone/shoreline.jpeg" alt="Shoreline Community Services logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
+       <a href="{{ '/capstone/shoreline-volunteer/' | relative_url }}">
+           <img src="{{ '/images/capstone/shoreline.jpeg' | relative_url }}" alt="Shoreline Community Services logo" class="ocs__image-frame ocs__image-frame--thumbnail" />
        </a>
        <div>
-           <h3><a href="{% post_url 2026-09-11-shoreline-volunteer-capstone %}">Shoreline Community Services</a></h3>
+           <h3><a href="{{ '/capstone/shoreline-volunteer/' | relative_url }}">Shoreline Community Services</a></h3>
            <p>Extending Shoreline Community Services' outreach through smarter volunteer coordination and easier giving, this capstone project bridges technology and grassroots community care in San Diego.</p>
            <p>Team: Vanshika Keswani, Nitya Kasse, Hsu-Cheng Lin</p>
        </div>
@@ -1788,5 +1820,8 @@ if (grid) initCardTools(grid);
 
 })();
 </script>
+
+<!-- A red count on each capstone with new microblog posts for its signed-in author -->
+<script type="module" src="{{ site.baseurl }}/assets/js/capstone-microblog-badges.js"></script>
 
   <!-- markdownlint-enable MD033 MD046 -->
