@@ -1,5 +1,5 @@
 import { baseurl, pythonURI, javaURI, fetchOptions, springEnabled } from './config.js';
-import { roleNames, isMentorAccount, viewFor, switchView } from './role-view.js';
+import { roleNames, isMentorAccount, viewFor, switchView, clearRoleViewCache } from './role-view.js';
 import { addLoginReturn } from './login-return.js';
 import { savedCourse, selectEntryCourse, courseEntryUrl } from '../course-entry.js';
 import { FormatConverter } from '../pages/dashboard/preferences.js';
@@ -197,12 +197,25 @@ async function syncThemeOwner(uid) {
     }
 }
 
+// Ends the Flask session (and the cached mentor view) of an account Flask no longer accepts.
+async function dropRefusedSession() {
+    clearRoleViewCache();
+    try {
+        await fetch(`${pythonURI}/api/authenticate`, { ...fetchOptions, method: 'DELETE' });
+    } catch (error) {
+        console.warn('Could not end the refused Flask session:', error.message);
+    }
+}
+
 function getFlaskCredentials() {
     const URL = pythonURI + '/api/id';
     return fetch(URL, fetchOptions)
         .then(response => {
             if (!response.ok) {
                 console.warn("HTTP status code: " + response.status);
+                // Flask refuses an inactive or expired account (403) but keeps its cookie, so every
+                // later request fails the same way. Drop the dead session so the visitor is signed out.
+                if (response.status === 403) return dropRefusedSession().then(() => null);
                 return null;
             }
             return response.json();
